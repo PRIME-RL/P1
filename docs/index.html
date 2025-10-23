@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P1</title>
+    <meta name="description" content="P1">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-surface);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: var(--radius-full);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-500);
+        }
+        
+        /* Selection */
+        ::selection {
+            background: rgba(168, 85, 247, 0.3);
+            color: var(--text-primary);
+        }
+        
+        :root {
+            /* Dark Theme Colors */
+            --primary-400: #C084FC;
+            --primary-500: #A855F7;
+            --primary-600: #9333EA;
+            --primary-700: #7E22CE;
+            
+            --accent-blue: #60A5FA;
+            --accent-cyan: #22D3EE;
+            --accent-purple: #A78BFA;
+            
+            /* Dark Backgrounds */
+            --bg-page: #0A0A0A;
+            --bg-surface: #141414;
+            --bg-elevated: #1A1A1A;
+            --bg-card: #1E1E1E;
+            
+            /* Text Colors */
+            --text-primary: #FFFFFF;
+            --text-secondary: #A1A1AA;
+            --text-tertiary: #71717A;
+            --text-muted: #52525B;
+            
+            /* Border Colors */
+            --border-subtle: #27272A;
+            --border-medium: #3F3F46;
+            --border-strong: #52525B;
+            
+            /* Gradient Accents */
+            --gradient-purple: linear-gradient(135deg, #A855F7 0%, #7E22CE 100%);
+            --gradient-blue: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+            --gradient-mesh: radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                             radial-gradient(at 100% 0%, rgba(34, 211, 238, 0.1) 0%, transparent 50%),
+                             radial-gradient(at 100% 100%, rgba(96, 165, 250, 0.1) 0%, transparent 50%);
+            
+			/* Typography */
+			--font-serif: 'Source Serif 4', 'Noto Serif SC', 'Crimson Pro', Georgia, serif;
+            --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* Spacing */
+            --space-xs: 8px;
+            --space-sm: 12px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+            
+            /* Border Radius */
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            
+            /* Shadows - Dark Theme */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --shadow-card-hover: 0 12px 48px rgba(168, 85, 247, 0.3);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
+            --shadow-glow: 0 0 40px rgba(168, 85, 247, 0.4);
+            
+            /* Animation */
+            --duration-fast: 200ms;
+            --duration-normal: 300ms;
+            --duration-slow: 500ms;
+            --easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+            --easing-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+            --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* Language Switcher */
+		.lang-switcher {
+			position: absolute;
+			top: 16px;
+			right: 16px;
+			display: inline-flex;
+			gap: 8px;
+			background: transparent;
+			border: none;
+			border-radius: var(--radius-full);
+			padding: 4px;
+			z-index: 2;
+		}
+
+		.lang-switcher button {
+			appearance: none;
+			border: none;
+			background: transparent;
+			color: #A1A1AA;
+			font-family: var(--font-sans);
+			font-weight: 600;
+			font-size: 13px;
+			padding: 6px 12px;
+			border-radius: var(--radius-full);
+			cursor: pointer;
+			transition: color var(--duration-normal) var(--easing-default);
+		}
+
+		.lang-switcher button.active {
+			background: transparent;
+			color: #FFFFFF;
+		}
+
+		/* TOC (hover to open) */
+		.toc {
+			position: fixed;
+			top: 72px; /* below language switcher */
+			right: 16px;
+			z-index: 1100;
+		}
+
+		.toc-trigger {
+			appearance: none;
+			border: none;
+			background: transparent;
+			color: #A1A1AA;
+			font-family: var(--font-sans);
+			font-weight: 600;
+			font-size: 13px;
+			padding: 8px 12px;
+			border-radius: var(--radius-full);
+			cursor: pointer;
+			transition: color var(--duration-normal) var(--easing-default);
+		}
+
+		.toc-trigger:hover {
+			color: #FFFFFF;
+		}
+
+		.toc-panel {
+			position: absolute;
+			top: 42px;
+			right: 0;
+			width: 320px;
+			max-height: 60vh;
+			overflow: auto;
+			padding: 12px;
+			background: rgba(20, 20, 20, 0.95);
+			border: none;
+			border-radius: var(--radius-lg);
+			opacity: 0;
+			pointer-events: none;
+			transform: translateY(-6px);
+			transition: all var(--duration-normal) var(--easing-default);
+		}
+
+		.toc:hover .toc-panel,
+		.toc:focus-within .toc-panel {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translateY(0);
+		}
+
+		.toc-title {
+			font-weight: 700;
+			margin: 4px 4px 8px 4px;
+			color: #FFFFFF;
+		}
+
+		#tocList {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		#tocList li {
+			margin: 6px 0;
+		}
+
+		#tocList a {
+			color: #D4D4D4;
+			text-decoration: none;
+			font-size: 14px;
+		}
+
+		#tocList a:hover {
+			color: var(--primary-400);
+			text-decoration: underline;
+		}
+
+		#tocList li.toc-h3 a { padding-left: 14px; display: inline-block; }
+        
+        body {
+            font-family: var(--font-sans);
+            font-size: 18px;
+            line-height: 1.75;
+            color: var(--text-primary);
+            background-color: #000000;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Hero Header */
+        .hero-header {
+            width: 100%;
+            padding: var(--space-4xl) var(--space-xl);
+            border-bottom: 1px solid var(--border-subtle);
+            background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.30) 100%), url('imgs/physics_olympiad_rl_cover_wide.png');
+            background-size: cover, cover;
+            background-position: center, center;
+            background-repeat: no-repeat, no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        
+        .hero-title {
+            max-width: 1200px;
+            margin: 0 auto;
+            font-family: var(--font-serif);
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 20px rgba(168, 85, 247, 0.3);
+            text-align: center;
+        }
+        
+        /* Content Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+        }
+        
+        /* Highlight Card */
+        .highlight-card {
+            display: flex;
+            gap: var(--space-md);
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: var(--space-xl) 0;
+            margin: var(--space-2xl) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .highlight-icon {
+            display: none;
+        }
+        
+        .highlight-content {
+            font-size: 20px;
+            line-height: 1.75;
+            color: #E5E5E5;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .highlight-content strong {
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        
+        /* Article Images */
+        .article-image-container {
+            margin: var(--space-2xl) 0;
+            cursor: zoom-in;
+        }
+        
+        .article-image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        
+        .image-caption {
+            padding: var(--space-md) 0;
+            font-size: 14px;
+            color: #D4D4D4;
+            text-align: center;
+        }
+        
+        /* Image Grid Layout */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-lg);
+            margin: var(--space-2xl) 0;
+        }
+        
+        .image-grid .article-image-container {
+            margin: 0;
+        }
+        
+        /* Interactive Chart Container */
+        .interactive-chart-container {
+            position: relative;
+            background: #000000;
+        }
+        
+        .chart-iframe-wrapper {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #000000;
+            /* Aspect ratio 1000:650 = 1.538 */
+            padding-bottom: 65%;
+        }
+        
+        .chart-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            background: transparent;
+        }
+        
+        .chart-caption {
+            padding: var(--space-sm) 0;
+            font-size: 13px;
+            color: #D4D4D4;
+            text-align: center;
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn var(--duration-normal) var(--easing-default);
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: var(--radius-md);
+            animation: zoomIn var(--duration-slow) var(--easing-smooth);
+        }
+        
+        .lightbox-close {
+            position: fixed;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            width: 48px;
+            height: 48px;
+            background: rgba(20, 20, 20, 0.8);
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color var(--duration-normal) var(--easing-default);
+            color: #A1A1AA;
+        }
+        
+        .lightbox-close:hover {
+            color: #FFFFFF;
+        }
+        
+        /* Typography */
+        h2 {
+            font-family: var(--font-serif);
+            font-size: 42px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-top: var(--space-3xl);
+            margin-bottom: var(--space-lg);
+            line-height: 1.375;
+            position: relative;
+            padding-bottom: var(--space-sm);
+        }
+        
+        
+        h3 {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-md);
+            line-height: 1.375;
+        }
+        
+        p {
+            margin-bottom: var(--space-lg);
+            color: #E5E5E5;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+        
+        /* Links */
+        a {
+            color: var(--primary-400);
+            text-decoration: none;
+            transition: all var(--duration-normal) var(--easing-default);
+            position: relative;
+        }
+        
+        a:hover {
+            color: var(--primary-500);
+            text-decoration: underline;
+        }
+        
+        /* External Link Buttons */
+        .external-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-lg);
+            margin: var(--space-lg) 0;
+        }
+        
+        .btn-external {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0;
+            background: transparent;
+            color: var(--primary-400);
+            font-family: var(--font-sans);
+            font-size: 16px;
+            font-weight: 400;
+            border-radius: 0;
+            text-decoration: none;
+            transition: color var(--duration-normal) var(--easing-default);
+            position: relative;
+            overflow: visible;
+            border: none;
+        }
+        
+        .btn-external:hover {
+            color: var(--primary-500);
+            text-decoration: underline;
+        }
+        
+        .external-icon {
+            width: 14px;
+            height: 14px;
+        }
+        
+        /* Lists */
+        ul {
+            margin: var(--space-lg) 0;
+            padding-left: var(--space-lg);
+        }
+        
+        li {
+            margin-bottom: var(--space-md);
+            line-height: 1.75;
+            color: #E5E5E5;
+        }
+        
+        li::marker {
+            color: var(--primary-400);
+        }
+        
+        li p {
+            display: inline;
+            color: #E5E5E5;
+        }
+        
+        /* Separator */
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-medium), transparent);
+            margin: var(--space-3xl) 0;
+        }
+        
+        /* Content Sections */
+        .content-section {
+            margin-top: var(--space-2xl);
+        }
+        
+        /* ECharts Container */
+        .chart-container {
+            margin: var(--space-2xl) 0;
+            background: #000000;
+            border: none;
+            border-radius: 0;
+            padding: var(--space-xl) 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-title {
+            font-family: var(--font-serif);
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+            text-align: center;
+            margin-bottom: var(--space-lg);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .chart-legend {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-md);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #E5E5E5;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .legend-swatch {
+            width: 32px;
+            height: 20px;
+            border-radius: var(--radius-sm);
+            border: none;
+        }
+        
+        .legend-swatch.striped {
+            background: repeating-linear-gradient(
+                -45deg,
+                var(--text-secondary),
+                var(--text-secondary) 2px,
+                var(--bg-elevated) 2px,
+                var(--bg-elevated) 4px
+            );
+        }
+        
+        .legend-swatch.solid {
+            background: var(--text-secondary);
+        }
+        
+        #ipho-chart {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Responsive chart */
+        @media (max-width: 1023px) {
+            #ipho-chart {
+                height: 450px;
+            }
+            
+            .chart-title {
+                font-size: 24px;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .chart-container {
+                padding: var(--space-md);
+            }
+            
+            #ipho-chart {
+                height: 400px;
+            }
+            
+            .chart-title {
+                font-size: 20px;
+            }
+            
+            .legend-item {
+                font-size: 12px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+            }
+            to { 
+                opacity: 1; 
+            }
+        }
+        
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Scroll Animations */
+        .content-section,
+        .article-image-container,
+        .highlight-card {
+            animation: slideUp 0.6s var(--easing-smooth) backwards;
+        }
+        
+        .content-section:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+        
+        .content-section:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1023px) {
+            .container {
+                padding: 0 var(--space-xl);
+            }
+            
+            .image-grid {
+                gap: var(--space-md);
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .hero-header {
+                padding: var(--space-2xl) var(--space-md);
+            }
+            
+            .hero-title {
+                font-size: 40px;
+            }
+            
+            .container {
+                padding: 0 var(--space-md);
+            }
+            
+            h2 {
+                font-size: 24px;
+                margin-top: var(--space-2xl);
+            }
+            
+            h3 {
+                font-size: 20px;
+            }
+            
+            .highlight-card {
+                padding: 20px;
+            }
+            
+            .highlight-content {
+                font-size: 16px;
+            }
+            
+            .btn-external {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .external-links {
+                flex-direction: column;
+            }
+            
+            .lightbox-close {
+                top: var(--space-md);
+                right: var(--space-md);
+            }
+            
+            .image-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+        }
+        
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: var(--space-xl);
+            right: var(--space-xl);
+            width: 56px;
+            height: 56px;
+            background: var(--gradient-purple);
+            border: none;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--duration-normal) var(--easing-default), visibility var(--duration-normal) var(--easing-default);
+            z-index: 1000;
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-to-top:hover {
+            opacity: 0.9;
+        }
+        
+        .scroll-to-top svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-purple);
+            width: 0%;
+            z-index: 10000;
+            transition: width 0.1s ease-out;
+        }
+        
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Hero Header -->
+    <header class="hero-header">
+        <div class="lang-switcher" role="group" aria-label="Language Switcher">
+            <button id="btn-zh" data-lang="zh" class="active" aria-pressed="true">中文</button>
+            <button id="btn-en" data-lang="en" aria-pressed="false">English</button>
+        </div>
+        <div class="toc" aria-haspopup="true">
+            <button class="toc-trigger" id="tocTrigger" aria-expanded="false" data-i18n="toc.trigger" data-i18n-zh="目录" data-i18n-en="Contents">目录</button>
+            <div class="toc-panel" role="menu" aria-label="Table of contents">
+                <div class="toc-title" data-i18n="toc.title" data-i18n-zh="目录" data-i18n-en="Table of contents">目录</div>
+                <ul id="tocList"></ul>
+            </div>
+        </div>
+        <h1 class="hero-title" data-i18n="hero.title"
+            data-i18n-zh="P1：用强化学习攻克物理奥林匹克"
+            data-i18n-en="P1: Mastering Physics Olympiads with Reinforcement Learning">P1：用强化学习攻克物理奥林匹克</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Highlight Card -->
+        <div class="highlight-card">
+            <svg class="highlight-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+            </svg>
+            <div class="highlight-content">
+                <p data-i18n="highlight.intro"
+                  data-i18n-zh="<strong>重磅发布！</strong><strong>上海 AI Lab</strong> 推出 P1 系列物理推理大模型及涵盖模型、算法、评测集和智能体框架的全链路开源体系，宣告新突破。其核心模型 <strong>P1-235B-A22B</strong> 在涵盖13场顶级物理竞赛的<strong>HiPhO</strong>基准中斩获<strong>12金1银</strong>，与 <strong>Gemini-2.5-Pro</strong> 并列奖牌榜第一，并成为首个在国际物理奥林匹克竞赛 <strong>IPhO 2025</strong> 中夺金的开源模型。同时，团队提出的协同进化多智能体系统 <strong>PhysicsMinions</strong>，助力 P1 模型实现再度跃升，在 <strong>IPhO 2025</strong> 及 <strong>HiPhO</strong> 综合得分上<strong>双双问鼎</strong>，力压 Gemini-2.5-Pro 与 GPT-5 等顶尖闭源模型，展现了<strong>&quot;模型+系统&quot;</strong>框架在应对复杂科学问题的卓越潜力。"
+                  data-i18n-en="<strong>Shanghai AI Lab</strong> unveils the P1 series for physics reasoning and a full-stack open-source ecosystem spanning models, algorithms, benchmarks, and agent frameworks. The flagship <strong>P1-235B-A22B</strong> wins <strong>12 golds and 1 silver</strong> across 13 top physics contests on the <strong>HiPhO</strong> benchmark, tying <strong>Gemini-2.5-Pro</strong> for first on the medal table, and becomes the first open-source model to win gold at <strong>IPhO 2025</strong>. The proposed co-evolution multi-agent system, <strong>PhysicsMinions</strong>, further boosts P1 to <strong>No.1</strong> on both <strong>IPhO 2025</strong> and <strong>HiPhO</strong> overall scores, outperforming Gemini-2.5-Pro and GPT-5, showcasing the <strong>&quot;model + system&quot;</strong> paradigm for complex scientific reasoning."></p>
+            </div>
+        </div>
+
+        <!-- Main Hero Chart -->
+        <div class="chart-container">
+            <div class="chart-title" data-i18n="chart.title"
+                 data-i18n-zh="国际物理奥林匹克 2025（IPhO 2025）"
+                 data-i18n-en="International Physics Olympiad 2025 (IPhO 2025)">国际物理奥林匹克 2025（IPhO 2025）</div>
+            <div id="chart-legend" class="chart-legend">
+                <div class="legend-item"><span class="legend-swatch solid"></span><span data-i18n="legend.open"
+                    data-i18n-zh="开源"
+                    data-i18n-en="Open-source">开源</span></div>
+                <div class="legend-item"><span class="legend-swatch striped"></span><span data-i18n="legend.closed"
+                    data-i18n-zh="闭源"
+                    data-i18n-en="Closed-source">闭源</span></div>
+            </div>
+            <div id="ipho-chart"></div>
+        </div>
+
+        <div class="content-section">
+            <p data-i18n="intro.p1"
+               data-i18n-zh="物理推理是理解与塑造现实世界的核心能力。国际物理奥林匹克（IPhO）等顶尖赛事，以其对复杂推理和深度物理理解的高标准，成为检验物理智能对现实认知能力的重要标尺。AI在此类竞赛中夺得金牌，不仅是实现通用物理智能道路上的关键里程碑，更表明模型已初步具备应对现实世界中复杂物理问题的潜力。"
+               data-i18n-en="Physics reasoning is central to understanding and shaping the real world. Top contests like the International Physics Olympiad (IPhO) set a high bar for complex reasoning and deep physical understanding, serving as a key yardstick for evaluating AI's grasp of reality. Winning gold in such competitions marks a milestone toward general physics intelligence and shows initial capability to tackle complex real-world physics problems."></p>
+
+            <p data-i18n="intro.p2"
+               data-i18n-zh="近日，上海 AI Lab 发布 P1 系列物理推理大模型及涵盖模型、算法、评测集和智能体框架的<strong>全链路开源体系</strong>，宣告在这一前沿领域取得历史性突破。其核心模型 <strong>P1-235B-A22B</strong> 在 <strong>HiPhO</strong> 基准（涵盖2024-2025年全球 13 场顶级物理竞赛）中取得<strong>12金1银</strong>的佳绩；与 Gemini-2.5-Pro 并列奖牌榜第一，超越了GPT-5、Grok-4等主流闭源模型。值得关注的是，该模型在 <strong>IPhO 2025</strong> 中成功摘金，成为<strong>首个也是唯一获得金牌的开源模型</strong>，证明了开源力量在顶尖科学推理任务上已达到甚至超越闭源模型的水平。同时，P1系列的中等模型 <strong>P1-30B-A3B</strong> 在IPhO 2025中也超越了现有开源模型，荣获银牌。"
+               data-i18n-en="Shanghai AI Lab recently released the P1 series and a full-stack open-source ecosystem covering models, algorithms, benchmarks, and agents—marking a historic breakthrough. The flagship <strong>P1-235B-A22B</strong> achieved <strong>12 golds and 1 silver</strong> across 13 top contests on the <strong>HiPhO</strong> benchmark, tying Gemini-2.5-Pro for first and surpassing GPT-5 and Grok-4. Notably, it won gold at <strong>IPhO 2025</strong>, becoming the <strong>first and only open-source model</strong> to do so. The mid-sized <strong>P1-30B-A3B</strong> also outperformed existing open-source models at IPhO 2025, earning silver."></p>
+
+            <p data-i18n="intro.p3"
+               data-i18n-zh="此外，研究团队提出的<strong>协同进化多智能体系统 PhysicsMinions</strong>，为模型性能带来了显著提升。当 P1 模型与 PhysicsMinions 协同工作后，不仅在 <strong>IPhO 2025</strong> 中达到AI模型的世界第一，更在 <strong>HiPhO 综合得分上实现世界第一</strong>，以<strong>38.4分</strong>的成绩超越了<strong>Gemini-2.5-Pro（37.7分）</strong> 和 <strong>GPT-5（37.4分）</strong>，展现出&quot;模型+系统&quot;框架在应对复杂科学问题方面的强大通用性与潜力。"
+               data-i18n-en="The team also proposes <strong>PhysicsMinions</strong>, a co-evolution multi-agent system that significantly boosts performance. With PhysicsMinions, P1 reaches No.1 among AI models at <strong>IPhO 2025</strong> and tops the <strong>HiPhO overall score</strong> with <strong>38.4</strong>, surpassing <strong>Gemini-2.5-Pro (37.7)</strong> and <strong>GPT-5 (37.4)</strong>, demonstrating the strong generality of the &quot;model + system&quot; paradigm for complex scientific problems."></p>
+        </div>
+
+        <h2 data-i18n="section.fullstack.title"
+            data-i18n-zh="P1系列：模型、算法、评测集和智能体框架的全链路开源体系"
+            data-i18n-en="P1 series: full-stack open-source ecosystem of models, algorithms, benchmarks, and agents">P1系列：模型、算法、评测集和智能体框架的全链路开源体系</h2>
+
+        <h3 data-i18n="section.hipho.title"
+            data-i18n-zh="首个物理奥赛基准测试：HiPhO"
+            data-i18n-en="The first physics olympiad benchmark: HiPhO">首个物理奥赛基准测试：HiPhO</h3>
+
+        <p data-i18n="hipho.p1"
+           data-i18n-zh="为了准确评估物理奥赛的表现，研究团队构建了<strong>HiPhO</strong>（High School Physics Olympiad）基准测试，这是首个专注于最新物理奥赛、采用人类对齐评估的基准。"
+           data-i18n-en="To accurately evaluate performance in physics olympiads, the team built <strong>HiPhO</strong> (High School Physics Olympiad), the first benchmark focused on recent olympiads with human-aligned evaluation."></p>
+
+        <p data-i18n="hipho.p2"
+           data-i18n-zh="HiPhO 汇编了 2024-2025 年最新的 13 场奥林匹克级别的物理竞赛，包括 IPhO、APhO、EuPhO 等国际和区域赛事。评估时采用官方评分标准，对答案和过程进行细粒度评分，与人类评审严格对齐，确保得分准确。由此，每个模型的考试得分可直接与人类选手以及金银铜牌分数线进行比较。"
+           data-i18n-en="HiPhO compiles 13 olympiad-level contests from 2024–2025 including IPhO, APhO, and EuPhO. Using official rubrics, it scores answers and processes with fine-grained, human-aligned criteria, allowing direct comparison with human contestants and medal cutoffs."></p>
+
+        <p data-i18n="hipho.more"
+           data-i18n-zh="更多细节内容和 HiPhO 排行榜请参见以下链接："
+           data-i18n-en="For more details and the HiPhO leaderboard, see the links below:"></p>
+
+        <div class="external-links">
+            <a href="https://arxiv.org/abs/2509.07894" class="btn-external" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="links.paper" data-i18n-zh="论文" data-i18n-en="Paper">论文</span>
+                <svg class="external-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+            </a>
+            <a href="https://huggingface.co/datasets/SciYu/HiPhO" class="btn-external" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="links.dataset" data-i18n-zh="数据集" data-i18n-en="Dataset">数据集</span>
+                <svg class="external-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+            </a>
+            <a href="https://phyarena.github.io/" class="btn-external" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="links.leaderboard" data-i18n-zh="排行榜" data-i18n-en="Leaderboard">排行榜</span>
+                <svg class="external-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="article-image-container" onclick="openLightbox(this)" style="max-width: 80%; margin-left: auto; margin-right: auto;">
+            <img class="article-image" src="imgs/image.png" alt="HiPhO 基准测试概览">
+            <div class="image-caption" data-i18n="img.hipho.caption"
+                 data-i18n-zh="图二：HiPhO 基准测试概览，包含2024-2025年13场物理奥赛，覆盖国际和区域竞赛。"
+                 data-i18n-en="Figure 2: Overview of the HiPhO benchmark covering 13 olympiad contests (2024–2025), spanning international and regional events.">图二：HiPhO 基准测试概览，包含2024-2025年13场物理奥赛，覆盖国际和区域竞赛。</div>
+        </div>
+
+        <h3 data-i18n="section.training.title"
+            data-i18n-zh="多阶段强化学习训练"
+            data-i18n-en="Multi-stage reinforcement learning training">多阶段强化学习训练</h3>
+
+        <p data-i18n="training.p1"
+           data-i18n-zh="P1 团队通过高质量的提取和标注流程，构建了包含数千条奥赛级别题目的训练数据集。每条数据均具有完整的上下文信息、可验证答案以及标准解题过程，用于强化学习训练。"
+           data-i18n-en="The P1 team built a training dataset of thousands of olympiad-level problems through high-quality extraction and annotation, each with full context, verifiable answers, and standard solution processes for RL training."></p>
+
+        <p data-i18n="training.p2"
+           data-i18n-zh="P1采用多阶段强化学习流程进行训练。为了实现稳定高效的训练，团队在每个阶段应用两项关键策略："
+           data-i18n-en="P1 is trained with a multi-stage RL process. To ensure stable and efficient training, two key strategies are applied at each stage:"></p>
+
+        <ul>
+            <li data-i18n="training.li1"
+                data-i18n-zh="<strong>上下文窗口扩展：</strong> 随着训练的推进，逐步扩展模型最大生成长度，使模型能够探索更长的推理链。这种扩展提高了高复杂度问题的可解性，减少了因截断导致的错误。"
+                data-i18n-en="<strong>Context window expansion:</strong> Gradually increase the max generation length as training progresses, enabling longer chains of reasoning and reducing truncation errors."></li>
+            <li data-i18n="training.li2"
+                data-i18n-zh="<strong>通过率过滤：</strong> 在训练前，基于通过率统计对数据进行筛选，排除过于简单或过于困难的任务。"
+                data-i18n-en="<strong>Pass-rate filtering:</strong> Before training, filter data by pass-rate statistics to exclude tasks that are too easy or too hard."></li>
+        </ul>
+
+        <p data-i18n="training.p3"
+           data-i18n-zh="基于这种多阶段强化学习策略，P1模型实现了在基座语言模型的基础上长期、持续的性能提升"
+           data-i18n-en="With this multi-stage RL strategy, P1 achieves sustained, long-term improvements over the base language model."></p>
+
+        <div class="image-grid">
+            <div class="interactive-chart-container">
+                <div class="chart-iframe-wrapper">
+                    <iframe class="chart-iframe" src="source_html/30b_length.html" title="P1-30B Response Length Training Curve" loading="lazy"></iframe>
+                </div>
+            <div class="chart-caption" data-i18n="img.30b.len" data-i18n-zh="P1-30B 响应长度训练曲线" data-i18n-en="P1-30B Response Length Training Curve">P1-30B 响应长度训练曲线</div>
+            </div>
+
+            <div class="interactive-chart-container">
+                <div class="chart-iframe-wrapper">
+                    <iframe class="chart-iframe" src="source_html/30b_ipho25.html" title="P1-30B IPhO 2025 Score Training Curve" loading="lazy"></iframe>
+                </div>
+            <div class="chart-caption" data-i18n="img.30b.ipho" data-i18n-zh="P1-30B IPhO 2025 分数训练曲线" data-i18n-en="P1-30B IPhO 2025 Score Training Curve">P1-30B IPhO 2025 分数训练曲线</div>
+            </div>
+
+            <div class="interactive-chart-container">
+                <div class="chart-iframe-wrapper">
+                    <iframe class="chart-iframe" src="source_html/235b_length.html" title="P1-235B Response Length Training Curve" loading="lazy"></iframe>
+                </div>
+            <div class="chart-caption" data-i18n="img.235b.len" data-i18n-zh="P1-235B 响应长度训练曲线" data-i18n-en="P1-235B Response Length Training Curve">P1-235B 响应长度训练曲线</div>
+            </div>
+
+            <div class="interactive-chart-container">
+                <div class="chart-iframe-wrapper">
+                    <iframe class="chart-iframe" src="source_html/235b_ipho25.html" title="P1-235B IPhO 2025 Score Training Curve" loading="lazy"></iframe>
+                </div>
+            <div class="chart-caption" data-i18n="img.235b.ipho" data-i18n-zh="P1-235B IPhO 2025 分数训练曲线" data-i18n-en="P1-235B IPhO 2025 Score Training Curve">P1-235B IPhO 2025 分数训练曲线</div>
+            </div>
+        </div>
+
+        <h3 data-i18n="section.pm.title"
+            data-i18n-zh="协同进化的多智能体系统：PhysicsMinions"
+            data-i18n-en="Co-evolution multi-agent system: PhysicsMinions">协同进化的多智能体系统：PhysicsMinions</h3>
+
+        <p data-i18n="pm.p1"
+           data-i18n-zh="为了突破单模型的极限，研究团队开发了 <strong>PhysicsMinions</strong>，这是一个专为物理推理设计的<strong>协同进化多智能体系统</strong>。它由三个交互式模块组成，通过自我验证与反思迭代，实现了物理推理能力的跃升："
+           data-i18n-en="To push beyond single-model limits, the team developed <strong>PhysicsMinions</strong>, a <strong>co-evolution multi-agent system</strong> for physics reasoning. It has three interactive modules that iterate via self-verification and reflection, boosting reasoning capabilities:"></p>
+
+        <ul>
+            <li data-i18n="pm.li1"
+                data-i18n-zh="<strong>视觉模块（Visual Studio）</strong> – 观察和验证多模态问题，提取结构化的视觉信息（在P1模型实验中未使用视觉模块）。"
+                data-i18n-en="<strong>Visual Studio</strong> – Observes and verifies multimodal problems, extracting structured visual information (not used in P1 experiments)."></li>
+            <li data-i18n="pm.li2"
+                data-i18n-zh="<strong>逻辑模块（Logic Studio）</strong> – 生成初始解决方案，并通过自我改进和自我反思逐步改进解答。"
+                data-i18n-en="<strong>Logic Studio</strong> – Generates initial solutions and iteratively improves them via self-improvement and self-reflection."></li>
+            <li data-i18n="pm.li3"
+                data-i18n-zh="<strong>审核模块（Review Studio）</strong> – 执行双阶段验证：<strong>物理验证器</strong>检查物理一致性（比如常数、单位），而<strong>通用验证器</strong>检查逻辑、推理和计算。"
+                data-i18n-en="<strong>Review Studio</strong> – Performs two-stage verification: a <strong>physics validator</strong> checks physical consistency (constants, units), and a <strong>general validator</strong> checks logic, reasoning, and calculations."></li>
+        </ul>
+
+        <p data-i18n="pm.p2"
+           data-i18n-zh="如果任一阶段验证失败，详细的错误报告会被发送回逻辑模块，进行反思修订解答。通过这种<strong>协同进化协作</strong>，PhysicsMinions 持续提升复杂物理问题的推理质量和鲁棒性。"
+           data-i18n-en="If any stage fails verification, a detailed error report is sent back to the logic module for reflective revision. Through this <strong>co-evolutionary collaboration</strong>, PhysicsMinions continually improves reasoning quality and robustness on complex physics problems."></p>
+
+        <p data-i18n="pm.more"
+           data-i18n-zh="更多细节请参见论文：<a href=&quot;https://arxiv.org/abs/2509.24855&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>https://arxiv.org/abs/2509.24855</a>"
+           data-i18n-en="For more details, see the paper: <a href=&quot;https://arxiv.org/abs/2509.24855&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>https://arxiv.org/abs/2509.24855</a>"></p>
+
+        <div class="article-image-container" onclick="openLightbox(this)">
+            <img class="article-image" src="imgs/image 2.png" alt="PhysicsMinions系统架构">
+            <div class="image-caption" data-i18n="img.pm.caption"
+                 data-i18n-zh="图三：PhysicsMinions 协同进化多智能体系统概览，展示了三个模块之间的交互流程。"
+                 data-i18n-en="Figure 3: Overview of the PhysicsMinions co-evolution multi-agent system and the interaction among its three modules.">图三：PhysicsMinions 协同进化多智能体系统概览，展示了三个模块之间的交互流程。</div>
+        </div>
+
+        <h2 data-i18n="section.results.title"
+            data-i18n-zh="评测结果：引领 HiPhO 基准，物理推理能力世界第一"
+            data-i18n-en="Results: Leading HiPhO benchmark with world-best physics reasoning">评测结果：引领 HiPhO 基准，物理推理能力世界第一</h2>
+
+        <h3 data-i18n="results.p1.title"
+            data-i18n-zh="P1 模型展现顶级物理推理能力"
+            data-i18n-en="P1 models demonstrate top-tier physics reasoning">P1 模型展现顶级物理推理能力</h3>
+
+        <p data-i18n="results.p1.desc"
+           data-i18n-zh="下表总结了在 HiPhO 基准上所有竞赛的平均表现，展示出 P1 模型和多智能体系统的出色性能。"
+           data-i18n-en="The table below summarizes average performance across all HiPhO contests, showcasing strong results from P1 models and the multi-agent system."></p>
+
+        <div class="article-image-container" onclick="openLightbox(this)">
+            <img class="article-image" src="imgs/screenshot_2025_10_22.png" alt="P1系列模型综合表现">
+            <div class="image-caption" data-i18n="img.results.caption"
+                 data-i18n-zh="图四：P1系列模型在 HiPhO 基准测试上的综合表现，包括与开源和闭源模型的对比。"
+                 data-i18n-en="Figure 4: Overall HiPhO benchmark performance of P1 series models, compared with open- and closed-source models.">图四：P1系列模型在 HiPhO 基准测试上的综合表现，包括与开源和闭源模型的对比。</div>
+        </div>
+
+        <ul>
+            <li>
+                <strong data-i18n="results.p1.b1.title"
+                        data-i18n-zh="开源新王登基：P1-235B-A22B 斩获 IPhO 金牌，物理推理比肩顶级闭源模型"
+                        data-i18n-en="A new open-source champion: P1-235B-A22B wins IPhO gold, rivaling top closed-source models">开源新王登基：P1-235B-A22B 斩获 IPhO 金牌，物理推理比肩顶级闭源模型</strong>
+                <p data-i18n="results.p1.b1.p"
+                   data-i18n-zh="<strong>P1-235B-A22B</strong> 展现出卓越的物理推理能力，与 <strong>Gemini-2.5-Pro</strong> 和 <strong>Gemini-2.5-Flash-Thinking</strong> 并列第一，斩获 <strong>12金1银</strong>，金牌数超越 GPT-5（11金）、Grok-4（10金）和 Claude-4-Sonnet-Thinking（8金）等主流闭源模型。在 IPhO 2025 上，<strong>P1-235B-A22B</strong> 得分 <strong>21.2/30</strong>，成为<strong>首个也是唯一获得金牌的开源模型</strong>。"
+                   data-i18n-en="<strong>P1-235B-A22B</strong> shows outstanding physics reasoning, tying <strong>Gemini-2.5-Pro</strong> and <strong>Gemini-2.5-Flash-Thinking</strong> for first, winning <strong>12 golds and 1 silver</strong>. It surpasses GPT-5 (11 gold), Grok-4 (10 gold), and Claude-4-Sonnet-Thinking (8 gold). At IPhO 2025 it scored <strong>21.2/30</strong>, becoming the <strong>first and only open-source gold medalist</strong>."></p>
+            </li>
+            <li>
+                <strong data-i18n="results.p1.b2.title"
+                        data-i18n-zh="以小博大，实力超群：P1-30B-A3B 中型模型性能超越部分闭源模型"
+                        data-i18n-en="Punching above its weight: P1-30B-A3B outperforms some closed-source models">以小博大，实力超群：P1-30B-A3B 中型模型性能超越部分闭源模型</strong>
+                <p data-i18n="results.p1.b2.p"
+                   data-i18n-zh="<strong>P1-30B-A3B</strong> 在 HiPhO 基准上同样表现出色，获得 <strong>8金4银1铜</strong>，在现有开源模型中排名第三——仅次于参数规模更大的 <strong>Qwen3-235B-A22B-Thinking-2507</strong> 和 <strong>DeepSeek-R1</strong>，甚至超越了 <strong>o4-mini</strong> 和<strong>Claude-4-Sonnet</strong> 等闭源模型，突显了其在中等规模下的强大物理推理能力。"
+                   data-i18n-en="<strong>P1-30B-A3B</strong> also performs strongly on HiPhO, earning <strong>8 gold, 4 silver, and 1 bronze</strong>, ranking third among open-source models—behind larger <strong>Qwen3-235B-A22B-Thinking-2507</strong> and <strong>DeepSeek-R1</strong>—and surpassing closed-source <strong>o4-mini</strong> and <strong>Claude-4-Sonnet</strong>, highlighting its strength at mid scale."></p>
+            </li>
+            <li>
+                <strong data-i18n="results.p1.b3.title"
+                        data-i18n-zh="多智能体赋能模型性能飞跃：PhysicsMinions 系统助力P1问鼎综合榜首"
+                        data-i18n-en="Multi-agent boosts: PhysicsMinions helps P1 top the overall leaderboard">多智能体赋能模型性能飞跃：PhysicsMinions 系统助力P1问鼎综合榜首</strong>
+                <p data-i18n="results.p1.b3.p"
+                   data-i18n-zh="配备 <strong>PhysicsMinions</strong> 多智能体系统后，P1模型性能实现跨越式提升。<strong>P1-235B-A22B</strong> 模型在 HiPhO 基准上取得了 <strong>35.9分</strong> 的平均得分，而配备 PhysicsMinions 后，其性能大幅提升至<strong>38.4分</strong>，在<strong>所有模型中取得综合第一</strong>，超越了<strong>Gemini-2.5-Pro（37.7）和 GPT-5（37.4）</strong>等顶尖闭源模型。"
+                   data-i18n-en="With the <strong>PhysicsMinions</strong> system, P1 makes a leap in performance. The <strong>P1-235B-A22B</strong> model averages <strong>35.9</strong> on HiPhO, which rises to <strong>38.4</strong> with PhysicsMinions—ranking first overall among all models and surpassing <strong>Gemini-2.5-Pro (37.7)</strong> and <strong>GPT-5 (37.4)</strong>."></p>
+            </li>
+        </ul>
+
+        <hr>
+
+        <h3 data-i18n="section.general.title"
+            data-i18n-zh="通专融合，P1模型通用能力持续提升"
+            data-i18n-en="General and specialized: P1 continues to improve general capabilities">通专融合，P1模型通用能力持续提升</h3>
+
+        <p data-i18n="general.p1"
+           data-i18n-zh="除了强大的物理推理能力，P1模型在多个领域的能力也得到进一步提升。如下图所示，P1-30B-A3B相比于其基座模型Qwen3-30B-A3B-Thinking-2507，在数学、代码、STEM等基准测试上均取得显著优势，证明了物理推理能力的强大泛化性。"
+           data-i18n-en="Beyond physics reasoning, P1 improves across multiple domains. As shown below, P1-30B-A3B outperforms its base model Qwen3-30B-A3B-Thinking-2507 on math, coding, and STEM benchmarks, demonstrating strong generalization of physics reasoning."></p>
+
+        <div class="interactive-chart-container">
+            <div class="chart-iframe-wrapper" style="padding-bottom: 50%;">
+                <iframe class="chart-iframe" src="source_html/general_30b.html" title="P1-30B vs Qwen3-30B Performance Comparison" loading="lazy"></iframe>
+            </div>
+            <div class="chart-caption" data-i18n="img.general.caption" data-i18n-zh="P1-30B 通用能力对比" data-i18n-en="P1-30B general capability comparison">P1-30B 通用能力对比</div>
+        </div>
+
+        <p data-i18n="general.p2"
+           data-i18n-zh="同样，P1-235B-A22B在各项基准测试上也展现出优异的通用能力。如下图所示，P1-235B-A22B相比于其基座模型Qwen3-235B-A22B-Thinking-2507，在多项任务上取得了更好的表现，进一步验证了P1系列模型的强大泛化能力。"
+           data-i18n-en="Similarly, P1-235B-A22B demonstrates excellent general capabilities across various benchmarks. As shown below, P1-235B-A22B achieves better performance than its base model Qwen3-235B-A22B-Thinking-2507 on multiple tasks, further validating the strong generalization of P1 series models."></p>
+
+        <div class="interactive-chart-container">
+            <div class="chart-iframe-wrapper" style="padding-bottom: 50%;">
+                <iframe class="chart-iframe" src="source_html/general_235b.html" title="P1-235B vs Qwen3-235B Performance Comparison" loading="lazy"></iframe>
+            </div>
+            <div class="chart-caption" data-i18n="img.general235b.caption" data-i18n-zh="P1-235B 通用能力对比" data-i18n-en="P1-235B general capability comparison">P1-235B 通用能力对比</div>
+        </div>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" onclick="closeLightbox(event)" aria-label="关闭">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        <img class="lightbox-image" id="lightboxImage" src="" alt="">
+    </div>
+
+    <!-- Scroll to Top Button -->
+        <button class="scroll-to-top" id="scrollToTop" onclick="scrollToTop()" aria-label="回到顶部">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script>
+        // --- Simple i18n ---
+        (function() {
+            const STORAGE_KEY = 'site_lang';
+            const DEFAULT_LANG = 'zh';
+
+            function getStoredLang() {
+                try { return localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; } catch { return DEFAULT_LANG; }
+            }
+
+            function setStoredLang(lang) {
+                try { localStorage.setItem(STORAGE_KEY, lang); } catch {}
+            }
+
+            function updateHtmlLang(lang) {
+                const html = document.documentElement;
+                html.setAttribute('lang', lang === 'zh' ? 'zh-CN' : 'en');
+            }
+
+            function applyTranslations(lang) {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const attr = lang === 'zh' ? 'data-i18n-zh' : 'data-i18n-en';
+                    const html = el.getAttribute(attr);
+                    if (html != null) {
+                        el.innerHTML = html;
+                    }
+                });
+                // aria-labels
+                const backTop = document.getElementById('scrollToTop');
+                if (backTop) backTop.setAttribute('aria-label', lang === 'zh' ? '回到顶部' : 'Back to top');
+                const lbClose = document.querySelector('.lightbox-close');
+                if (lbClose) lbClose.setAttribute('aria-label', lang === 'zh' ? '关闭' : 'Close');
+            }
+
+            function setActiveButton(lang) {
+                const zhBtn = document.getElementById('btn-zh');
+                const enBtn = document.getElementById('btn-en');
+                if (!zhBtn || !enBtn) return;
+                if (lang === 'zh') {
+                    zhBtn.classList.add('active'); zhBtn.setAttribute('aria-pressed', 'true');
+                    enBtn.classList.remove('active'); enBtn.setAttribute('aria-pressed', 'false');
+                } else {
+                    enBtn.classList.add('active'); enBtn.setAttribute('aria-pressed', 'true');
+                    zhBtn.classList.remove('active'); zhBtn.setAttribute('aria-pressed', 'false');
+                }
+            }
+
+            function updateChartLanguage(chart, lang) {
+                if (!chart) return;
+                const markLines = [
+                    lang === 'zh' ? '金牌线' : 'Gold Medal',
+                    lang === 'zh' ? '银牌线' : 'Silver Medal',
+                    lang === 'zh' ? '铜牌线' : 'Bronze Medal'
+                ];
+                const option = chart.getOption();
+                if (option && option.series && option.series[0] && option.series[0].markLine) {
+                    const data = option.series[0].markLine[0].data;
+                    if (data && data.length >= 3) {
+                        data[0].label = Object.assign({}, data[0].label, { show: true, position: 'end', formatter: markLines[0] });
+                        data[1].label = Object.assign({}, data[1].label, { show: true, position: 'end', formatter: markLines[1] });
+                        data[2].label = Object.assign({}, data[2].label, { show: true, position: 'end', formatter: markLines[2] });
+                        chart.setOption(option, true);
+                    }
+                }
+            }
+
+            function switchLanguage(lang) {
+                setStoredLang(lang);
+                updateHtmlLang(lang);
+                applyTranslations(lang);
+                setActiveButton(lang);
+                if (window.iphoChart) updateChartLanguage(window.iphoChart, lang);
+                document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+                if (window.buildTOC) { try { window.buildTOC(); } catch {} }
+            }
+
+            // init on DOMContentLoaded to ensure elements exist
+            document.addEventListener('DOMContentLoaded', () => {
+                const current = getStoredLang();
+                updateHtmlLang(current);
+                applyTranslations(current);
+                setActiveButton(current);
+                const zhBtn = document.getElementById('btn-zh');
+                const enBtn = document.getElementById('btn-en');
+                if (zhBtn) zhBtn.addEventListener('click', () => switchLanguage('zh'));
+                if (enBtn) enBtn.addEventListener('click', () => switchLanguage('en'));
+                setTimeout(() => { if (window.buildTOC) { try { window.buildTOC(); } catch {} } }, 0);
+            });
+
+            // expose for debugging
+            window.switchLanguage = switchLanguage;
+        })();
+        function openLightbox(element) {
+            const img = element.querySelector('.article-image');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightboxImage');
+            
+            lightboxImage.src = img.src;
+            lightboxImage.alt = img.alt;
+            lightbox.classList.add('active');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox(event) {
+            // Close only if clicking on overlay or close button, not on image
+            if (event.target.id === 'lightbox' || event.target.closest('.lightbox-close')) {
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+                event.stopPropagation();
+            }
+        }
+        
+        // ESC key to close lightbox
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const lightbox = document.getElementById('lightbox');
+                if (lightbox.classList.contains('active')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+        
+        // Progress Bar
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            document.getElementById('progressBar').style.width = scrollPercentage + '%';
+        }
+        
+        // Scroll to Top Button
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        function toggleScrollToTopButton() {
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            if (window.pageYOffset > 500) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        }
+        
+        // Scroll event listener
+        window.addEventListener('scroll', function() {
+            updateProgressBar();
+            toggleScrollToTopButton();
+        });
+        
+        // Initial call
+        updateProgressBar();
+        toggleScrollToTopButton();
+        
+        // Add fade-in animation for content sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all animated elements
+        document.querySelectorAll('.content-section, .article-image-container, .highlight-card').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Initialize IPhO Chart
+        function initIphoChart() {
+            const scoreTotal = 30;
+            const scoreMedal = [19.7, 12.1, 7.2]; // Gold, Silver, Bronze
+            const labels = [
+                'P1-235B-A22B\n+ PhysicsMinions',
+                'Gemini-2.5-Pro','GPT-5','P1-235B-A22B','Gemini-2.5-Flash\n-Thinking',
+                'Claude-4-Sonnet\n-Thinking','Grok-4','P1-30B-A3B','DeepSeek-R1','Qwen3-235B-A22B\n-Thinking-2507','GPT-OSS-120B','Kimi-K2-Instruct','o4-mini (high)','Intern-S1','o3','Qwen3-30B-A3B\n-Thinking-2507','DeepSeek-V3',
+                'GLM-4.5V','GPT-4o'
+            ];
+            const values = [
+                23.2,
+                22.7, 22.3, 21.22, 20.2,
+                19.0, 18.7, 18.53, 18.5, 17.1, 16.9, 16.5, 16.0, 15.9, 15.7, 15.6, 13.6,
+                11.9, 10.2
+            ];
+
+            // Model categories
+            const closedSource = new Set(['GPT-5','o3','o4-mini (high)','o4-mini','Gemini-2.5-Pro','Gemini-2.5-Flash-Thinking','Claude-4-Sonnet-Thinking','Grok-4','GPT-4o','Claude-4-Sonnet','Mistral-Medium-3']);
+            const openSourceMLLM = new Set(['GLM-4.5V','Intern-S1','LLaMA4-Scout-17B','Qwen2.5-VL-72B-Instruct','Qwen2.5-VL-32B-Instruct','InternVL3-78B-Instruct','InternVL3-38B-Instruct']);
+            const p1Series = new Set(['P1-235B-A22B','P1-30B-A3B']);
+            const openSourceLLM = new Set(['Qwen3-235B-A22B','Qwen3-235B-A22B-Thinking-2507','Qwen3-30B-A3B','Qwen3-30B-A3B-Thinking-2507','Qwen3-32B','Qwen3-8B','DeepSeek-R1','DeepSeek-V3','GPT-OSS-120B','Kimi-K2-Instruct']);
+
+            // Colors
+            const p1ColorLabel = '#60A5FA';
+            const p1ColorEdge = '#93C5FD';
+            const solverColor = '#EF4444';
+            const goldColor = '#F7D411EF';
+            const silverColor = '#C0C0C0';
+            const bronzeColor = '#CD7F32';
+            const whiteColor = '#FFFFFF';
+
+            function barColorFor(label, value) {
+                if (value >= scoreMedal[0]) return goldColor;
+                if (value >= scoreMedal[1]) return silverColor;
+                if (value >= scoreMedal[2]) return bronzeColor;
+                return whiteColor;
+            }
+
+            function isP1Label(label) {
+                return typeof label === 'string' && label.startsWith('P1-');
+            }
+
+            const normalize = (s) => (typeof s === 'string' ? s.replace(/\n/g, '') : s);
+            const closedSourceNorm = new Set(Array.from(closedSource).map(normalize));
+            const openSourceMLLMNorm = new Set(Array.from(openSourceMLLM).map(normalize));
+            const openSourceLLMNorm = new Set(Array.from(openSourceLLM).map(normalize));
+            
+            function isClosedLabel(label) {
+                const key = normalize(label);
+                return closedSourceNorm.has(key);
+            }
+
+            const stripeDecal = {
+                symbol: 'rect',
+                dashArrayX: [1, 0],
+                dashArrayY: [2, 2],
+                rotation: -Math.PI / 4,
+                color: 'rgba(0,0,0,0.3)'
+            };
+
+            const data = labels.map((lb, i) => {
+                const isSolver = lb === 'P1-235B-A22B\n+ PhysicsMinions';
+                const isP1 = isP1Label(lb);
+                const val = values[i];
+                const baseColor = barColorFor(lb, val);
+                const isClosed = isClosedLabel(lb);
+                
+                let labelColor = '#fff';
+                let borderColor = 'transparent';
+                let borderWidth = 0;
+                let fontSize = window.innerWidth < 768 ? 14 : (window.innerWidth < 1024 ? 16 : 19);
+                
+                if (isSolver) {
+                    labelColor = solverColor;
+                    borderColor = solverColor;
+                    borderWidth = 4;
+                    fontSize += 3;
+                } else if (isP1) {
+                    labelColor = p1ColorLabel;
+                    borderColor = p1ColorEdge;
+                    borderWidth = 5;
+                    fontSize += 2;
+                } else {
+                    if (val >= scoreMedal[0]) labelColor = goldColor;
+                    else if (val >= scoreMedal[1]) labelColor = silverColor;
+                    else if (val >= scoreMedal[2]) labelColor = bronzeColor;
+                    else labelColor = '#000';
+                }
+                
+                if (val < scoreMedal[2] && !isP1 && !isSolver) {
+                    borderColor = '#000';
+                    borderWidth = 1;
+                }
+                
+                return {
+                    value: val,
+                    itemStyle: {
+                        color: baseColor,
+                        borderColor: borderColor,
+                        borderWidth: borderWidth,
+                        decal: (isClosed && !isP1) ? stripeDecal : null,
+                        borderRadius: [3, 3, 0, 0],
+                        opacity: 1,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 8,
+                        shadowOffsetY: 2
+                    },
+                    label: {
+                        show: true,
+                        position: 'top',
+                        color: labelColor,
+                        fontSize: fontSize,
+                        fontWeight: 'bold',
+                        textShadowColor: 'rgba(0, 0, 0, 0.6)',
+                        textShadowBlur: 3,
+                        textShadowOffsetX: 0,
+                        textShadowOffsetY: 1,
+                        formatter: ({ value }) => value.toFixed(1)
+                    }
+                };
+            });
+
+            const chart = echarts.init(document.getElementById('ipho-chart'));
+            
+            // Responsive font sizes
+            const labelFontSize = window.innerWidth < 768 ? 10 : (window.innerWidth < 1024 ? 11 : 12);
+            const axisLabelSize = window.innerWidth < 768 ? 14 : (window.innerWidth < 1024 ? 16 : 18);
+            const medalLabelSize = window.innerWidth < 768 ? 13 : (window.innerWidth < 1024 ? 15 : 17);
+            const p1LabelSize = window.innerWidth < 768 ? 12 : (window.innerWidth < 1024 ? 13 : 15);
+            
+            const option = {
+                backgroundColor: 'transparent',
+                grid: { 
+                    left: window.innerWidth < 768 ? 60 : 80, 
+                    right: window.innerWidth < 768 ? 80 : 140, 
+                    top: 20, 
+                    bottom: window.innerWidth < 768 ? 120 : 140 
+                },
+                xAxis: {
+                    type: 'category',
+                    data: labels,
+                    axisLabel: {
+                        color: '#fff',
+                        fontSize: labelFontSize,
+                        rotate: 45,
+                        align: 'right',
+                        formatter: function (value) {
+                            if (value === 'P1-235B-A22B\n+ PhysicsMinions') {
+                                return '{solver|' + value + '}';
+                            } else if (isP1Label(value)) {
+                                return '{p1|' + value + '}';
+                            }
+                            return value;
+                        },
+                        rich: {
+                            solver: { fontWeight: 'bolder', color: solverColor, fontSize: p1LabelSize },
+                            p1: { fontWeight: 'bolder', color: p1ColorLabel, fontSize: p1LabelSize }
+                        }
+                    },
+                    axisLine: { lineStyle: { color: '#fff' } },
+                    axisTick: { lineStyle: { color: '#fff' } }
+                },
+                yAxis: {
+                    type: 'value',
+                    min: 0,
+                    max: scoreTotal,
+                    interval: 5,
+                    axisLabel: { color: '#fff', fontSize: axisLabelSize },
+                    axisLine: { lineStyle: { color: '#fff' } },
+                    splitLine: { show: false }
+                },
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { type: 'shadow' },
+                    backgroundColor: 'rgba(0,0,0,0.9)',
+                    borderColor: '#A855F7',
+                    textStyle: { color: '#fff' }
+                },
+                series: [
+                    {
+                        type: 'bar',
+                        data,
+                        barWidth: '70%',
+                        emphasis: { focus: 'series' },
+                        z: 10,
+                        itemStyle: {
+                            borderRadius: [3, 3, 0, 0]
+                        },
+                        emphasis: {
+                            focus: 'series',
+                            itemStyle: {
+                                opacity: 1,
+                                shadowBlur: 15,
+                                shadowOffsetY: 4
+                            }
+                        },
+                        markLine: {
+                            symbol: 'none',
+                            label: { show: false },
+                            lineStyle: { type: 'dashed', width: 2.5 },
+                            data: [
+                                { yAxis: scoreMedal[0], lineStyle: { color: '#FFDA36E0' }, label: { show: true, position: 'end', formatter: 'Gold Medal', color: '#FFDA36E0', fontWeight: 'bold', fontSize: medalLabelSize }, z: 1 },
+                                { yAxis: scoreMedal[1], lineStyle: { color: '#B4B3B3' }, label: { show: true, position: 'end', formatter: 'Silver Medal', color: '#B4B3B3', fontWeight: 'bold', fontSize: medalLabelSize }, z: 1 },
+                                { yAxis: scoreMedal[2], lineStyle: { color: '#CD7F32' }, label: { show: true, position: 'end', formatter: 'Bronze Medal', color: '#CD7F32', fontWeight: 'bold', fontSize: medalLabelSize }, z: 1 }
+                            ]
+                        }
+                    }
+                ]
+            };
+
+            chart.setOption(option);
+            
+            return chart;
+        }
+        
+        // Initialize chart when page loads
+        let iphoChart = null;
+        let resizeTimeout = null;
+        
+        if (typeof echarts !== 'undefined') {
+            window.addEventListener('load', () => {
+                iphoChart = initIphoChart();
+                window.iphoChart = iphoChart;
+                // apply chart language after init
+                try {
+                    const lang = localStorage.getItem('site_lang') || 'zh';
+                    const evt = new Event('chartLangReady');
+                    document.dispatchEvent(evt);
+                    (function applyLater(){
+                        if (window.switchLanguage) {
+                            // re-apply to ensure markLines text
+                            if (lang === 'en') window.switchLanguage('en');
+                            else window.switchLanguage('zh');
+                        }
+                    })();
+                } catch {}
+            });
+            
+            // Resize handler with debounce
+            window.addEventListener('resize', () => {
+                if (iphoChart) {
+                    iphoChart.resize();
+                    
+                    // Debounce re-initialization for responsive font sizes
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        iphoChart.dispose();
+                        iphoChart = initIphoChart();
+                    }, 300);
+                }
+            });
+        }
+        
+        // --- Build Table of Contents ---
+        (function() {
+            function slugify(text) {
+                return text
+                    .toString()
+                    .trim()
+                    .toLowerCase()
+                    .replace(/\s+/g, '-')
+                    .replace(/[^\w\-\u4e00-\u9fa5]+/g, '')
+                    .replace(/\-+/g, '-');
+            }
+
+            function ensureId(el) {
+                if (!el.id) {
+                    const base = slugify(el.textContent || 'section');
+                    let id = base || 'section';
+                    let i = 1;
+                    while (document.getElementById(id)) {
+                        id = base + '-' + i++;
+                    }
+                    el.id = id;
+                }
+                return el.id;
+            }
+
+            function buildTOC() {
+                const list = document.getElementById('tocList');
+                if (!list) return;
+                list.innerHTML = '';
+                const headings = document.querySelectorAll('main h2, main h3');
+                headings.forEach(h => {
+                    const id = ensureId(h);
+                    const li = document.createElement('li');
+                    li.className = h.tagName.toLowerCase() === 'h3' ? 'toc-h3' : 'toc-h2';
+                    const a = document.createElement('a');
+                    a.href = '#' + id;
+                    a.textContent = h.textContent.trim();
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    });
+                    li.appendChild(a);
+                    list.appendChild(li);
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', buildTOC);
+            document.addEventListener('languageChanged', buildTOC);
+            window.buildTOC = buildTOC;
+        })();
+    </script>
+</body>
+</html>
