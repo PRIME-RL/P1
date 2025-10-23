@@ -275,7 +275,7 @@
         
         /* Content Container */
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 0 var(--space-xl);
         }
@@ -842,8 +842,8 @@
         </div>
 
         <!-- Main Hero Chart -->
-        <div class="chart-container">
-            <div class="chart-title" data-i18n="chart.title"
+        <div class="chart-container" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <!-- <div class="chart-title" data-i18n="chart.title"
                  data-i18n-zh="国际物理奥林匹克 2025（IPhO 2025）"
                  data-i18n-en="International Physics Olympiad 2025 (IPhO 2025)">国际物理奥林匹克 2025（IPhO 2025）</div>
             <div id="chart-legend" class="chart-legend">
@@ -853,11 +853,13 @@
                 <div class="legend-item"><span class="legend-swatch striped"></span><span data-i18n="legend.closed"
                     data-i18n-zh="闭源"
                     data-i18n-en="Closed-source">闭源</span></div>
+            </div> -->
+            <div class="chart-iframe-wrapper" style="padding-bottom: 45%; position: relative; overflow: hidden;">
+                <iframe class="chart-iframe" src="source_html/ipho25_purple.html" title="International Physics Olympiad 2025 (IPhO 2025)" loading="lazy" scrolling="no" style="overflow: hidden; width: 100%; height: 100%;"></iframe>
             </div>
-            <div id="ipho-chart"></div>
         </div>
 
-        <div class="content-section">
+        <div class="content-section" style="margin-top: 2rem;">
             <p data-i18n="intro.p1"
                data-i18n-zh="物理推理是理解与塑造现实世界的核心能力。国际物理奥林匹克（IPhO）等顶尖赛事，以其对复杂推理和深度物理理解的高标准，成为检验物理智能对现实认知能力的重要标尺。AI在此类竞赛中夺得金牌，不仅是实现通用物理智能道路上的关键里程碑，更表明模型已初步具备应对现实世界中复杂物理问题的潜力。"
                data-i18n-en="Physics reasoning is central to understanding and shaping the real world. Top contests like the International Physics Olympiad (IPhO) set a high bar for complex reasoning and deep physical understanding, serving as a key yardstick for evaluating AI's grasp of reality. Winning gold in such competitions marks a milestone toward general physics intelligence and shows initial capability to tackle complex real-world physics problems."></p>
@@ -873,11 +875,11 @@
 
         <h2 data-i18n="section.fullstack.title"
             data-i18n-zh="P1系列：模型、算法、评测集和智能体框架的全链路开源体系"
-            data-i18n-en="P1 series: full-stack open-source ecosystem of models, algorithms, benchmarks, and agents">P1系列：模型、算法、评测集和智能体框架的全链路开源体系</h2>
+            data-i18n-en="P1 Series: Full-Stack Open-Source Ecosystem of Models, Algorithms, Benchmarks, and Agents">P1系列：模型、算法、评测集和智能体框架的全链路开源体系</h2>
 
         <h3 data-i18n="section.hipho.title"
             data-i18n-zh="首个物理奥赛基准测试：HiPhO"
-            data-i18n-en="The first physics olympiad benchmark: HiPhO">首个物理奥赛基准测试：HiPhO</h3>
+            data-i18n-en="The First Physics Olympiad Benchmark: HiPhO">首个物理奥赛基准测试：HiPhO</h3>
 
         <p data-i18n="hipho.p1"
            data-i18n-zh="为了准确评估物理奥赛的表现，研究团队构建了<strong>HiPhO</strong>（High School Physics Olympiad）基准测试，这是首个专注于最新物理奥赛、采用人类对齐评估的基准。"
@@ -912,16 +914,16 @@
             </a>
         </div>
 
-        <div class="article-image-container" onclick="openLightbox(this)" style="max-width: 80%; margin-left: auto; margin-right: auto;">
+        <!-- <div class="article-image-container" onclick="openLightbox(this)" style="max-width: 80%; margin-left: auto; margin-right: auto;">
             <img class="article-image" src="imgs/image.png" alt="HiPhO 基准测试概览">
             <div class="image-caption" data-i18n="img.hipho.caption"
                  data-i18n-zh="图二：HiPhO 基准测试概览，包含2024-2025年13场物理奥赛，覆盖国际和区域竞赛。"
                  data-i18n-en="Figure 2: Overview of the HiPhO benchmark covering 13 olympiad contests (2024–2025), spanning international and regional events.">图二：HiPhO 基准测试概览，包含2024-2025年13场物理奥赛，覆盖国际和区域竞赛。</div>
-        </div>
+        </div> -->
 
         <h3 data-i18n="section.training.title"
             data-i18n-zh="多阶段强化学习训练"
-            data-i18n-en="Multi-stage reinforcement learning training">多阶段强化学习训练</h3>
+            data-i18n-en="Multi-Stage Reinforcement Learning Training">多阶段强化学习训练</h3>
 
         <p data-i18n="training.p1"
            data-i18n-zh="P1 团队通过高质量的提取和标注流程，构建了包含数千条奥赛级别题目的训练数据集。每条数据均具有完整的上下文信息、可验证答案以及标准解题过程，用于强化学习训练。"
@@ -976,7 +978,7 @@
 
         <h3 data-i18n="section.pm.title"
             data-i18n-zh="协同进化的多智能体系统：PhysicsMinions"
-            data-i18n-en="Co-evolution multi-agent system: PhysicsMinions">协同进化的多智能体系统：PhysicsMinions</h3>
+            data-i18n-en="Co-Evolution Multi-Agent System: PhysicsMinions">协同进化的多智能体系统：PhysicsMinions</h3>
 
         <p data-i18n="pm.p1"
            data-i18n-zh="为了突破单模型的极限，研究团队开发了 <strong>PhysicsMinions</strong>，这是一个专为物理推理设计的<strong>协同进化多智能体系统</strong>。它由三个交互式模块组成，通过自我验证与反思迭代，实现了物理推理能力的跃升："
@@ -999,8 +1001,17 @@
            data-i18n-en="If any stage fails verification, a detailed error report is sent back to the logic module for reflective revision. Through this <strong>co-evolutionary collaboration</strong>, PhysicsMinions continually improves reasoning quality and robustness on complex physics problems."></p>
 
         <p data-i18n="pm.more"
-           data-i18n-zh="更多细节请参见论文：<a href=&quot;https://arxiv.org/abs/2509.24855&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>https://arxiv.org/abs/2509.24855</a>"
-           data-i18n-en="For more details, see the paper: <a href=&quot;https://arxiv.org/abs/2509.24855&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>https://arxiv.org/abs/2509.24855</a>"></p>
+           data-i18n-zh="更多细节请参见论文："
+           data-i18n-en="For more details, see the paper:"></p>
+
+        <div class="external-links">
+            <a href="https://arxiv.org/abs/2509.24855" class="btn-external" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="links.pm.paper" data-i18n-zh="论文" data-i18n-en="Paper">论文</span>
+                <svg class="external-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+            </a>
+        </div>
 
         <div class="article-image-container" onclick="openLightbox(this)">
             <img class="article-image" src="imgs/image 2.png" alt="PhysicsMinions系统架构">
@@ -1011,11 +1022,11 @@
 
         <h2 data-i18n="section.results.title"
             data-i18n-zh="评测结果：引领 HiPhO 基准，物理推理能力世界第一"
-            data-i18n-en="Results: Leading HiPhO benchmark with world-best physics reasoning">评测结果：引领 HiPhO 基准，物理推理能力世界第一</h2>
+            data-i18n-en="Results: Leading HiPhO Benchmark with World-Best Physics Reasoning">评测结果：引领 HiPhO 基准，物理推理能力世界第一</h2>
 
         <h3 data-i18n="results.p1.title"
             data-i18n-zh="P1 模型展现顶级物理推理能力"
-            data-i18n-en="P1 models demonstrate top-tier physics reasoning">P1 模型展现顶级物理推理能力</h3>
+            data-i18n-en="P1 Models Demonstrate Top-Tier Physics Reasoning">P1 模型展现顶级物理推理能力</h3>
 
         <p data-i18n="results.p1.desc"
            data-i18n-zh="下表总结了在 HiPhO 基准上所有竞赛的平均表现，展示出 P1 模型和多智能体系统的出色性能。"
@@ -1061,7 +1072,7 @@
 
         <h3 data-i18n="section.general.title"
             data-i18n-zh="通专融合，P1模型通用能力持续提升"
-            data-i18n-en="General and specialized: P1 continues to improve general capabilities">通专融合，P1模型通用能力持续提升</h3>
+            data-i18n-en="General and Specialized: P1 Continues to Improve General Capabilities">通专融合，P1模型通用能力持续提升</h3>
 
         <p data-i18n="general.p1"
            data-i18n-zh="除了强大的物理推理能力，P1模型在多个领域的能力也得到进一步提升。如下图所示，P1-30B-A3B相比于其基座模型Qwen3-30B-A3B-Thinking-2507，在数学、代码、STEM等基准测试上均取得显著优势，证明了物理推理能力的强大泛化性。"
