@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>International Physics Olympiad 2025 (IPhO 2025)</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 24px;
+      height: 100vh; /* fill iframe viewport height */
+      box-sizing: border-box;
+      height: auto;
+      align-items: center;
+    }
+    .title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      text-align: center;
+    }
+    #chart {
+      width: 100%;
+      aspect-ratio: 3 / 1;
+      width: 1200px;
+      height: 400px;
+      background: transparent;
+      border-radius: 8px;
+    }
+    .desc {
+      opacity: 0.8;
+      font-size: 13px;
+    }
+    a { color: #b39ddb; }
+    /* legend styles */
+    .legend {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-size: 22px;
+      opacity: 0.9;
+    }
+    .legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+    }
+  </style>
+  <!-- ECharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="title">International Physics Olympiad 2025 (IPhO 2025)</div>
+    <div id="legend" class="legend"></div>
+    <div id="chart"></div>
+  </div>
+
+  <script>
+    
+    const scoreTotal = 25;
+    const scoreMedal = [19.7, 12.1, 7.2]; // Gold, Silver, Bronze
+    const labels = [
+      'P1-235B-A22B\n+ PhysicsMinions',
+      'Gemini-2.5-Pro','GPT-5','P1-235B-A22B','Gemini-2.5-Flash\n-Thinking',
+      'Claude-4-Sonnet\n-Thinking','Grok-4','P1-30B-A3B','DeepSeek-R1','Qwen3-235B-A22B-\nThinking-2507','GPT-OSS-120B','Kimi-K2-Instruct','o4-mini (high)','Intern-S1','o3','Qwen3-30B-A3B-\nThinking-2507','DeepSeek-V3',
+      'GLM-4.5V','GPT-4o'
+    ];
+    const values = [
+      23.2,
+      22.7, 22.3, 21.22, 20.2,
+      19.0, 18.7, 18.53, 18.5, 17.1, 16.9, 16.5, 16.0, 15.9, 15.7, 13.6, 13.6,
+      11.9, 10.2
+    ];
+
+    // 分类集合
+    const closedSource = new Set(['GPT-5','o3','o4-mini (high)','o4-mini','Gemini-2.5-Pro','Gemini-2.5-Flash-Thinking','Claude-4-Sonnet-Thinking','Grok-4','GPT-4o','Claude-4-Sonnet','Mistral-Medium-3']);
+    const openSourceMLLM = new Set(['GLM-4.5V','Intern-S1','LLaMA4-Scout-17B','Qwen2.5-VL-72B-Instruct','Qwen2.5-VL-32B-Instruct','InternVL3-78B-Instruct','InternVL3-38B-Instruct']);
+    const p1Series = new Set(['P1-235B-A22B','P1-30B-A3B']);
+    const openSourceLLM = new Set(['Qwen3-235B-A22B','Qwen3-235B-A22B-Thinking-2507','Qwen3-30B-A3B','Qwen3-30B-A3B-Thinking-2507','Qwen3-32B','Qwen3-8B','DeepSeek-R1','DeepSeek-V3','GPT-OSS-120B','Kimi-K2-Instruct']);
+
+    // 颜色（紫色主题 + 深色背景）
+    const purpleMain = '#BA8FFF';
+    const purpleLight = '#B39DDB';
+    const grayDark = '#4a5057';
+    const grayMid = '#4a5057';
+    const grayDeep = '#5a5e62';
+    const goldColor = '#666a6e';
+    const silverColor = '#C0C0C0';
+    const bronzeColor = '#666a6e';
+
+    function categoryColor(label) {
+      if (label === 'P1-235B-A22B\n+ PhysicsMinions') return purpleMain;
+      if (p1Series.has(label)) return purpleMain;
+      if (closedSource.has(label)) return grayDark;
+      if (openSourceMLLM.has(label)) return grayMid;
+      if (openSourceLLM.has(label)) return grayMid;
+      return grayDark;
+    }
+
+    // 判断是否为 P1 系列（覆盖包含换行的 solver 标签）
+    function isP1Label(label) {
+      return typeof label === 'string' && label.startsWith('P1-');
+    }
+
+    // 规范化标签（去掉换行）用于集合匹配
+    const normalize = (s) => (typeof s === 'string' ? s.replace(/\n/g, '') : s);
+    const closedSourceNorm = new Set(Array.from(closedSource).map(normalize));
+    const openSourceMLLMNorm = new Set(Array.from(openSourceMLLM).map(normalize));
+    const openSourceLLMNorm = new Set(Array.from(openSourceLLM).map(normalize));
+    function isClosedLabel(label) {
+      const key = normalize(label);
+      return closedSourceNorm.has(key);
+    }
+    function isOpenLabel(label) {
+      const key = normalize(label);
+      return openSourceMLLMNorm.has(key) || openSourceLLMNorm.has(key) || isP1Label(label);
+    }
+
+    // 根据分数返回奖牌颜色（非 P1）
+    function medalColorFor(value) {
+      if (value >= scoreMedal[0]) return goldColor;
+      if (value >= scoreMedal[1]) return silverColor;
+      if (value >= scoreMedal[2]) return bronzeColor;
+      return null;
+    }
+
+    // 关闭源模型的条纹样式（ECharts decal）
+    const stripeDecal = {
+      symbol: 'rect',
+      dashArrayX: [1, 0],
+      dashArrayY: [4, 3],
+      rotation: Math.PI / 4,
+      color: 'rgba(255,255,255,0.25)'
+    };
+
+    const data = labels.map((lb, i) => {
+      const isSolver = lb === 'P1-235B-A22B\n+ PhysicsMinions';
+      const isP1 = isP1Label(lb);
+      const val = values[i];
+      const medalColor = medalColorFor(val);
+      const baseColor = categoryColor(lb);
+      const applyStripe = !isP1 && isClosedLabel(lb);
+      
+      // Determine label color based on medal thresholds
+      let labelColor = '#fff';
+      if (val >= scoreMedal[0]) labelColor = '#EAC626E1'; // gold
+      else if (val >= scoreMedal[1]) labelColor = '#C0C0C0'; // silver
+      else if (val >= scoreMedal[2]) labelColor = '#CD7F32'; // bronze
+      else if (isSolver || isP1) labelColor = purpleMain; // P1 default
+      
+      return {
+        value: val,
+        itemStyle: {
+          color: baseColor,
+          borderColor: 'transparent',
+          borderWidth: 0,
+          decal: null,
+          decal: applyStripe ? stripeDecal : null,
+          borderRadius: [3, 3, 0, 0],
+          opacity: 1,
+          shadowColor: 'rgba(0, 0, 0, 0.5)',
+          shadowBlur: 8,
+          shadowOffsetY: 2
+        },
+        label: {
+          show: true,
+          position: 'top',
+          color: labelColor,
+          fontSize: 15,
+          fontWeight: 'bold',
+          textShadowColor: 'rgba(0, 0, 0, 0.6)',
+          textShadowBlur: 3,
+          textShadowOffsetX: 0,
+          textShadowOffsetY: 1,
+          formatter: ({ value }) => value.toFixed(1)
+        }
+      };
+    });
+
+    const chart = echarts.init(document.getElementById('chart'));
+    const option = {
+      backgroundColor: 'transparent',
+      grid: { left: 80, right: 140, top: 20, bottom: 140 },
+      xAxis: {
+        type: 'category',
+        data: labels,
+        axisLabel: {
+          color: '#fff',
+          fontSize: 12,
+          rotate: 45,
+          align: 'right',
+          // 将 P1 系列（含 solver）标签加粗
+          formatter: function (value) {
+            return isP1Label(value) ? '{bold|' + value + '}' : value;
+          },
+          rich: {
+            bold: { fontWeight: 'bolder', color: purpleMain, fontSize: 14 }
+          }
+        },
+        axisLine: { lineStyle: { color: '#fff' } },
+        axisTick: { lineStyle: { color: '#fff' } }
+      },
+      yAxis: {
+        type: 'value',
+        min: 0,
+        max: scoreTotal,
+        interval: 5,
+        axisLabel: { color: '#fff', fontSize: 18 },
+        axisLine: { lineStyle: { color: '#fff' } },
+        splitLine: { show: false }
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' },
+        backgroundColor: 'rgba(0,0,0,0.8)',
+        borderColor: '#7C4DFF',
+        textStyle: { color: '#fff' }
+      },
+      series: [
+        {
+          type: 'bar',
+          data,
+          barWidth: '70%',
+          emphasis: { focus: 'series' },
+          z: 10,
+          itemStyle: {
+            borderRadius: [3, 3, 0, 0]
+          },
+          emphasis: {
+            focus: 'series',
+            itemStyle: {
+              opacity: 1,
+              shadowBlur: 15,
+              shadowOffsetY: 4
+            }
+          },
+          markLine: {
+            symbol: 'none',
+            label: { show: false },
+            lineStyle: { type: 'dashed', width: 1.8 },
+            data: [
+              { yAxis: scoreMedal[0], lineStyle: { color: '#EAC626E1' }, label: { show: true, position: 'end', formatter: 'Gold Medal', color: '#EAC626E1', fontWeight: 'bold', fontSize: 17 }, z: 1 },
+              { yAxis: scoreMedal[1], lineStyle: { color: '#C0C0C0' }, label: { show: true, position: 'end', formatter: 'Silver Medal', color: '#C0C0C0', fontWeight: 'bold', fontSize: 17 }, z: 1 },
+              { yAxis: scoreMedal[2], lineStyle: { color: '#CD7F32' }, label: { show: true, position: 'end', formatter: 'Bronze Medal', color: '#CD7F32', fontWeight: 'bold', fontSize: 17 }, z: 1 }
+            ]
+          }
+        }
+      ],
+      
+    };
+
+    chart.setOption(option);
+
+    // legend: 开闭源（条纹/实心）
+    const legendEl = document.getElementById('legend');
+    if (legendEl) {
+      legendEl.innerHTML = `
+        <div class="legend-item"><span class="legend-swatch" style="background:${grayMid}"></span><span>Open-source </span></div>
+        <div class="legend-item"><span class="legend-swatch" style="background: repeating-linear-gradient(45deg, rgba(255,255,255,0.35) 0 3px, rgba(0,0,0,0) 3px 6px), ${grayDark};"></span><span>Closed-source</span></div>
+      `;
+    }
+
+    window.addEventListener('resize', () => chart.resize());
+  </script>
+</body>
+</html>
+
+

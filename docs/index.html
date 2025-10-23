@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- ECharts CDN -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
@@ -86,18 +86,18 @@
                              radial-gradient(at 100% 100%, rgba(96, 165, 250, 0.1) 0%, transparent 50%);
             
 			/* Typography */
-			--font-serif: 'Source Serif 4', 'Noto Serif SC', 'Crimson Pro', Georgia, serif;
-            --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+			--font-serif: 'Helvetica Neue', Helvetica, Arial, 'Noto Sans SC', sans-serif;
+            --font-sans: 'Helvetica Neue', Helvetica, Arial, 'Noto Sans SC', sans-serif;
             
             /* Spacing */
-            --space-xs: 8px;
-            --space-sm: 12px;
-            --space-md: 16px;
-            --space-lg: 24px;
-            --space-xl: 32px;
-            --space-2xl: 48px;
-            --space-3xl: 64px;
-            --space-4xl: 96px;
+            --space-xs: 6px;
+            --space-sm: 10px;
+            --space-md: 14px;
+            --space-lg: 18px;
+            --space-xl: 24px;
+            --space-2xl: 32px;
+            --space-3xl: 48px;
+            --space-4xl: 64px;
             
             /* Border Radius */
             --radius-sm: 6px;
@@ -236,46 +236,51 @@
         
         body {
             font-family: var(--font-sans);
-            font-size: 18px;
-            line-height: 1.75;
+            font-size: 19px;
+            line-height: 1.7;
             color: var(--text-primary);
             background-color: #000000;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            font-weight: 500;
         }
         
-        /* Hero Header */
-        .hero-header {
+        /* Navigation Bar */
+        .nav-bar {
             width: 100%;
-            padding: var(--space-4xl) var(--space-xl);
+            padding: var(--space-lg) var(--space-xl);
             border-bottom: 1px solid var(--border-subtle);
-            background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.30) 100%), url('imgs/physics_olympiad_rl_cover_wide.png');
-            background-size: cover, cover;
-            background-position: center, center;
-            background-repeat: no-repeat, no-repeat;
-            position: relative;
-            overflow: hidden;
+            background: var(--bg-surface);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
         
-        .hero-title {
+        /* Page Title Section */
+        .page-title-section {
+            padding: var(--space-2xl) var(--space-xl);
+            text-align: center;
+            background: var(--bg-page);
+        }
+        
+        .page-title {
             max-width: 1200px;
             margin: 0 auto;
             font-family: var(--font-serif);
             font-size: 64px;
             font-weight: 700;
-            line-height: 1.25;
+            line-height: 1.2;
             letter-spacing: -0.02em;
             color: var(--text-primary);
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 2px 20px rgba(168, 85, 247, 0.3);
-            text-align: center;
         }
         
         /* Content Container */
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 0 var(--space-xl);
         }
@@ -299,15 +304,16 @@
         
         .highlight-content {
             font-size: 20px;
-            line-height: 1.75;
+            line-height: 1.7;
             color: #E5E5E5;
             position: relative;
             z-index: 1;
+            font-weight: 500;
         }
         
         .highlight-content strong {
             color: #FFFFFF;
-            font-weight: 600;
+            font-weight: 700;
         }
         
         /* Article Images */
@@ -333,8 +339,8 @@
         .image-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-lg);
-            margin: var(--space-2xl) 0;
+            gap: var(--space-md);
+            margin: var(--space-xl) 0;
         }
         
         .image-grid .article-image-container {
@@ -428,9 +434,9 @@
             font-size: 42px;
             font-weight: 700;
             color: #FFFFFF;
-            margin-top: var(--space-3xl);
-            margin-bottom: var(--space-lg);
-            line-height: 1.375;
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-md);
+            line-height: 1.25;
             position: relative;
             padding-bottom: var(--space-sm);
         }
@@ -438,21 +444,23 @@
         
         h3 {
             font-family: var(--font-serif);
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 30px;
+            font-weight: 700;
             color: #FFFFFF;
-            margin-top: var(--space-2xl);
-            margin-bottom: var(--space-md);
-            line-height: 1.375;
+            margin-top: var(--space-xl);
+            margin-bottom: var(--space-sm);
+            line-height: 1.35;
         }
         
         p {
-            margin-bottom: var(--space-lg);
+            margin-bottom: var(--space-md);
+            line-height: 1.7;
             color: #E5E5E5;
+            font-weight: 500;
         }
         
         strong {
-            font-weight: 600;
+            font-weight: 700;
             color: #FFFFFF;
         }
         
@@ -507,14 +515,15 @@
         
         /* Lists */
         ul {
-            margin: var(--space-lg) 0;
+            margin: var(--space-md) 0;
             padding-left: var(--space-lg);
         }
         
         li {
-            margin-bottom: var(--space-md);
-            line-height: 1.75;
+            margin-bottom: var(--space-sm);
+            line-height: 1.7;
             color: #E5E5E5;
+            font-weight: 500;
         }
         
         li::marker {
@@ -536,16 +545,16 @@
         
         /* Content Sections */
         .content-section {
-            margin-top: var(--space-2xl);
+            margin-top: var(--space-xl);
         }
         
         /* ECharts Container */
         .chart-container {
-            margin: var(--space-2xl) 0;
+            margin: var(--space-xl) 0;
             background: #000000;
             border: none;
             border-radius: 0;
-            padding: var(--space-xl) 0;
+            padding: var(--space-lg) 0;
             position: relative;
             overflow: hidden;
         }
@@ -809,8 +818,8 @@
     <!-- Progress Bar -->
     <div class="progress-bar" id="progressBar"></div>
     
-    <!-- Hero Header -->
-    <header class="hero-header">
+    <!-- Navigation -->
+    <nav class="nav-bar">
         <div class="lang-switcher" role="group" aria-label="Language Switcher">
             <button id="btn-zh" data-lang="zh" class="active" aria-pressed="true">中文</button>
             <button id="btn-en" data-lang="en" aria-pressed="false">English</button>
@@ -822,28 +831,32 @@
                 <ul id="tocList"></ul>
             </div>
         </div>
-        <h1 class="hero-title" data-i18n="hero.title"
+    </nav>
+
+    <!-- Page Title -->
+    <div class="page-title-section">
+        <h1 class="page-title" data-i18n="hero.title"
             data-i18n-zh="P1：用强化学习攻克物理奥林匹克"
             data-i18n-en="P1: Mastering Physics Olympiads with Reinforcement Learning">P1：用强化学习攻克物理奥林匹克</h1>
-    </header>
+    </div>
 
     <!-- Main Content -->
     <main class="container">
         <!-- Highlight Card -->
-        <div class="highlight-card">
+        <!-- <div class="highlight-card">
             <svg class="highlight-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
             </svg>
             <div class="highlight-content">
                 <p data-i18n="highlight.intro"
-                  data-i18n-zh="<strong>重磅发布！</strong><strong>上海 AI Lab</strong> 推出 P1 系列物理推理大模型及涵盖模型、算法、评测集和智能体框架的全链路开源体系，宣告新突破。其核心模型 <strong>P1-235B-A22B</strong> 在涵盖13场顶级物理竞赛的<strong>HiPhO</strong>基准中斩获<strong>12金1银</strong>，与 <strong>Gemini-2.5-Pro</strong> 并列奖牌榜第一，并成为首个在国际物理奥林匹克竞赛 <strong>IPhO 2025</strong> 中夺金的开源模型。同时，团队提出的协同进化多智能体系统 <strong>PhysicsMinions</strong>，助力 P1 模型实现再度跃升，在 <strong>IPhO 2025</strong> 及 <strong>HiPhO</strong> 综合得分上<strong>双双问鼎</strong>，力压 Gemini-2.5-Pro 与 GPT-5 等顶尖闭源模型，展现了<strong>&quot;模型+系统&quot;</strong>框架在应对复杂科学问题的卓越潜力。"
-                  data-i18n-en="<strong>Shanghai AI Lab</strong> unveils the P1 series for physics reasoning and a full-stack open-source ecosystem spanning models, algorithms, benchmarks, and agent frameworks. The flagship <strong>P1-235B-A22B</strong> wins <strong>12 golds and 1 silver</strong> across 13 top physics contests on the <strong>HiPhO</strong> benchmark, tying <strong>Gemini-2.5-Pro</strong> for first on the medal table, and becomes the first open-source model to win gold at <strong>IPhO 2025</strong>. The proposed co-evolution multi-agent system, <strong>PhysicsMinions</strong>, further boosts P1 to <strong>No.1</strong> on both <strong>IPhO 2025</strong> and <strong>HiPhO</strong> overall scores, outperforming Gemini-2.5-Pro and GPT-5, showcasing the <strong>&quot;model + system&quot;</strong> paradigm for complex scientific reasoning."></p>
+                  data-i18n-zh="我们推出 P1 系列物理推理大模型及涵盖模型、算法、评测集和智能体框架的全链路开源体系。其核心模型 <strong>P1-235B-A22B</strong> 在涵盖13场顶级物理竞赛的<strong>HiPhO</strong>基准中斩获<strong>12金1银</strong>，与 <strong>Gemini-2.5-Pro</strong> 并列奖牌榜第一，并成为首个在国际物理奥林匹克竞赛 <strong>IPhO 2025</strong> 中夺金的开源模型。同时，团队提出的协同进化多智能体系统 <strong>PhysicsMinions</strong>，助力 P1 模型实现再度跃升，在 <strong>IPhO 2025</strong> 及 <strong>HiPhO</strong> 综合得分上<strong>双双问鼎</strong>，力压 Gemini-2.5-Pro 与 GPT-5 等顶尖闭源模型，展现了<strong>&quot;模型+系统&quot;</strong>框架在应对复杂科学问题的卓越潜力。"
+                  data-i18n-en="Today, we release the P1 series models for physics reasoning and a full-stack open-source ecosystem spanning models, algorithms, benchmarks, and agent frameworks. The flagship model <strong>P1-235B-A22B</strong> wins <strong>12 golds and 1 silver</strong> across 13 top international/regional physics contests, tying <strong>Gemini-2.5-Pro</strong> for first on the medal table, and becomes the first open-source model to win gold at <strong>IPhO 2025</strong>. The proposed co-evolution multi-agent system, <strong>PhysicsMinions</strong>, further boosts P1 to <strong>No.1</strong> on both IPhO 2025 and HiPhO overall scores, outperforming Gemini-2.5-Pro and GPT-5, showcasing the <strong>&quot;model + system&quot;</strong> paradigm for complex scientific reasoning."></p>
             </div>
-        </div>
+        </div> -->
 
         <!-- Main Hero Chart -->
-        <div class="chart-container">
-            <div class="chart-title" data-i18n="chart.title"
+        <div class="chart-container" style="margin-top: 2rem; margin-bottom: 2rem;">
+            <!-- <div class="chart-title" data-i18n="chart.title"
                  data-i18n-zh="国际物理奥林匹克 2025（IPhO 2025）"
                  data-i18n-en="International Physics Olympiad 2025 (IPhO 2025)">国际物理奥林匹克 2025（IPhO 2025）</div>
             <div id="chart-legend" class="chart-legend">
@@ -853,31 +866,37 @@
                 <div class="legend-item"><span class="legend-swatch striped"></span><span data-i18n="legend.closed"
                     data-i18n-zh="闭源"
                     data-i18n-en="Closed-source">闭源</span></div>
+            </div> -->
+            <div class="chart-iframe-wrapper" style="padding-bottom: 45%; position: relative; overflow: hidden;">
+                <iframe class="chart-iframe" src="source_html/ipho25_purple.html" title="International Physics Olympiad 2025 (IPhO 2025)" loading="lazy" scrolling="no" style="overflow: hidden; width: 100%; height: 100%;"></iframe>
             </div>
-            <div id="ipho-chart"></div>
         </div>
 
-        <div class="content-section">
+        <div class="content-section" style="margin-top: 2rem;">
             <p data-i18n="intro.p1"
                data-i18n-zh="物理推理是理解与塑造现实世界的核心能力。国际物理奥林匹克（IPhO）等顶尖赛事，以其对复杂推理和深度物理理解的高标准，成为检验物理智能对现实认知能力的重要标尺。AI在此类竞赛中夺得金牌，不仅是实现通用物理智能道路上的关键里程碑，更表明模型已初步具备应对现实世界中复杂物理问题的潜力。"
                data-i18n-en="Physics reasoning is central to understanding and shaping the real world. Top contests like the International Physics Olympiad (IPhO) set a high bar for complex reasoning and deep physical understanding, serving as a key yardstick for evaluating AI's grasp of reality. Winning gold in such competitions marks a milestone toward general physics intelligence and shows initial capability to tackle complex real-world physics problems."></p>
 
             <p data-i18n="intro.p2"
+               data-i18n-zh="我们发布 P1 系列物理推理大模型及涵盖模型、算法、评测集和智能体框架的全链路开源体系。其核心模型 <strong>P1-235B-A22B</strong> 在涵盖13场顶级物理竞赛的<strong>HiPhO</strong>基准中斩获<strong>12金1银</strong>，与 <strong>Gemini-2.5-Pro</strong> 并列奖牌榜第一，并成为首个在国际物理奥林匹克竞赛 <strong>IPhO 2025</strong> 中夺金的开源模型。同时，团队提出的协同进化多智能体系统 <strong>PhysicsMinions</strong>，助力 P1 模型实现再度跃升，在 <strong>IPhO 2025</strong> 及 <strong>HiPhO</strong> 综合得分上<strong>双双问鼎</strong>，力压 Gemini-2.5-Pro 与 GPT-5 等顶尖闭源模型，展现了<strong>&quot;模型+系统&quot;</strong>框架在应对复杂科学问题的卓越潜力。"
+               data-i18n-en="Today, we release the P1 series models for physics reasoning and a full-stack open-source ecosystem spanning models, algorithms, benchmarks, and agent frameworks. The flagship model <strong>P1-235B-A22B</strong> wins <strong>12 golds and 1 silver</strong> across 13 top international/regional physics contests, tying <strong>Gemini-2.5-Pro</strong> for first on the medal table, and becomes the first open-source model to win gold at <strong>IPhO 2025</strong>. The proposed co-evolution multi-agent system, <strong>PhysicsMinions</strong>, further boosts P1 to <strong>No.1</strong> on both IPhO 2025 and HiPhO overall scores, outperforming Gemini-2.5-Pro and GPT-5, showcasing the <strong>&quot;model + system&quot;</strong> paradigm for complex scientific reasoning."></p>
+
+            <!-- <p data-i18n="intro.p2"
                data-i18n-zh="近日，上海 AI Lab 发布 P1 系列物理推理大模型及涵盖模型、算法、评测集和智能体框架的<strong>全链路开源体系</strong>，宣告在这一前沿领域取得历史性突破。其核心模型 <strong>P1-235B-A22B</strong> 在 <strong>HiPhO</strong> 基准（涵盖2024-2025年全球 13 场顶级物理竞赛）中取得<strong>12金1银</strong>的佳绩；与 Gemini-2.5-Pro 并列奖牌榜第一，超越了GPT-5、Grok-4等主流闭源模型。值得关注的是，该模型在 <strong>IPhO 2025</strong> 中成功摘金，成为<strong>首个也是唯一获得金牌的开源模型</strong>，证明了开源力量在顶尖科学推理任务上已达到甚至超越闭源模型的水平。同时，P1系列的中等模型 <strong>P1-30B-A3B</strong> 在IPhO 2025中也超越了现有开源模型，荣获银牌。"
                data-i18n-en="Shanghai AI Lab recently released the P1 series and a full-stack open-source ecosystem covering models, algorithms, benchmarks, and agents—marking a historic breakthrough. The flagship <strong>P1-235B-A22B</strong> achieved <strong>12 golds and 1 silver</strong> across 13 top contests on the <strong>HiPhO</strong> benchmark, tying Gemini-2.5-Pro for first and surpassing GPT-5 and Grok-4. Notably, it won gold at <strong>IPhO 2025</strong>, becoming the <strong>first and only open-source model</strong> to do so. The mid-sized <strong>P1-30B-A3B</strong> also outperformed existing open-source models at IPhO 2025, earning silver."></p>
 
             <p data-i18n="intro.p3"
                data-i18n-zh="此外，研究团队提出的<strong>协同进化多智能体系统 PhysicsMinions</strong>，为模型性能带来了显著提升。当 P1 模型与 PhysicsMinions 协同工作后，不仅在 <strong>IPhO 2025</strong> 中达到AI模型的世界第一，更在 <strong>HiPhO 综合得分上实现世界第一</strong>，以<strong>38.4分</strong>的成绩超越了<strong>Gemini-2.5-Pro（37.7分）</strong> 和 <strong>GPT-5（37.4分）</strong>，展现出&quot;模型+系统&quot;框架在应对复杂科学问题方面的强大通用性与潜力。"
-               data-i18n-en="The team also proposes <strong>PhysicsMinions</strong>, a co-evolution multi-agent system that significantly boosts performance. With PhysicsMinions, P1 reaches No.1 among AI models at <strong>IPhO 2025</strong> and tops the <strong>HiPhO overall score</strong> with <strong>38.4</strong>, surpassing <strong>Gemini-2.5-Pro (37.7)</strong> and <strong>GPT-5 (37.4)</strong>, demonstrating the strong generality of the &quot;model + system&quot; paradigm for complex scientific problems."></p>
+               data-i18n-en="The team also proposes <strong>PhysicsMinions</strong>, a co-evolution multi-agent system that significantly boosts performance. With PhysicsMinions, P1 reaches No.1 among AI models at <strong>IPhO 2025</strong> and tops the <strong>HiPhO overall score</strong> with <strong>38.4</strong>, surpassing <strong>Gemini-2.5-Pro (37.7)</strong> and <strong>GPT-5 (37.4)</strong>, demonstrating the strong generality of the &quot;model + system&quot; paradigm for complex scientific problems."></p> -->
         </div>
 
         <h2 data-i18n="section.fullstack.title"
-            data-i18n-zh="P1系列：模型、算法、评测集和智能体框架的全链路开源体系"
-            data-i18n-en="P1 series: full-stack open-source ecosystem of models, algorithms, benchmarks, and agents">P1系列：模型、算法、评测集和智能体框架的全链路开源体系</h2>
+            data-i18n-zh="P1系列"
+            data-i18n-en="P1 Series">P1系列</h2>
 
         <h3 data-i18n="section.hipho.title"
             data-i18n-zh="首个物理奥赛基准测试：HiPhO"
-            data-i18n-en="The first physics olympiad benchmark: HiPhO">首个物理奥赛基准测试：HiPhO</h3>
+            data-i18n-en="The First Physics Olympiad Benchmark: HiPhO">首个物理奥赛基准测试：HiPhO</h3>
 
         <p data-i18n="hipho.p1"
            data-i18n-zh="为了准确评估物理奥赛的表现，研究团队构建了<strong>HiPhO</strong>（High School Physics Olympiad）基准测试，这是首个专注于最新物理奥赛、采用人类对齐评估的基准。"
@@ -912,16 +931,16 @@
             </a>
         </div>
 
-        <div class="article-image-container" onclick="openLightbox(this)" style="max-width: 80%; margin-left: auto; margin-right: auto;">
+        <!-- <div class="article-image-container" onclick="openLightbox(this)" style="max-width: 80%; margin-left: auto; margin-right: auto;">
             <img class="article-image" src="imgs/image.png" alt="HiPhO 基准测试概览">
             <div class="image-caption" data-i18n="img.hipho.caption"
                  data-i18n-zh="图二：HiPhO 基准测试概览，包含2024-2025年13场物理奥赛，覆盖国际和区域竞赛。"
                  data-i18n-en="Figure 2: Overview of the HiPhO benchmark covering 13 olympiad contests (2024–2025), spanning international and regional events.">图二：HiPhO 基准测试概览，包含2024-2025年13场物理奥赛，覆盖国际和区域竞赛。</div>
-        </div>
+        </div> -->
 
         <h3 data-i18n="section.training.title"
             data-i18n-zh="多阶段强化学习训练"
-            data-i18n-en="Multi-stage reinforcement learning training">多阶段强化学习训练</h3>
+            data-i18n-en="Multi-Stage Reinforcement Learning Training">多阶段强化学习训练</h3>
 
         <p data-i18n="training.p1"
            data-i18n-zh="P1 团队通过高质量的提取和标注流程，构建了包含数千条奥赛级别题目的训练数据集。每条数据均具有完整的上下文信息、可验证答案以及标准解题过程，用于强化学习训练。"
@@ -949,34 +968,34 @@
                 <div class="chart-iframe-wrapper">
                     <iframe class="chart-iframe" src="source_html_new/30b_length_final.html" title="P1-30B Response Length Training Curve" loading="lazy"></iframe>
                 </div>
-            <div class="chart-caption" data-i18n="img.30b.len" data-i18n-zh="P1-30B 响应长度训练曲线" data-i18n-en="P1-30B Response Length Training Curve">P1-30B 响应长度训练曲线</div>
+            <div class="chart-caption" data-i18n="img.30b.len" data-i18n-zh="P1-30B 响应长度训练曲线" data-i18n-en="P1-30B Response Length Training Curve">P1-30B 生成长度训练曲线</div>
             </div>
 
             <div class="interactive-chart-container">
                 <div class="chart-iframe-wrapper">
                     <iframe class="chart-iframe" src="source_html_new/30b_ipho25_final.html" title="P1-30B IPhO 2025 Score Training Curve" loading="lazy"></iframe>
                 </div>
-            <div class="chart-caption" data-i18n="img.30b.ipho" data-i18n-zh="P1-30B IPhO 2025 分数训练曲线" data-i18n-en="P1-30B IPhO 2025 Score Training Curve">P1-30B IPhO 2025 分数训练曲线</div>
+            <div class="chart-caption" data-i18n="img.30b.ipho" data-i18n-zh="P1-30B IPhO 2025 分数训练曲线" data-i18n-en="P1-30B IPhO 2025 Score Training Curve">P1-30B IPhO 2025 分数曲线</div>
             </div>
 
             <div class="interactive-chart-container">
                 <div class="chart-iframe-wrapper">
                     <iframe class="chart-iframe" src="source_html_new/235b_length_final.html" title="P1-235B Response Length Training Curve" loading="lazy"></iframe>
                 </div>
-            <div class="chart-caption" data-i18n="img.235b.len" data-i18n-zh="P1-235B 响应长度训练曲线" data-i18n-en="P1-235B Response Length Training Curve">P1-235B 响应长度训练曲线</div>
+            <div class="chart-caption" data-i18n="img.235b.len" data-i18n-zh="P1-235B 响应长度训练曲线" data-i18n-en="P1-235B Response Length Training Curve">P1-235B 生成长度训练曲线</div>
             </div>
 
             <div class="interactive-chart-container">
                 <div class="chart-iframe-wrapper">
                     <iframe class="chart-iframe" src="source_html_new/235b_ipho25_final.html" title="P1-235B IPhO 2025 Score Training Curve" loading="lazy"></iframe>
                 </div>
-            <div class="chart-caption" data-i18n="img.235b.ipho" data-i18n-zh="P1-235B IPhO 2025 分数训练曲线" data-i18n-en="P1-235B IPhO 2025 Score Training Curve">P1-235B IPhO 2025 分数训练曲线</div>
+            <div class="chart-caption" data-i18n="img.235b.ipho" data-i18n-zh="P1-235B IPhO 2025 分数训练曲线" data-i18n-en="P1-235B IPhO 2025 Score Training Curve">P1-235B IPhO 2025 分数曲线</div>
             </div>
         </div>
 
         <h3 data-i18n="section.pm.title"
             data-i18n-zh="协同进化的多智能体系统：PhysicsMinions"
-            data-i18n-en="Co-evolution multi-agent system: PhysicsMinions">协同进化的多智能体系统：PhysicsMinions</h3>
+            data-i18n-en="Co-Evolution Multi-Agent System: PhysicsMinions">协同进化的多智能体系统：PhysicsMinions</h3>
 
         <p data-i18n="pm.p1"
            data-i18n-zh="为了突破单模型的极限，研究团队开发了 <strong>PhysicsMinions</strong>，这是一个专为物理推理设计的<strong>协同进化多智能体系统</strong>。它由三个交互式模块组成，通过自我验证与反思迭代，实现了物理推理能力的跃升："
@@ -999,8 +1018,17 @@
            data-i18n-en="If any stage fails verification, a detailed error report is sent back to the logic module for reflective revision. Through this <strong>co-evolutionary collaboration</strong>, PhysicsMinions continually improves reasoning quality and robustness on complex physics problems."></p>
 
         <p data-i18n="pm.more"
-           data-i18n-zh="更多细节请参见论文：<a href=&quot;https://arxiv.org/abs/2509.24855&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>https://arxiv.org/abs/2509.24855</a>"
-           data-i18n-en="For more details, see the paper: <a href=&quot;https://arxiv.org/abs/2509.24855&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;>https://arxiv.org/abs/2509.24855</a>"></p>
+           data-i18n-zh="更多细节请参见论文："
+           data-i18n-en="For more details, see the paper:"></p>
+
+        <div class="external-links">
+            <a href="https://arxiv.org/abs/2509.24855" class="btn-external" target="_blank" rel="noopener noreferrer">
+                <span data-i18n="links.pm.paper" data-i18n-zh="论文" data-i18n-en="Paper">论文</span>
+                <svg class="external-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+            </a>
+        </div>
 
         <div class="article-image-container" onclick="openLightbox(this)">
             <img class="article-image" src="imgs/image 2.png" alt="PhysicsMinions系统架构">
@@ -1010,12 +1038,12 @@
         </div>
 
         <h2 data-i18n="section.results.title"
-            data-i18n-zh="评测结果：引领 HiPhO 基准，物理推理能力世界第一"
-            data-i18n-en="Results: Leading HiPhO benchmark with world-best physics reasoning">评测结果：引领 HiPhO 基准，物理推理能力世界第一</h2>
+            data-i18n-zh="评测结果"
+            data-i18n-en="Results">评测结果</h2>
 
         <h3 data-i18n="results.p1.title"
             data-i18n-zh="P1 模型展现顶级物理推理能力"
-            data-i18n-en="P1 models demonstrate top-tier physics reasoning">P1 模型展现顶级物理推理能力</h3>
+            data-i18n-en="P1 Models Demonstrate Top-Tier Physics Reasoning">P1 模型展现顶级物理推理能力</h3>
 
         <p data-i18n="results.p1.desc"
            data-i18n-zh="下表总结了在 HiPhO 基准上所有竞赛的平均表现，展示出 P1 模型和多智能体系统的出色性能。"
@@ -1061,17 +1089,17 @@
 
         <h3 data-i18n="section.general.title"
             data-i18n-zh="通专融合，P1模型通用能力持续提升"
-            data-i18n-en="General and specialized: P1 continues to improve general capabilities">通专融合，P1模型通用能力持续提升</h3>
+            data-i18n-en="Generalized Specialists: P1 Continues to Improve General Capabilities">通专融合，P1模型通用能力持续提升</h3>
 
         <p data-i18n="general.p1"
            data-i18n-zh="除了强大的物理推理能力，P1模型在多个领域的能力也得到进一步提升。如下图所示，P1-30B-A3B相比于其基座模型Qwen3-30B-A3B-Thinking-2507，在数学、代码、STEM等基准测试上均取得显著优势，证明了物理推理能力的强大泛化性。"
            data-i18n-en="Beyond physics reasoning, P1 improves across multiple domains. As shown below, P1-30B-A3B outperforms its base model Qwen3-30B-A3B-Thinking-2507 on math, coding, and STEM benchmarks, demonstrating strong generalization of physics reasoning."></p>
-
+        
         <div class="interactive-chart-container">
-            <div class="chart-iframe-wrapper" style="padding-bottom: 50%;">
+            <div class="chart-iframe-wrapper" style="max-width:1000px; margin: 0 auto; padding-bottom: 35%;">
                 <iframe class="chart-iframe" src="source_html/general_30b.html" title="P1-30B vs Qwen3-30B Performance Comparison" loading="lazy"></iframe>
             </div>
-            <div class="chart-caption" data-i18n="img.general.caption" data-i18n-zh="P1-30B 通用能力对比" data-i18n-en="P1-30B general capability comparison">P1-30B 通用能力对比</div>
+            <div class="chart-caption" style="font-size: 18px; font-weight: 600;" data-i18n="img.general.caption" data-i18n-zh="P1-30B 通用能力对比" data-i18n-en="P1-30B general capability comparison">P1-30B 通用能力对比</div>
         </div>
 
         <p data-i18n="general.p2"
@@ -1079,10 +1107,10 @@
            data-i18n-en="Similarly, P1-235B-A22B demonstrates excellent general capabilities across various benchmarks. As shown below, P1-235B-A22B achieves better performance than its base model Qwen3-235B-A22B-Thinking-2507 on multiple tasks, further validating the strong generalization of P1 series models."></p>
 
         <div class="interactive-chart-container">
-            <div class="chart-iframe-wrapper" style="padding-bottom: 50%;">
+            <div class="chart-iframe-wrapper" style="max-width:1000px; margin: 0 auto; padding-bottom: 35%;">
                 <iframe class="chart-iframe" src="source_html/general_235b.html" title="P1-235B vs Qwen3-235B Performance Comparison" loading="lazy"></iframe>
             </div>
-            <div class="chart-caption" data-i18n="img.general235b.caption" data-i18n-zh="P1-235B 通用能力对比" data-i18n-en="P1-235B general capability comparison">P1-235B 通用能力对比</div>
+            <div class="chart-caption" style="font-size: 18px; font-weight: 600;" data-i18n="img.general235b.caption" data-i18n-zh="P1-235B 通用能力对比" data-i18n-en="P1-235B general capability comparison">P1-235B 通用能力对比</div>
         </div>
     </main>
 
