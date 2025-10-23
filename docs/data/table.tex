@@ -1,0 +1,39 @@
+\begin{table}[H]
+    \centering
+    \caption{Evaluation results on the HiPhO benchmark (13 physics Olympiads from 2024--2025) using the \textit{exam score} metric. \medalbox{Gold!50}{Gold}, \medalbox{Silver!70}{Silver} and \medalbox{Bronze!40}{Bronze} indicate scores above the respective thresholds. Models are ranked by medal counts; \textbf{bold} is the highest score, and \underline{underline} is the second highest. Here, only the theoretical parts of exams are used, hence Full Mark (Model) $\leq$ Full Mark (Human).}
+    \label{tab:hipho_all}
+    \small
+    \resizebox{\textwidth}{!}{%
+    \setlength{\tabcolsep}{2.3pt}
+    % \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{lccccccccccccc|c|ccc}
+    \toprule
+    \textbf{Physics Olympiad} & \multicolumn{2}{c}{\textbf{IPhO}} & \textbf{APhO} & \multicolumn{2}{c}{\textbf{EuPhO}} & \multicolumn{2}{c}{\textbf{NBPhO}} & \multicolumn{6}{c|}{\textbf{PanPhO}~~
+    \textbf{\footnotesize PanMechanics} ~~ \textbf{F=MA}} & \textbf{Avg.} & \multicolumn{3}{c}{\textbf{Medal}} \\
+    \textbf{Year} &2025&2024&2025&2025&2024&2025&2024&2025&2024&2025&2024&2025&2024& & \multicolumn{3}{c}{\textbf{Table}} \\ \midrule
+    Full Mark (Human) & 30.0 & 30.0 & 30.0 & 30.0 & 30.0 & 72.0 & 72.0 & 100.0 & 100.0 & 100.0 & 100.0 & 25.0 & 25.0 & 57.2 \\
+    Full Mark (Model) & 29.4 & 29.3 & 30.0 & 29.0 & 28.0 & 43.5 & 50.0 & 100.0 & 98.0 & 100.0 & 100.0 & 25.0 & 25.0 & 52.9 \\
+    Top-1 Score (Human) & 29.2 & 29.4 & 30.0 & 27.0 & 30.0 & 53.2 & 40.8 & 81.0 & 66.5 & 62.0 & 51.0 & 25.0 & 24.0 & 42.2 \\
+    Top-1 Score (Compared Models) & 22.7 & 25.9 & 27.9 & 14.9 & 23.4 & 34.1 & 35.9 & 60.3 & 75.4 & 72.1 & 79.0 & 22.8 & 22.4 & 39.8 \\
+    \rowcolor{Gold!40}
+    Gold Medal   & 19.7 & 20.8 & 23.3 & 16.5 & 20.4 & 28.6 & 26.5 & 41.5 & 52.0 & 52.0 & 51.0 & 15.0 & 14.0 & \cellcolor{white}29.3 & \multicolumn{3}{>{\cellcolor{white}}l}{\textcolor{Gold}{\faMedal}}  \\
+    \rowcolor{Silver!60}
+    Silver Medal & 12.1 & 11.1 & 18.7 & 9.8 & 14.2 & 20.1 & 19.4 & 28.5 & 37.5 & 36.0 & 26.0 & 11.0 & 12.0 & \cellcolor{white}19.7 & \multicolumn{3}{>{\cellcolor{white}}c}{\textcolor{Silver}{\faMedal}}  \\
+    \rowcolor{Bronze!40}
+    Bronze Medal & 7.2  & 3.6  & 13.1 & 5.8  & 8.9  & 15.2  & 13.5  & 14.5 & 16.0 & 20.0 & 12.0 & 9.0 & 10.0 & \cellcolor{white}11.4 & \multicolumn{3}{>{\cellcolor{white}}r}{\textcolor{Bronze}{\faMedal}}  \\ \midrule
+    %
+    \textcolor[HTML]{6c25be}{\textbf{\large P1-235B-A22B + PhysicsMinions}} &\cellcolor{Gold!35}\textbf{23.2}&\cellcolor{Gold!35}\underline{25.2}&\cellcolor{Gold!35}\textbf{28.0}&\cellcolor{Silver!60}12.4&\cellcolor{Gold!35}\textbf{23.5}&\cellcolor{Gold!35}31.9&\cellcolor{Gold!35}\underline{35.4}&\cellcolor{Gold!35}\underline{57.7}&\cellcolor{Gold!35}67.0&\cellcolor{Gold!35}\textbf{77.5}&\cellcolor{Gold!35}74.8&\cellcolor{Gold!35}21.5&\cellcolor{Gold!35}20.5&\textbf{38.4}& ~\mc{Gold}{12} & \mc{Silver}{1} & \mc{Bronze}{0}\\
+    %
+    \textcolor[HTML]{6c25be}{\textbf{\large P1-235B-A22B}} &\cellcolor{Gold!35}21.2&\cellcolor{Gold!35}24.7&\cellcolor{Gold!35}27.4&\cellcolor{Silver!60}10.8&\cellcolor{Gold!35}23.0&\cellcolor{Gold!35}31.8&\cellcolor{Gold!35}28.4&\cellcolor{Gold!35}54.7&\cellcolor{Gold!35}56.7&\cellcolor{Gold!35}\underline{74.7}&\cellcolor{Gold!35}72.9&\cellcolor{Gold!35}20.9&\cellcolor{Gold!35}19.4&35.9& ~\mc{Gold}{12} & \mc{Silver}{1} & \mc{Bronze}{0}\\
+    %
+    Qwen3-235B-A22B-Thinking-2507 &\cellcolor{Silver!60}17.1&\cellcolor{Gold!35}23.0&\cellcolor{Gold!35}26.2&\cellcolor{Silver!60}10.9&\cellcolor{Gold!35}20.4&\cellcolor{Gold!35}\underline{33.6}&\cellcolor{Gold!35}28.1&\cellcolor{Gold!35}44.7&\cellcolor{Silver!60}51.8&\cellcolor{Gold!35}69.1&\cellcolor{Gold!35}72.9&\cellcolor{Gold!35}18.5&\cellcolor{Gold!35}18.9&33.5& ~\mc{Gold}{10} & \mc{Silver}{3} & \mc{Bronze}{0}\\
+    %
+    \textcolor[HTML]{6c25be}{\textbf{\large P1-30B-A3B}} &\cellcolor{Silver!60}18.5&\cellcolor{Gold!35}22.3&\cellcolor{Gold!35}25.4&\cellcolor{Bronze!40}7.4&\cellcolor{Silver!60}18.8&\cellcolor{Gold!35}29.2&\cellcolor{Silver!60}24.0&\cellcolor{Gold!35}47.0&\cellcolor{Silver!60}51.4&\cellcolor{Gold!35}69.5&\cellcolor{Gold!35}69.1&\cellcolor{Gold!35}19.6&\cellcolor{Gold!35}20.0&32.5& ~\mc{Gold}{8} & \mc{Silver}{4} & \mc{Bronze}{1}\\
+    %
+    Qwen3-30B-A3B-Thinking-2507 &\cellcolor{Silver!60}15.6&\cellcolor{Silver!60}19.7&\cellcolor{Gold!35}23.5&\cellcolor{Bronze!40}7.4&\cellcolor{Silver!60}16.4&\cellcolor{Gold!35}28.6&\cellcolor{Silver!60}22.2&\cellcolor{Silver!60}40.5&\cellcolor{Silver!60}43.8&\cellcolor{Gold!35}67.7&\cellcolor{Gold!35}66.5&\cellcolor{Gold!35}18.3&\cellcolor{Gold!35}18.0&29.9& ~\mc{Gold}{6} & \mc{Silver}{6} & \mc{Bronze}{1}\\
+    %
+    \bottomrule
+    \end{tabular}%
+    }
+    \vspace{-4mm}
+    \end{table}

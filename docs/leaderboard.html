@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PhyArena — HiPhO Leaderboard</title>
+  <style>
+    :root{
+      /* Dark theme to match docs/index.html */
+      --bg:#0a0a0a; --card:#1a1a1a; --ink:#ffffff; --muted:#a1a1aa; --line:#3f3f46;
+      --gold:#ffd23f; --gold-weak:rgba(255,210,63,.28); --silver:#bfc9d2; --silver-weak:rgba(191,201,210,.28); --bronze:#e28e54; --bronze-weak:rgba(226,142,84,.28);
+      --chip:#111214; --chip-border:#2b2b33; --accent:#60a5fa; --shadow:0 8px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";overflow:hidden}
+    a{color:var(--accent);text-decoration:none}
+    .wrap{max-width:1280px;margin:0 auto;padding:24px;height:100%;display:flex;flex-direction:column}
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    /* Controls */
+    .controls{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px;align-items:center}
+    .controls label{font-size:12px;color:var(--muted)}
+    .controls select,.controls input[type="text"]{padding:7px 11px;border:1px solid var(--line);border-radius:10px;background:#111214;color:var(--ink);min-width:150px}
+    .controls input[type="text"]::placeholder{color:var(--muted)}
+    .pillgroup{display:flex;gap:6px;flex-wrap:wrap}
+    .pill{border:1px solid var(--line);padding:6px 12px;border-radius:999px;background:var(--card);color:var(--ink);cursor:pointer;font-size:12px}
+    .pill.active{background:rgba(96,165,250,.15);border-color:#60a5fa;color:#93c5fd}
+
+    /* Legend */
+    .legend{display:flex;gap:12px;align-items:center;margin:6px 0 8px}
+    .legend .chip{font-size:12px}
+
+    /* Table */
+    .table-wrap {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-x: auto;
+      overflow-y: auto;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    table {
+      border-collapse: separate;
+      border-spacing: 0;
+      width: max-content;
+      background: var(--card);
+      font-size: 12px;
+    }
+    th,td{padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+    thead th{position:sticky;top:0;background:var(--card);z-index:3;font-weight:700;border-bottom:1px solid var(--line)}
+    thead tr.metahead th{font-weight:600}
+    /* Ensure opaque backgrounds for sticky header meta rows to prevent bleed-through */
+    thead tr.metahead th{background:var(--card)}
+    thead tr.metahead th.med-gold{background-color:#4a3f00}
+    thead tr.metahead th.med-silver{background-color:#3b4046}
+    thead tr.metahead th.med-bronze{background-color:#4a2f1a}
+    tbody tr:hover td:not(.med-gold):not(.med-silver):not(.med-bronze) { background: rgba(255,255,255,.03); }
+    th:first-child, td:first-child{position:sticky;left:0;background:var(--card);z-index:2}
+    thead th:first-child{z-index:4}
+
+    /* model chips */
+    .chip{display:inline-block;border:1px solid var(--chip-border);border-radius:10px;padding:2px 8px;background:var(--chip);color:var(--ink)}
+    .cat-blue{background:rgba(14,165,233,.15);border-color:#38bdf8;color:#93c5fd}
+    .cat-green{background:rgba(52,211,153,.15);border-color:#34d399;color:#86efac}
+    .cat-purple{background:rgba(168,85,247,.15);border-color:#c084fc;color:#d8b4fe}
+    .cat-yellow{background:rgba(251,191,36,.15);border-color:#fbbf24;color:#fde68a}
+
+    /* Medal cells — solid fill */
+    .med-gold{ background-color: var(--gold-weak); }
+    .med-silver{ background-color: var(--silver-weak); }
+    .med-bronze{ background-color: var(--bronze-weak); }
+
+    .th-sort{cursor:pointer;user-select:none}
+    .th-sort .arrow{opacity:.35;margin-left:6px}
+    .th-sort.asc .arrow{opacity:1;transform:rotate(180deg)}
+    .th-sort.desc .arrow{opacity:1}
+
+    .muted{color:var(--muted)}
+    .right{text-align:right}
+    .center{text-align:center}
+    .left{text-align:left}
+
+    .th-inner { display: flex; flex-direction: column; justify-content: center; align-items: center; line-height: 1.2; }
+
+    .section-title{text-align:center;font-size:24px;margin:6px 0 14px;color:var(--ink)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h2 class="section-title">HiPhO Leaderboard</h2>
+
+    <section id="panel-hipho" class="card">
+      <h3>
+        <a href="https://arxiv.org/pdf/2509.07894" style="color: inherit; text-decoration: none;">
+          HiPhO (High School Physics Olympiad Benchmark)
+        </a>
+      </h3>
+
+      <div class="controls">
+        <div>
+          <label for="yearSel">Year</label><br>
+          <select id="yearSel">
+            <option value="all">All (2024 + 2025)</option>
+            <option value="2025">Only 2025</option>
+            <option value="2024">Only 2024</option>
+          </select>
+        </div>
+        <div>
+          <label>Competitions</label><br>
+          <div class="pillgroup" id="compPills"></div>
+        </div>
+        <div>
+          <label>Category</label><br>
+          <div class="pillgroup" id="catPills"></div>
+        </div>
+        <div>
+          <label for="modelSearch">Model</label><br>
+          <input id="modelSearch" type="text" placeholder="Filter model…" />
+        </div>
+        <div class="muted">Metric: <b>exam score</b>. Tip: click any column header to sort.</div>
+      </div>
+
+      <div class="legend">
+        <span>Legend:</span>
+        <span class="chip cat-blue">Closed-source MLLM</span>
+        <span class="chip cat-green">Open-source MLLM</span>
+        <span class="chip cat-purple">Open-source LLM</span>
+      </div>
+
+      <div class="table-wrap" id="tableWrap">
+        <table id="tbl">
+          <thead id="thead"></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="muted" style="margin-top:8px; line-height:1.6"> 
+        1. Cells are color-coded based on official medal thresholds. Models are ranked by Gold ↓, then Silver ↓, then Bronze ↓, with ties broken by IPhO 2025 score ↓.<br>
+        2. Medal cutoffs are derived from the theoretical exam scores of human medalists.<br>
+        3. Only the theoretical components of each exam are evaluated; experimental and diagram-drawing problems are excluded, so Full Mark (Model) ≤ Full Mark (Human).<br>
+        4. Each model was run 8 times. Problem scores were averaged and summed to compute the final exam score.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const HIPHO_CANONICAL_COLS = [
+      {n:'IPhO',y:2025},{n:'IPhO',y:2024},
+      {n:'APhO',y:2025},
+      {n:'EuPhO',y:2025},{n:'EuPhO',y:2024},
+      {n:'NBPhO',y:2025},{n:'NBPhO',y:2024},
+      {n:'PanPhO',y:2025},{n:'PanPhO',y:2024},
+      {n:'PanMechanics',y:2025},{n:'PanMechanics',y:2024},
+      {n:'F=MA',y:2025},{n:'F=MA',y:2024}
+    ];
+    const HIPHO_CAT_LABELS = ['closed-source MLLM','open-source MLLM','open-source LLM'];
+
+    let hiphoData = [];
+    let hiphoCategories = {};
+    let hiphoCtx = {};
+    let hiphoModels = [];
+
+    const yearSel = () => document.getElementById('yearSel').value;
+    const selectedComps = new Set();
+    const selectedHiphoCats = new Set(HIPHO_CAT_LABELS);
+
+    let hiphoSortKey = null;
+    let hiphoSortDir = 'desc';
+
+    function hiphoColKey(n,y){ return `${n}-${y}`; }
+
+    async function loadHiphoData(){
+      const res = await fetch('data/hipho.json',{cache:'no-store'});
+      const json = await res.json();
+      hiphoData = json.olympiads || [];
+      hiphoCategories = json.model_categories || {};
+
+      const modelSet = new Set(Object.keys(hiphoCategories));
+      hiphoCtx = {};
+      for(const o of hiphoData){
+        const key = hiphoColKey(o.name,o.year);
+        const map = new Map();
+        for(const m of o.models){ map.set(m.name, m.score); modelSet.add(m.name); }
+        hiphoCtx[key] = {
+          thr:o.thresholds,
+          scores:map,
+          meta:{
+            full_human: o.full_mark_human ?? o.full_mark?.human ?? null,
+            full_model: o.full_mark_model ?? o.full_mark?.model ?? null,
+            top1_human: o.top1_human ?? o.top1?.human ?? null,
+            top1_model: o.top1_model ?? o.top1?.model ?? null
+          }
+        };
+      }
+      hiphoModels = Array.from(modelSet);
+    }
+
+    function hiphoHumanCols(){
+      const y = yearSel();
+      return HIPHO_CANONICAL_COLS.filter(c => (y==='all' || String(c.y)===y) && (selectedComps.size===0 || selectedComps.has(c.n)));
+    }
+
+    function hiphoComputeMedals(model){
+      let g=0,s=0,b=0; const cols = hiphoHumanCols();
+      for(const c of cols){
+        const key = hiphoColKey(c.n,c.y), box = hiphoCtx[key]; if(!box) continue;
+        const sc = box.scores.get(model);
+        if(sc==null) continue;
+        const {gold, silver, bronze} = box.thr;
+        if(sc >= gold) g++; else if(sc >= silver) s++; else if(sc >= bronze) b++;
+      }
+      return {g,s,b};
+    }
+
+    function catClassHipho(name){
+      const c = hiphoCategories[name];
+      if(c==='closed-source MLLM') return 'cat-blue';
+      if(c==='open-source MLLM') return 'cat-green';
+      if(c==='open-source LLM') return 'cat-purple';
+      return '';
+    }
+
+    function buildCompPills(){
+      const holder = document.getElementById('compPills');
+      const comps = Array.from(new Set(HIPHO_CANONICAL_COLS.map(c=>c.n)));
+      holder.innerHTML = '';
+      for(const n of comps){
+        const el = document.createElement('button');
+        el.className = 'pill active';
+        el.textContent = n;
+        selectedComps.add(n);
+        el.addEventListener('click', ()=>{
+          if(selectedComps.has(n)){ selectedComps.delete(n); el.classList.remove('active'); }
+          else { selectedComps.add(n); el.classList.add('active'); }
+          hiphoRender();
+        });
+        holder.appendChild(el);
+      }
+    }
+
+    function buildCatPills(){
+      const holder = document.getElementById('catPills');
+      holder.innerHTML = '';
+      for(const label of HIPHO_CAT_LABELS){
+        const el = document.createElement('button');
+        el.className = 'pill active';
+        el.textContent = label;
+        el.addEventListener('click', ()=>{
+          if(selectedHiphoCats.has(label)){ selectedHiphoCats.delete(label); el.classList.remove('active'); }
+          else { selectedHiphoCats.add(label); el.classList.add('active'); }
+          hiphoRender();
+        });
+        holder.appendChild(el);
+      }
+    }
+
+    function hiphoAttachSortHandlers(){
+      document.getElementById('thead').addEventListener('click',(e)=>{
+        const th = e.target.closest('th.th-sort'); if(!th) return;
+        const key = th.dataset.key;
+        if(hiphoSortKey === key){ hiphoSortDir = (hiphoSortDir==='desc'?'asc':'desc'); }
+        else { hiphoSortKey = key; hiphoSortDir = (key==='model'?'asc':'desc'); }
+        hiphoRender();
+      });
+    }
+
+    function hiphoDefaultComparator(a,b){
+      if(b.g!==a.g) return b.g-a.g;
+      if(b.s!==a.s) return b.s-a.s;
+      if(b.b!==a.b) return b.b-a.b;
+      const ka = a.scores[hiphoColKey('IPhO',2025)] ?? -Infinity;
+      const kb = b.scores[hiphoColKey('IPhO',2025)] ?? -Infinity;
+      if(kb!==ka) return kb-ka;
+      return a.model.localeCompare(b.model);
+    }
+
+    function hiphoValueComparator(a,b,key){
+      const va = key==='gold'?a.g:key==='silver'?a.s:key==='bronze'?a.b:key==='model'?a.model:b.scores[key];
+      const vb = key==='gold'?b.g:key==='silver'?b.s:key==='bronze'?b.b:key==='model'?b.model:a.scores[key];
+      if(key==='model') return hiphoSortDir==='asc'?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va));
+      const A = (typeof va==='number')?va:-Infinity;
+      const B = (typeof vb==='number')?vb:-Infinity;
+      return (hiphoSortDir==='asc'?(A-B):(B-A));
+    }
+
+    function hiphoHeader(cols){
+      const make = (label, key, align='center') =>
+        `<th class="th-sort ${hiphoSortKey === key ? hiphoSortDir : ''} ${align==='left'?'left':'center'}" data-key="${key}">
+          <div class="th-inner">${label}<span class="arrow">▾</span></div>
+        </th>`;
+
+      let html = '<tr>'
+        + `<th class="th-sort ${hiphoSortKey==='model'?hiphoSortDir:''} left sticky-left" data-key="model">
+            <div class="th-inner">Model<span class="arrow">▾</span></div>
+          </th>`
+        + make('🥇','gold') + make('🥈','silver') + make('🥉','bronze');
+      for (const c of cols){
+        html += make(`${c.n}<br>${c.y}`, hiphoColKey(c.n,c.y));
+      }
+      html += '</tr>';
+
+      const rows = [
+        {key:'full_human', name:'Full Mark (Human)', cls:''},
+        {key:'full_model', name:'Full Mark (Model)', cls:''},
+        {key:'gold',   name:'🥇 Gold Cutoff',   cls:'med-gold',   type:'thr'},
+        {key:'silver', name:'🥈 Silver Cutoff', cls:'med-silver', type:'thr'},
+        {key:'bronze', name:'🥉 Bronze Cutoff', cls:'med-bronze', type:'thr'}
+      ];
+
+      for (const r of rows){
+        html += `<tr class="metahead">
+                  <th class="left sticky-left">${r.name}</th>
+                  <th class="center">—</th><th class="center">—</th><th class="center">—</th>`;
+        for (const c of cols){
+          const box = hiphoCtx[hiphoColKey(c.n,c.y)];
+          const val = r.type==='thr' ? box?.thr?.[r.key] : box?.meta?.[r.key];
+          html += `<th class="center ${r.cls}">${val==null?'—':Number(val).toFixed(1)}</th>`;
+        }
+        html += `</tr>`;
+      }
+
+      document.getElementById('thead').innerHTML = html;
+    }
+
+    function stackStickyHeaderById(theadId){
+      const thead = document.getElementById(theadId);
+      const rows = Array.from(thead.querySelectorAll('tr'));
+      let top = 0;
+      for(const r of rows){
+        const h = r.getBoundingClientRect().height || r.offsetHeight || 32;
+        for(const th of r.children){
+          th.style.position = 'sticky';
+          th.style.top = top + 'px';
+          th.style.zIndex = 50;
+        }
+        const first = r.children[0];
+        if(first){ first.style.zIndex = 60; }
+        top += h;
+      }
+    }
+
+    function hiphoModelRows(cols){
+      const q = document.getElementById('modelSearch').value.trim().toLowerCase();
+      const data = [];
+      for(const m of hiphoModels){
+        if(q && !m.toLowerCase().includes(q)) continue;
+        const cat = hiphoCategories[m];
+        if(selectedHiphoCats.size>0 && !selectedHiphoCats.has(cat)) continue;
+        const {g,s,b} = hiphoComputeMedals(m);
+        const record = {model:m,g,s,b,scores:{}};
+        for(const c of cols){
+          const key = hiphoColKey(c.n,c.y); const box = hiphoCtx[key];
+          record.scores[key] = box?.scores.get(m);
+        }
+        data.push(record);
+      }
+      if(!hiphoSortKey) data.sort(hiphoDefaultComparator);
+      else data.sort((a,b)=>hiphoValueComparator(a,b,hiphoSortKey));
+
+      const tb = [];
+      for(const r of data){
+        let tr = `<tr><td class="left"><span class="chip ${catClassHipho(r.model)}">${r.model}</span></td>`+
+                `<td class="center">${r.g}</td><td class="center">${r.s}</td><td class="center">${r.b}</td>`;
+        for(const c of cols){
+          const key = hiphoColKey(c.n,c.y); const box = hiphoCtx[key]; const val = r.scores[key];
+          const cls = (val==null)?'':(val>=box.thr.gold?'med-gold':val>=box.thr.silver?'med-silver':val>=box.thr.bronze?'med-bronze':'');
+          tr += `<td class="center ${cls}">${val==null?'—':val.toFixed(1)}</td>`;
+        }
+        tr += '</tr>';
+        tb.push(tr);
+      }
+      return tb.join('');
+    }
+
+    function hiphoRender(){
+      const cols = hiphoHumanCols();
+      hiphoHeader(cols);
+      document.getElementById('tbody').innerHTML = hiphoModelRows(cols);
+      stackStickyHeaderById('thead');
+    }
+
+    function hiphoAttachFilters(){
+      document.getElementById('yearSel').addEventListener('change', hiphoRender);
+      document.getElementById('modelSearch').addEventListener('input', hiphoRender);
+    }
+
+    (async function init(){
+      await loadHiphoData();
+      buildCompPills();
+      buildCatPills();
+      hiphoAttachFilters();
+      hiphoAttachSortHandlers();
+      hiphoRender();
+    })();
+  </script>
+</body>
+</html>
+
+
