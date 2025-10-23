@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>P1</title>
-    <meta name="description" content="P1">
+    <title>P1: Mastering Physics Olympiads with Reinforcement Learning</title>
+    <meta name="description" content="P1: Mastering Physics Olympiads with Reinforcement Learning">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -821,8 +821,8 @@
     <!-- Navigation -->
     <nav class="nav-bar">
         <div class="lang-switcher" role="group" aria-label="Language Switcher">
-            <button id="btn-zh" data-lang="zh" class="active" aria-pressed="true">中文</button>
-            <button id="btn-en" data-lang="en" aria-pressed="false">English</button>
+            <button id="btn-zh" data-lang="zh" aria-pressed="false">中文</button>
+            <button id="btn-en" data-lang="en" class="active" aria-pressed="true">English</button>
         </div>
         <div class="toc" aria-haspopup="true">
             <button class="toc-trigger" id="tocTrigger" aria-expanded="false" data-i18n="toc.trigger" data-i18n-zh="目录" data-i18n-en="Contents">目录</button>
@@ -1131,7 +1131,7 @@
         // --- Simple i18n ---
         (function() {
             const STORAGE_KEY = 'site_lang';
-            const DEFAULT_LANG = 'zh';
+            const DEFAULT_LANG = 'en';
 
             function getStoredLang() {
                 try { return localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG; } catch { return DEFAULT_LANG; }
