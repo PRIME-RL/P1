@@ -27,7 +27,9 @@ The real mechanism developed by Cox is complex (Fig. 5). We study a simplified v
 
 The height, cross-section and masses of each part are given in Table 2. The position of mass $M$ is referenced by the coordinate $x$ of its center of mass. We consider solid friction between the horizontal support and the mass $M$, without distinction between static and dynamic coefficients; the magnitude of this force when sliding occurs is denoted $F_{\mathrm{s}}$. 
 
-Two stops limit the displacement of the mass $M$ such that $-X \leq  x \leq X$ (with $X > 0$). Assume that the value of $X$ guarantees that the bottom of the two-part tube never touches the bottom of the cistern nor comes out of the liquid bath; and the altitude $z_{\ell}$ of the mercury column is always in the upper bulb. 
+Two stops limit the displacement of the mass $M$ such that $-X \leq  x \leq X$ (with $X > 0$). Assume that the value of $X$ guarantees that
+- the bottom of the two-part tube never touches the bottom of the cistern nor comes out of the liquid bath;
+- the altitude $z_{\ell}$ of the mercury column is always in the upper bulb. 
 
 ![figure5](IPhO_2025_2_c_1.png)
 Fig. 5. Real Cox's timepiece (without mercury) 
@@ -66,7 +68,7 @@ $$
 
 In the real Cox's timepiece, energy provided by the mechanism is stored using a system of ratchets and used to raise a counterweight, like in a traditional clock. In the simplified model studied here, the energy recovered by the clock corresponds to the energy dissipated by the friction force exerted by the horizontal surface on the mass $M$. From now on, we assume that the system is dimensioned such that to work in the regime that allows the clock to recuperate energy. We also assume that the permanent regime is established. We denote $W$ the energy dissipated by the solid friction force during a period $\tau_{1}$, which can be expressed only in terms of $F_{\mathrm{s}}$ and $X$. 
 
-All else equal, $F_{\mathrm{s}}$ and $X$ can be adjusted to maximize the energy $W$; we denote $F_{\mathrm{s}}^{\star}$ and $X^{\star}$ their respective values in the optimal situation.",
+All else equal, $F_{\mathrm{s}}$ and $X$ can be adjusted to maximize the energy $W$; we denote $F_{\mathrm{s}}^{\star}$ and $X^{\star}$ their respective values in the optimal situation.
         
 
 ### (本题)
