@@ -1316,6 +1316,73 @@
             }
         }
         
+        /* Acknowledgements Section */
+        .acknowledgements-section {
+            margin-top: var(--space-4xl);
+            padding: var(--space-2xl) 0;
+            background: transparent;
+        }
+        
+        .acknowledgements-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .acknowledgements-intro {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+        
+        .acknowledgements-list {
+            list-style: disc;
+            padding-left: var(--space-xl);
+        }
+        
+        .acknowledgements-list li {
+            margin-bottom: var(--space-md);
+            color: var(--text-secondary);
+        }
+        
+        .acknowledgements-list li::marker {
+            color: var(--text-secondary);
+        }
+        
+        .acknowledgements-list strong {
+            font-weight: 700;
+        }
+        
+        .acknowledgements-list strong a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color var(--duration-fast) var(--easing-default);
+        }
+        
+        .acknowledgements-list strong a:hover {
+            color: var(--primary-400);
+            text-decoration: underline;
+        }
+        
+        .acknowledgements-outro {
+            margin-top: var(--space-lg);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 767px) {
+            .acknowledgements-section {
+                padding: var(--space-lg) 0;
+            }
+            
+            .acknowledgements-list li {
+                font-size: 14px;
+            }
+        }
+        
         /* Citation Section */
         .citation-section {
             margin-top: var(--space-4xl);
@@ -2174,12 +2241,77 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
+        </div>
+
+        <!-- Acknowledgements Section -->
+        <div class="acknowledgements-section">
+            <h3 id="acknowledgements" class="acknowledgements-title" 
+                data-i18n="acknowledgements.title"
+                data-i18n-zh="致谢"
+                data-i18n-en="Acknowledgements">致谢</h3>
+            
+            <p class="acknowledgements-intro" 
+               data-i18n="acknowledgements.intro"
+               data-i18n-zh="我们感谢开源社区的宝贵贡献。特别感谢："
+               data-i18n-en="We are grateful to the open-source community for their invaluable contributions. Special thanks to:">
+                我们感谢开源社区的宝贵贡献。特别感谢：
+            </p>
+            
+            <ul class="acknowledgements-list">
+                <li>
+                    <strong><a href="https://huggingface.co/collections/Qwen/qwen3" target="_blank" rel="noopener noreferrer">Qwen3</a></strong>
+                    <span data-i18n="acknowledgements.qwen"
+                          data-i18n-zh=" - 提供了驱动我们研究的基础模型"
+                          data-i18n-en=" - for providing the foundational base models that powered our research">
+                        - 提供了驱动我们研究的基础模型
+                    </span>
+                </li>
+                <li>
+                    <strong><a href="https://github.com/THUDM/slime" target="_blank" rel="noopener noreferrer">slime</a></strong>
+                    <span data-i18n="acknowledgements.slime"
+                          data-i18n-zh=" - 高效的强化学习框架，支撑了我们的训练流程"
+                          data-i18n-en=" - for their innovative work on efficient reinforcement learning framework that powered our training pipeline">
+                        - 高效的强化学习框架，支撑了我们的训练流程
+                    </span>
+                </li>
+                <li>
+                    <strong><a href="https://github.com/volcengine/verl" target="_blank" rel="noopener noreferrer">verl</a></strong>
+                    <span data-i18n="acknowledgements.verl"
+                          data-i18n-zh=" - 多功能的强化学习框架，支持了我们的训练管线"
+                          data-i18n-en=" - for the versatile reinforcement learning framework that enabled our training pipeline">
+                        - 多功能的强化学习框架，支持了我们的训练过程
+                    </span>
+                </li>
+                <li>
+                    <strong><a href="https://github.com/sgl-project/sglang" target="_blank" rel="noopener noreferrer">sglang</a></strong>
+                    <span data-i18n="acknowledgements.sglang"
+                          data-i18n-zh=" - 高效的大语言模型服务和推理基础设施"
+                          data-i18n-en=" - for the efficient LLM serving and inference infrastructure">
+                        - 高效的大语言模型服务和推理基础设施
+                    </span>
+                </li>
+                <li>
+                    <strong><a href="https://github.com/NVIDIA/Megatron-LM" target="_blank" rel="noopener noreferrer">Megatron-LM</a></strong>
+                    <span data-i18n="acknowledgements.megatron"
+                          data-i18n-zh=" - 大规模模型训练框架"
+                          data-i18n-en=" - for the large-scale model training framework">
+                        - 大规模模型训练框架
+                    </span>
+                </li>
+            </ul>
+            
+            <p class="acknowledgements-outro" 
+               data-i18n="acknowledgements.outro"
+               data-i18n-zh="我们还要感谢支持 P1 模型开发、相关数据集和视觉资源创作的同事与合作者。"
+               data-i18n-en="We also thank colleagues and collaborators who supported the development of P1 models, the accompanying datasets.">
+                我们还要感谢支持 P1 模型开发、相关数据集的开发工作的同事与合作者。
+            </p>
+        </div>
 
         <!-- Citation Section -->
         <div class="citation-section">
-            <h3 class="citation-title" 
+            <h3 id="citation" class="citation-title" 
                 data-i18n="citation.title"
                 data-i18n-zh="引用"
                 data-i18n-en="Citation">引用</h3>
