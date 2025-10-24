@@ -14,6 +14,23 @@
     <!-- ECharts CDN -->
     <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
     
+    <!-- MathJax for LaTeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    
     <style>
         * {
             margin: 0;
@@ -485,6 +502,66 @@
             margin: var(--space-lg) 0;
         }
         
+        /* Model Download Section */
+        .model-download-section {
+            background: transparent;
+            border: none;
+            padding: 0;
+            margin: var(--space-lg) 0;
+        }
+        
+        .model-download-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+        
+        .model-download-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-md);
+            margin-top: var(--space-sm);
+            justify-content: center;
+        }
+        
+        .model-download-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md);
+            padding: 10px 16px;
+            text-decoration: none;
+            transition: all var(--duration-normal) var(--easing-default);
+        }
+        
+        .model-download-card:hover {
+            border-color: var(--primary-500);
+            background: var(--bg-card);
+            transform: translateY(-1px);
+        }
+        
+        .huggingface-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+        
+        .model-download-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .model-download-card-subtitle {
+            display: none;
+        }
+        
         .btn-external {
             display: inline-flex;
             align-items: center;
@@ -647,6 +724,23 @@
             }
         }
         
+        /* Responsive iframe/image switching */
+        .chart-mobile-img {
+            display: none;
+            width: 100%;
+            height: auto;
+        }
+        
+        @media (max-width: 1023px) {
+            .chart-iframe-wrapper {
+                display: none !important;
+            }
+            
+            .chart-mobile-img {
+                display: block;
+            }
+        }
+        
         /* Animations */
         @keyframes fadeIn {
             from { 
@@ -696,6 +790,16 @@
         
         /* Responsive */
         @media (max-width: 1023px) {
+            .page-title-section {
+                padding: var(--space-xl) var(--space-md);
+            }
+            
+            .page-title {
+                font-size: 48px;
+                line-height: 1.25;
+                padding: 0 var(--space-md);
+            }
+            
             .container {
                 padding: 0 var(--space-xl);
             }
@@ -706,6 +810,17 @@
         }
         
         @media (max-width: 767px) {
+            .page-title-section {
+                padding: var(--space-lg) var(--space-sm);
+            }
+            
+            .page-title {
+                font-size: 32px;
+                line-height: 1.3;
+                padding: 0 var(--space-sm);
+                letter-spacing: -0.01em;
+            }
+            
             .hero-header {
                 padding: var(--space-2xl) var(--space-md);
             }
@@ -744,6 +859,15 @@
                 flex-direction: column;
             }
             
+            .model-download-links {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .model-download-card {
+                flex: 0 1 auto;
+            }
+            
             .lightbox-close {
                 top: var(--space-md);
                 right: var(--space-md);
@@ -752,6 +876,15 @@
             .image-grid {
                 grid-template-columns: 1fr;
                 gap: var(--space-md);
+            }
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 28px;
+                line-height: 1.35;
+                padding: 0 var(--space-xs);
             }
         }
         
@@ -812,6 +945,347 @@
                 transition-duration: 0.01ms !important;
             }
         }
+        
+        /* Case Study Section */
+        .case-study-problem {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-xl);
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .case-study-problem-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-400);
+            margin-bottom: var(--space-md);
+        }
+        
+        .case-study-problem-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+        
+        .case-study-problem-content h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: var(--space-lg);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .case-study-problem-content h4:first-child {
+            margin-top: 0;
+        }
+        
+        .case-study-problem-content ul {
+            margin: var(--space-sm) 0;
+            padding-left: var(--space-xl);
+        }
+        
+        .case-study-problem-content li {
+            margin: var(--space-xs) 0;
+        }
+        
+        .case-study-problem-content .problem-question {
+            margin-top: var(--space-lg);
+            padding: var(--space-md);
+            background: var(--bg-surface);
+            border-left: 3px solid var(--primary-500);
+            border-radius: 4px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-3xl);
+        }
+        
+        .model-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: var(--space-xl);
+            transition: border-color var(--duration-normal) var(--easing-default);
+        }
+        
+        .model-card:hover {
+            border-color: var(--primary-500);
+        }
+        
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        
+        .model-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .model-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .model-score.perfect {
+            color: #10B981;
+        }
+        
+        .model-score.partial {
+            color: #F59E0B;
+        }
+        
+        .model-score.low {
+            color: #EF4444;
+        }
+        
+        .score-icon {
+            width: 24px;
+            height: 24px;
+        }
+        
+        .answer-section {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .answer-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .answer-content {
+            background: var(--bg-elevated);
+            border-radius: 8px;
+            padding: var(--space-md);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        
+        .answer-item {
+            margin-bottom: var(--space-sm);
+        }
+        
+        .evaluation-section {
+            margin-bottom: var(--space-lg);
+        }
+        
+        .evaluation-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+        }
+        
+        .evaluation-criteria {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+        
+        .criterion-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .criterion-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+        }
+        
+        .criterion-icon.correct {
+            color: #10B981;
+        }
+        
+        .criterion-icon.incorrect {
+            color: #EF4444;
+        }
+        
+        .solution-section {
+            margin-top: var(--space-lg);
+        }
+        
+        .solution-toggle {
+            width: 100%;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            border-radius: 8px;
+            padding: var(--space-md);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all var(--duration-normal) var(--easing-default);
+        }
+        
+        .solution-toggle:hover {
+            background: var(--border-subtle);
+            border-color: var(--primary-500);
+        }
+        
+        .solution-toggle-icon {
+            width: 20px;
+            height: 20px;
+            transition: transform var(--duration-normal) var(--easing-default);
+        }
+        
+        .solution-toggle.active .solution-toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .solution-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--duration-slow) var(--easing-default);
+        }
+        
+        .solution-content.active {
+            max-height: 2000px;
+        }
+        
+        .solution-inner {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: var(--space-lg);
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .solution-inner::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .solution-inner::-webkit-scrollbar-thumb {
+            background: var(--border-medium);
+            border-radius: 4px;
+        }
+        
+        .solution-inner p {
+            margin-bottom: var(--space-md);
+        }
+        
+        @media (max-width: 1023px) {
+            .models-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .case-study-problem {
+                padding: var(--space-md);
+            }
+            
+            .model-card {
+                padding: var(--space-md);
+            }
+        }
+        
+        /* Citation Section */
+        .citation-section {
+            margin-top: var(--space-4xl);
+            padding: var(--space-2xl) var(--space-xl);
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+        }
+        
+        .citation-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-lg);
+        }
+        
+        .citation-bibtex-wrapper {
+            position: relative;
+        }
+        
+        .citation-bibtex-content {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-medium);
+            border-radius: 8px;
+            padding: var(--space-lg);
+            padding-top: var(--space-3xl);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            overflow-x: auto;
+            white-space: pre;
+        }
+        
+        .citation-copy-btn {
+            position: absolute;
+            top: var(--space-sm);
+            right: var(--space-sm);
+            padding: 6px 12px;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-medium);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all var(--duration-fast) var(--easing-default);
+        }
+        
+        .citation-copy-btn:hover {
+            background: var(--bg-surface);
+            color: var(--text-primary);
+            border-color: var(--primary-500);
+        }
+        
+        .citation-copy-btn.copied {
+            background: var(--bg-surface);
+            color: var(--primary-400);
+            border-color: var(--primary-500);
+        }
+        
+        @media (max-width: 767px) {
+            .citation-section {
+                padding: var(--space-lg) var(--space-md);
+            }
+            
+            .citation-bibtex-content {
+                font-size: 12px;
+                padding: var(--space-2xl) var(--space-md) var(--space-md);
+            }
+            
+            .citation-copy-btn {
+                font-size: 12px;
+                padding: 4px 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -870,6 +1344,7 @@
             <div class="chart-iframe-wrapper" style="padding-bottom: 45%; position: relative; overflow: hidden;">
                 <iframe class="chart-iframe" src="source_html/ipho25_purple.html" title="International Physics Olympiad 2025 (IPhO 2025)" loading="lazy" scrolling="no" style="overflow: hidden; width: 100%; height: 100%;"></iframe>
             </div>
+            <img class="chart-mobile-img" src="source_png/ipho25_purple.png" alt="International Physics Olympiad 2025 (IPhO 2025)">
         </div>
 
         <div class="content-section" style="margin-top: 2rem;">
@@ -889,10 +1364,26 @@
                data-i18n-zh="此外，研究团队提出的<strong>协同进化多智能体系统 PhysicsMinions</strong>，为模型性能带来了显著提升。当 P1 模型与 PhysicsMinions 协同工作后，不仅在 <strong>IPhO 2025</strong> 中达到AI模型的世界第一，更在 <strong>HiPhO 综合得分上实现世界第一</strong>，以<strong>38.4分</strong>的成绩超越了<strong>Gemini-2.5-Pro（37.7分）</strong> 和 <strong>GPT-5（37.4分）</strong>，展现出&quot;模型+系统&quot;框架在应对复杂科学问题方面的强大通用性与潜力。"
                data-i18n-en="The team also proposes <strong>PhysicsMinions</strong>, a co-evolution multi-agent system that significantly boosts performance. With PhysicsMinions, P1 reaches No.1 among AI models at <strong>IPhO 2025</strong> and tops the <strong>HiPhO overall score</strong> with <strong>38.4</strong>, surpassing <strong>Gemini-2.5-Pro (37.7)</strong> and <strong>GPT-5 (37.4)</strong>, demonstrating the strong generality of the &quot;model + system&quot; paradigm for complex scientific problems."></p> -->
         </div>
-
+        
+        <!-- Model Download Section -->
+        <div class="model-download-section">
+            <div class="model-download-links">
+                <a href="https://huggingface.co/PRIME-RL/P1-235B-A22B" class="model-download-card" target="_blank" rel="noopener noreferrer">
+                    <img src="imgs/hf-logo.png" alt="Hugging Face" class="huggingface-icon">
+                    <span class="model-download-card-title">P1-235B-A22B</span>
+                </a>
+                <a href="https://huggingface.co/PRIME-RL/P1-30B-A3B" class="model-download-card" target="_blank" rel="noopener noreferrer">
+                    <img src="imgs/hf-logo.png" alt="Hugging Face" class="huggingface-icon">
+                    <span class="model-download-card-title">P1-30B-A3B</span>
+                </a>
+            </div>
+        </div>
+        
         <h2 data-i18n="section.fullstack.title"
             data-i18n-zh="P1系列"
             data-i18n-en="P1 Series">P1系列</h2>
+
+        
 
         <h3 data-i18n="section.hipho.title"
             data-i18n-zh="首个物理奥赛基准测试：HiPhO"
@@ -968,24 +1459,28 @@
                 <div class="chart-iframe-wrapper">
                     <iframe class="chart-iframe" src="source_html_new/30b_length_final_new.html" title="P1-30B Response Length Training Curve" loading="lazy"></iframe>
                 </div>
+                <img class="chart-mobile-img" src="source_png/30b_length_final_new.png" alt="P1-30B Response Length Training Curve">
             </div>
 
             <div class="interactive-chart-container">
                 <div class="chart-iframe-wrapper">
                     <iframe class="chart-iframe" src="source_html_new/30b_ipho25_final_new.html" title="P1-30B IPhO 2025 Score Training Curve" loading="lazy"></iframe>
                 </div>
+                <img class="chart-mobile-img" src="source_png/30b_ipho25_final_new.png" alt="P1-30B IPhO 2025 Score Training Curve">
             </div>
 
             <div class="interactive-chart-container">
                 <div class="chart-iframe-wrapper">
                     <iframe class="chart-iframe" src="source_html_new/235b_length_final_new.html" title="P1-235B Response Length Training Curve" loading="lazy"></iframe>
                 </div>
+                <img class="chart-mobile-img" src="source_png/235b_length_final_new.png" alt="P1-235B Response Length Training Curve">
             </div>
 
             <div class="interactive-chart-container">
                 <div class="chart-iframe-wrapper">
                     <iframe class="chart-iframe" src="source_html_new/235b_ipho25_final_new.html" title="P1-235B IPhO 2025 Score Training Curve" loading="lazy"></iframe>
                 </div>
+                <img class="chart-mobile-img" src="source_png/235b_ipho25_final_new.png" alt="P1-235B IPhO 2025 Score Training Curve">
             </div>
         </div>
 
@@ -1049,6 +1544,7 @@
             <div class="chart-iframe-wrapper" style="height: 150vh; padding-bottom: 0;">
                 <iframe class="chart-iframe" src="leaderboard.html" title="HiPhO Leaderboard" loading="lazy"></iframe>
             </div>
+            <img class="chart-mobile-img" src="source_png/leaderboard.png" alt="HiPhO Leaderboard">
             <div class="chart-caption" data-i18n="img.results.caption"
                  data-i18n-zh="图四：P1系列模型在 HiPhO 基准测试上的综合表现，包括与开源和闭源模型的对比。"
                  data-i18n-en="Figure 4: Overall HiPhO benchmark performance of P1 series models, compared with open- and closed-source models.">图四：P1系列模型在 HiPhO 基准测试上的综合表现，包括与开源和闭源模型的对比。</div>
@@ -1095,6 +1591,7 @@
             <div class="chart-iframe-wrapper" style="max-width:1000px; margin: 0 auto; padding-bottom: 35%;">
                 <iframe class="chart-iframe" src="source_html/general_30b.html" title="P1-30B vs Qwen3-30B Performance Comparison" loading="lazy"></iframe>
             </div>
+            <img class="chart-mobile-img" src="source_png/general_30b.png" alt="P1-30B vs Qwen3-30B Performance Comparison" style="max-width:1000px; margin: 0 auto;">
             <div class="chart-caption" style="font-size: 18px; font-weight: 600;" data-i18n="img.general.caption" data-i18n-zh="P1-30B 通用能力对比" data-i18n-en="P1-30B general capability comparison">P1-30B 通用能力对比</div>
         </div>
 
@@ -1106,7 +1603,365 @@
             <div class="chart-iframe-wrapper" style="max-width:1000px; margin: 0 auto; padding-bottom: 35%;">
                 <iframe class="chart-iframe" src="source_html/general_235b.html" title="P1-235B vs Qwen3-235B Performance Comparison" loading="lazy"></iframe>
             </div>
+            <img class="chart-mobile-img" src="source_png/general_235b.png" alt="P1-235B vs Qwen3-235B Performance Comparison" style="max-width:1000px; margin: 0 auto;">
             <div class="chart-caption" style="font-size: 18px; font-weight: 600;" data-i18n="img.general235b.caption" data-i18n-zh="P1-235B 通用能力对比" data-i18n-en="P1-235B general capability comparison">P1-235B 通用能力对比</div>
+        </div>
+
+        <hr>
+
+        <!-- Case Study Section -->
+        <h3 data-i18n="casestudy.title"
+            data-i18n-zh="案例研究"
+            data-i18n-en="Case Study">案例研究</h3>
+            
+            <!-- Problem Statement -->
+            <div class="case-study-problem">
+                <div class="case-study-problem-title" 
+                     data-i18n="casestudy.problem.title"
+                     data-i18n-zh="问题 (IPhO 2025 Q2_C4)"
+                     data-i18n-en="Problem (IPhO 2025 Q2_C4)">问题 (IPhO 2025 Q2_C4)</div>
+                <div class="case-study-problem-content">
+                    <div data-i18n="casestudy.problem.background"
+                         data-i18n-zh="<h4>背景：Cox 的时钟</h4><p>1765年，英国钟表匠 James Cox 发明了一种唯一能量来源是大气压波动的时钟。Cox 的时钟使用两个装有水银的容器。大气压的变化导致水银在容器之间移动，两个容器相对移动，这种运动为实际时钟提供能量。</p><h4>Part C - Cox 的时钟简化模型</h4><p>我们研究一个简化版本，包括：</p><ul><li>一个圆柱形底部水槽，装有水银浴</li><li>一个双部分气压管，浸入水银浴中（完全排空空气）</li><li>水槽和双部分管各由一根缆绳悬挂，两根缆绳通过理想滑轮系统连接到同一个质量为 $M$ 的物体，该物体可在水平表面上滑动</li><li>系统中水银的总体积为 $V_{\ell} = 5 \mathrm{L}$</li></ul><p>质量 $M$ 的位置由其质心坐标 $x$ 表示。考虑水平支撑面与质量 $M$ 之间的固体摩擦，滑动时的摩擦力大小记为 $F_{\mathrm{s}}$。两个挡块限制质量 $M$ 的位移为 $-X \leq x \leq X$（$X > 0$）。</p><p><strong>系统参数：</strong></p><ul><li>水槽：高度 $H_{\mathrm{c}} = 30 \mathrm{cm}$，截面积 $S_{\mathrm{c}} = 210 \mathrm{cm}^{2}$</li><li>管状部分：高度 $H_{\mathrm{t}} = 80 \mathrm{cm}$，截面积 $S_{\mathrm{t}} = 5 \mathrm{cm}^{2}$</li><li>球状部分：高度 $H_{\mathrm{b}} = 20 \mathrm{cm}$，截面积 $S_{\mathrm{b}} = 200 \mathrm{cm}^{2}$</li><li>大气压振幅 $A = 5 \times 10^{2} \mathrm{Pa}$，周期 $\tau_{1} = 1$ 周</li></ul><p>在实际的 Cox 时钟中，机构提供的能量通过棘轮系统储存并用于提升配重。在这个简化模型中，时钟回收的能量对应于水平表面对质量 $M$ 施加的摩擦力所耗散的能量。记 $W$ 为一个周期 $\tau_{1}$ 内固体摩擦力耗散的能量。在其他条件不变的情况下，可以调整 $F_{\mathrm{s}}$ 和 $X$ 来最大化能量 $W$；我们将最优情况下的各自值记为 $F_{\mathrm{s}}^{\star}$ 和 $X^{\star}$。</p>"
+                         data-i18n-en="<h4>Background: Cox's Timepiece</h4><p>In 1765, British clockmaker James Cox invented a clock whose only source of energy is the fluctuations in atmospheric pressure. Cox's clock used two vessels containing mercury. Changes in atmospheric pressure caused mercury to move between the vessels, and the two vessels to move relative to each other. This movement acted as an energy source for the actual clock.</p><h4>Part C - Simplified Model of Cox's Timepiece</h4><p>We study a simplified version consisting of:</p><ul><li>A cylindrical bottom cistern containing a mercury bath</li><li>A two-part barometric tube dipped into the bath (completely emptied of air)</li><li>The cistern and tube are each suspended by a cable; both cables pass through a system of ideal pulleys and attach to either side of the same mass $M$, which can slide on a horizontal surface</li><li>The total volume of mercury is $V_{\ell} = 5 \mathrm{L}$</li></ul><p>The position of mass $M$ is referenced by coordinate $x$ of its center of mass. We consider solid friction between the horizontal support and mass $M$; the magnitude of this force when sliding is denoted $F_{\mathrm{s}}$. Two stops limit the displacement: $-X \leq x \leq X$ (with $X > 0$).</p><p><strong>System Parameters:</strong></p><ul><li>Cistern: height $H_{\mathrm{c}} = 30 \mathrm{cm}$, cross-section $S_{\mathrm{c}} = 210 \mathrm{cm}^{2}$</li><li>Tubular part: height $H_{\mathrm{t}} = 80 \mathrm{cm}$, cross-section $S_{\mathrm{t}} = 5 \mathrm{cm}^{2}$</li><li>Bulb part: height $H_{\mathrm{b}} = 20 \mathrm{cm}$, cross-section $S_{\mathrm{b}} = 200 \mathrm{cm}^{2}$</li><li>Atmospheric pressure amplitude $A = 5 \times 10^{2} \mathrm{Pa}$, period $\tau_{1} = 1$ week</li></ul><p>In the real Cox's timepiece, energy is stored using a system of ratchets and used to raise a counterweight. In this simplified model, the energy recovered corresponds to the energy dissipated by friction on mass $M$. Let $W$ denote the energy dissipated by friction during one period $\tau_{1}$. $F_{\mathrm{s}}$ and $X$ can be adjusted to maximize the energy $W$; we denote their optimal values as $F_{\mathrm{s}}^{\star}$ and $X^{\star}$.</p>"><h4>背景：Cox 的时钟</h4><p>1765年，英国钟表匠 James Cox 发明了一种唯一能量来源是大气压波动的时钟。Cox 的时钟使用两个装有水银的容器。大气压的变化导致水银在容器之间移动，两个容器相对移动，这种运动为实际时钟提供能量。</p><h4>Part C - Cox 的时钟简化模型</h4><p>我们研究一个简化版本，包括：</p><ul><li>一个圆柱形底部水槽，装有水银浴</li><li>一个双部分气压管，浸入水银浴中（完全排空空气）</li><li>水槽和双部分管各由一根缆绳悬挂，两根缆绳通过理想滑轮系统连接到同一个质量为 $M$ 的物体，该物体可在水平表面上滑动</li><li>系统中水银的总体积为 $V_{\ell} = 5 \mathrm{L}$</li></ul><p>质量 $M$ 的位置由其质心坐标 $x$ 表示。考虑水平支撑面与质量 $M$ 之间的固体摩擦，滑动时的摩擦力大小记为 $F_{\mathrm{s}}$。两个挡块限制质量 $M$ 的位移为 $-X \leq x \leq X$（$X > 0$）。</p><p><strong>系统参数：</strong></p><ul><li>水槽：高度 $H_{\mathrm{c}} = 30 \mathrm{cm}$，截面积 $S_{\mathrm{c}} = 210 \mathrm{cm}^{2}$</li><li>管状部分：高度 $H_{\mathrm{t}} = 80 \mathrm{cm}$，截面积 $S_{\mathrm{t}} = 5 \mathrm{cm}^{2}$</li><li>球状部分：高度 $H_{\mathrm{b}} = 20 \mathrm{cm}$，截面积 $S_{\mathrm{b}} = 200 \mathrm{cm}^{2}$</li><li>大气压振幅 $A = 5 \times 10^{2} \mathrm{Pa}$，周期 $\tau_{1} = 1$ 周</li></ul><p>在实际的 Cox 时钟中，机构提供的能量通过棘轮系统储存并用于提升配重。在这个简化模型中，时钟回收的能量对应于水平表面对质量 $M$ 施加的摩擦力所耗散的能量。记 $W$ 为一个周期 $\tau_{1}$ 内固体摩擦力耗散的能量。在其他条件不变的情况下，可以调整 $F_{\mathrm{s}}$ 和 $X$ 来最大化能量 $W$；我们将最优情况下的各自值记为 $F_{\mathrm{s}}^{\star}$ 和 $X^{\star}$。</p></div>
+                    
+                    <div class="problem-question" data-i18n="casestudy.problem.question"
+                         data-i18n-zh="<strong>问题 (C.4)：</strong>考虑 $S_{\mathrm{b}} \simeq S_{\mathrm{c}}$ 和 $S_{\mathrm{t}} \ll S_{\mathrm{b}}$，确定 (1) $F_{\mathrm{s}}^{\star}$ 和 (2) $X^{\star}$ 关于 $\rho, g, S_{\mathrm{c}}$ 和 $A$ 的表达式。(3) 表达相应的最大能量 $W^{\star}$，(4) 然后在 $A = 5 \times 10^{2} \mathrm{Pa}$ 时计算其以 $\mathrm{mJ}$ 为单位的数值。"
+                         data-i18n-en="<strong>Question (C.4):</strong> Considering $S_{\mathrm{b}} \simeq S_{\mathrm{c}}$ and $S_{\mathrm{t}} \ll S_{\mathrm{b}}$, determine the expressions for (1) $F_{\mathrm{s}}^{\star}$ and (2) $X^{\star}$ as functions of $\rho, g, S_{\mathrm{c}}$ and $A$. (3) Express the corresponding maximum energy $W^{\star}$, (4) then calculate its numerical value in $\mathrm{mJ}$ with $A = 5 \times 10^{2} \mathrm{Pa}$."><strong>问题 (C.4)：</strong>考虑 $S_{\mathrm{b}} \simeq S_{\mathrm{c}}$ 和 $S_{\mathrm{t}} \ll S_{\mathrm{b}}$，确定 (1) $F_{\mathrm{s}}^{\star}$ 和 (2) $X^{\star}$ 关于 $\rho, g, S_{\mathrm{c}}$ 和 $A$ 的表达式。(3) 表达相应的最大能量 $W^{\star}$，(4) 然后在 $A = 5 \times 10^{2} \mathrm{Pa}$ 时计算其以 $\mathrm{mJ}$ 为单位的数值。</div>
+                </div>
+            </div>
+
+            <!-- Models Grid -->
+            <div class="models-grid">
+                <!-- P1-235B-A22B Model Card -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-name">P1-235B-A22B</div>
+                        <div class="model-score perfect">
+                            <svg class="score-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span data-i18n="casestudy.p1.score" data-i18n-zh="1.0 分" data-i18n-en="1.0 pts">1.0 分</span>
+                        </div>
+                    </div>
+
+                    <!-- Answer Section -->
+                    <div class="answer-section">
+                        <div class="answer-title" data-i18n="casestudy.answer.title" data-i18n-zh="答案" data-i18n-en="Answer">答案</div>
+                        <div class="answer-content">
+                            <div class="answer-item">(1) $F_{\mathrm{s}}^{\star} = \dfrac{S_{\mathrm{c}} A}{2}$</div>
+                            <div class="answer-item">(2) $X^{\star} = \dfrac{A}{4 \rho g}$</div>
+                            <div class="answer-item">(3) $W^{\star} = \dfrac{S_{\mathrm{c}} A^{2}}{2 \rho g}$</div>
+                            <div class="answer-item">(4) $W^{\star} \approx 19.8$ mJ</div>
+                        </div>
+                    </div>
+
+                    <!-- Evaluation Section -->
+                    <div class="evaluation-section">
+                        <div class="evaluation-title" data-i18n="casestudy.evaluation.title" data-i18n-zh="评分详情" data-i18n-en="Evaluation">评分详情</div>
+                        <div class="evaluation-criteria">
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.p1.eval1" data-i18n-zh="给出摩擦功表达式 $W = 4 F_S X$ (0.2分)" data-i18n-en="Friction work expression $W = 4 F_S X$ (0.2 pt)">给出摩擦功表达式 $W = 4 F_S X$ (0.2分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.p1.eval2" data-i18n-zh="给出约束条件 $F_s = S_c(A - 2\rho g X)$ (0.3分)" data-i18n-en="Constraint condition $F_s = S_c(A - 2\rho g X)$ (0.3 pt)">给出约束条件 $F_s = S_c(A - 2\rho g X)$ (0.3分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.p1.eval3" data-i18n-zh="推导最优位移 $X^{\star} = \frac{A}{4\rho g}$ (0.1分)" data-i18n-en="Optimal displacement $X^{\star} = \frac{A}{4\rho g}$ (0.1 pt)">推导最优位移 $X^{\star} = \frac{A}{4\rho g}$ (0.1分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.p1.eval4" data-i18n-zh="推导最优摩擦力 $F_s^{\star} = \frac{A S_c}{2}$ (0.1分)" data-i18n-en="Optimal friction force $F_s^{\star} = \frac{A S_c}{2}$ (0.1 pt)">推导最优摩擦力 $F_s^{\star} = \frac{A S_c}{2}$ (0.1分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.p1.eval5" data-i18n-zh="推导最优功 $W^{\star} = \frac{A^2 S_c}{2\rho g}$ (0.2分)" data-i18n-en="Optimal work $W^{\star} = \frac{A^2 S_c}{2\rho g}$ (0.2 pt)">推导最优功 $W^{\star} = \frac{A^2 S_c}{2\rho g}$ (0.2分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.p1.eval6" data-i18n-zh="数值结果在 [19, 21] mJ 范围内 (0.1分)" data-i18n-en="Numerical value within [19, 21] mJ (0.1 pt)">数值结果在 [19, 21] mJ 范围内 (0.1分)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solution Toggle -->
+                    <div class="solution-section">
+                        <button class="solution-toggle" onclick="toggleSolution('p1-solution')">
+                            <span data-i18n="casestudy.solution.toggle" data-i18n-zh="查看完整解答" data-i18n-en="View Full Solution">查看完整解答</span>
+                            <svg class="solution-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="solution-content" id="p1-solution">
+                            <div class="solution-inner">
+                                <p>To determine the optimal parameters for maximizing the energy dissipated by solid friction in Cox's timepiece, we analyze the system under the assumption that $S_b \approx S_c$ and $S_t \ll S_b, S_c$. The energy dissipated per period $\tau_1$ is given by:</p>
+                                <p>$$W = 4 F_s X$$</p>
+                                <p>This expression arises from the fact that the mass $M$ moves between $-X$ and $X$, covering a total distance of $4X$ per cycle. The constraint on the system comes from the pressure fluctuation $P_1(t)$ with amplitude $A$, which must be sufficient to overcome both the restoring force due to mercury displacement and the friction force.</p>
+                                <p><strong>(1) Optimal Friction Force $F_s^*$</strong></p>
+                                <p>The maximum force provided by atmospheric pressure fluctuations is $S_c A$, where $S_c$ is the cross-sectional area of the cistern. This force must balance the sum of the restoring force and the friction force at the stop position $x = X$:</p>
+                                <p>$$S_c A = 2 S_c \rho g X + F_s$$</p>
+                                <p>Solving for $F_s$:</p>
+                                <p>$$F_s = S_c (A - 2 \rho g X)$$</p>
+                                <p>Substituting into the energy expression $W = 4 F_s X$:</p>
+                                <p>$$W = 4 S_c (A - 2 \rho g X) X$$</p>
+                                <p>To maximize $W$, take the derivative with respect to $X$ and set it to zero:</p>
+                                <p>$$\frac{dW}{dX} = 4 S_c (A - 4 \rho g X) = 0 \quad \Rightarrow \quad X^* = \frac{A}{4 \rho g}$$</p>
+                                <p>Substitute back to find $F_s^*$:</p>
+                                <p>$$F_s^* = S_c \left( A - 2 \rho g \cdot \frac{A}{4 \rho g} \right) = S_c \left( A - \frac{A}{2} \right) = \frac{S_c A}{2}$$</p>
+                                <p><strong>(2) Optimal Displacement $X^*$</strong></p>
+                                <p>As derived above:</p>
+                                <p>$$X^* = \frac{A}{4 \rho g}$$</p>
+                                <p><strong>(3) Maximum Energy $W^*$</strong></p>
+                                <p>Using the expressions for $F_s^*$ and $X^*$:</p>
+                                <p>$$W^* = 4 F_s^* X^* = 4 \cdot \frac{S_c A}{2} \cdot \frac{A}{4 \rho g} = \frac{S_c A^2}{2 \rho g}$$</p>
+                                <p><strong>(4) Numerical Value of $W^*$</strong></p>
+                                <p>Given: $S_c = 210 \, \text{cm}^2 = 0.021 \, \text{m}^2$, $A = 500 \, \text{Pa}$, $\rho = 13534 \, \text{kg/m}^3$, $g = 9.8 \, \text{m/s}^2$</p>
+                                <p>$$W^* = \frac{0.021 \times (500)^2}{2 \times 13534 \times 9.8} = \frac{5250}{265266.4} \approx 0.01979 \, \text{J} = 19.79 \, \text{mJ}$$</p>
+                                <p>Rounded to two significant figures: $W^* \approx 20 \, \text{mJ}$</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gemini-2.5-Pro Model Card -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-name">Gemini-2.5-Pro</div>
+                        <div class="model-score partial">
+                            <svg class="score-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                            <span data-i18n="casestudy.gemini.score" data-i18n-zh="0.5 分" data-i18n-en="0.5 pts">0.5 分</span>
+                        </div>
+                    </div>
+
+                    <!-- Answer Section -->
+                    <div class="answer-section">
+                        <div class="answer-title" data-i18n="casestudy.answer.title" data-i18n-zh="答案" data-i18n-en="Answer">答案</div>
+                        <div class="answer-content">
+                            <div class="answer-item">(1) $F_{\mathrm{s}}^{\star} = \frac{A S_c}{4}$</div>
+                            <div class="answer-item">(2) $X^{\star} = \frac{A}{2 \rho g}$</div>
+                            <div class="answer-item">(3) $W^{\star} = \frac{A^2 S_c}{2 \rho g}$</div>
+                            <div class="answer-item">(4) $W^{\star} \approx 19.7$ mJ</div>
+                        </div>
+                    </div>
+
+                    <!-- Evaluation Section -->
+                    <div class="evaluation-section">
+                        <div class="evaluation-title" data-i18n="casestudy.evaluation.title" data-i18n-zh="评分详情" data-i18n-en="Evaluation">评分详情</div>
+                        <div class="evaluation-criteria">
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gemini.eval1" data-i18n-zh="给出摩擦功表达式 $W = 4 F_S X$ (0.2分)" data-i18n-en="Friction work expression $W = 4 F_S X$ (0.2 pt)">给出摩擦功表达式 $W = 4 F_S X$ (0.2分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon incorrect" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gemini.eval2" data-i18n-zh="未给出正确约束条件 (0分)" data-i18n-en="Incorrect constraint condition (0 pt)">未给出正确约束条件 (0分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon incorrect" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gemini.eval3" data-i18n-zh="位移结果错误，应为 $\frac{A}{4\rho g}$ 而非 $\frac{A}{2\rho g}$ (0分)" data-i18n-en="Incorrect displacement, should be $\frac{A}{4\rho g}$ not $\frac{A}{2\rho g}$ (0 pt)">位移结果错误，应为 $\frac{A}{4\rho g}$ 而非 $\frac{A}{2\rho g}$ (0分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon incorrect" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gemini.eval4" data-i18n-zh="摩擦力结果错误，应为 $\frac{A S_c}{2}$ 而非 $\frac{A S_c}{4}$ (0分)" data-i18n-en="Incorrect friction force, should be $\frac{A S_c}{2}$ not $\frac{A S_c}{4}$ (0 pt)">摩擦力结果错误，应为 $\frac{A S_c}{2}$ 而非 $\frac{A S_c}{4}$ (0分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gemini.eval5" data-i18n-zh="推导最优功 $W^{\star} = \frac{A^2 S_c}{2\rho g}$ (0.2分)" data-i18n-en="Optimal work $W^{\star} = \frac{A^2 S_c}{2\rho g}$ (0.2 pt)">推导最优功 $W^{\star} = \frac{A^2 S_c}{2\rho g}$ (0.2分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gemini.eval6" data-i18n-zh="数值结果在 [19, 21] mJ 范围内 (0.1分)" data-i18n-en="Numerical value within [19, 21] mJ (0.1 pt)">数值结果在 [19, 21] mJ 范围内 (0.1分)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solution Toggle -->
+                    <div class="solution-section">
+                        <button class="solution-toggle" onclick="toggleSolution('gemini-solution')">
+                            <span data-i18n="casestudy.solution.toggle" data-i18n-zh="查看完整解答" data-i18n-en="View Full Solution">查看完整解答</span>
+                            <svg class="solution-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="solution-content" id="gemini-solution">
+                            <div class="solution-inner">
+                                <p>Answering this question requires a multi-step analysis of the simplified model of Cox's timepiece. The goal is to find the optimal friction force $F_s^{\star}$ and displacement limit $X^{\star}$ that maximize the energy $W$ dissipated by friction over one cycle of atmospheric pressure variation.</p>
+                                <p><strong>Step 1: Analyze the forces and the system's behavior</strong></p>
+                                <p>The core of the mechanism is the interplay between the atmospheric pressure $P_a(t)$, the positions of the cistern and the barometric tube, and the distribution of mercury between them. This results in a net force on the mass $M$.</p>
+                                <p>The net force on mass $M$ from the cables is $F_M(x, t) = \frac{S_b S_c}{S_b+S_c} P_1(t) + \frac{\rho g S_b S_c}{S_b+S_c} x$</p>
+                                <p>The system is bistable. The mass $M$ will be pushed towards one of the stops at $x=\pm X$. For continuous energy harvesting, the mass must switch between $-X$ and $X$ periodically.</p>
+                                <p>The condition for the mass to start moving from a stop requires that the cable force overcomes the static friction $F_s$. Using the definitions of $\lambda$ and $\xi$:</p>
+                                <p>$$\lambda \simeq \frac{2\rho g X}{A}, \quad \xi \simeq \frac{S_b+S_c}{S_b S_c} \frac{F_s}{A}$$</p>
+                                <p>The condition for permanent oscillation is $\frac{\lambda}{2} + \xi < 1$.</p>
+                                <p><strong>Step 2: Formulate and solve the optimization problem</strong></p>
+                                <p>The energy dissipated by friction over one period $\tau_1$ is:</p>
+                                <p>$$W = F_s \cdot (4X) = 4 F_s X$$</p>
+                                <p>To maximize $W$, we operate at the boundary: $\frac{\lambda}{2} + \xi = 1$</p>
+                                <p>Using $S_b \simeq S_c$, the constraint becomes:</p>
+                                <p>$$\rho g X + \frac{2}{S_c} F_s = A$$</p>
+                                <p>We need to maximize $F_s X$ subject to this linear constraint. Expressing $X$ in terms of $F_s$:</p>
+                                <p>$$X = \frac{1}{\rho g} \left( A - \frac{2}{S_c} F_s \right)$$</p>
+                                <p>The quantity to maximize is:</p>
+                                <p>$$W(F_s) = 4 F_s X = \frac{4 F_s}{\rho g} \left( A - \frac{2}{S_c} F_s \right) = \frac{4}{\rho g} \left( A F_s - \frac{2}{S_c} F_s^2 \right)$$</p>
+                                <p>Taking the derivative and setting it to zero:</p>
+                                <p>$$\frac{dW}{dF_s} = \frac{4}{\rho g} \left( A - \frac{4}{S_c} F_s \right) = 0$$</p>
+                                <p>This gives the optimal friction force:</p>
+                                <p>$$F_s^{\star} = \frac{A S_c}{4}$$</p>
+                                <p>And the corresponding optimal displacement:</p>
+                                <p>$$X^{\star} = \frac{A}{2 \rho g}$$</p>
+                                <p><strong>Step 3: Calculate the maximum energy</strong></p>
+                                <p>$$W^{\star} = 4 F_s^{\star} X^{\star} = 4 \left( \frac{A S_c}{4} \right) \left( \frac{A}{2 \rho g} \right) = \frac{A^2 S_c}{2 \rho g}$$</p>
+                                <p><strong>Step 4: Numerical Calculation</strong></p>
+                                <p>Given: $A = 5 \times 10^2$ Pa = 500 Pa, $S_c = 210$ cm² = $2.10 \times 10^{-2}$ m², $g = 9.8$ m·s⁻², $\rho \approx 13600$ kg·m⁻³</p>
+                                <p>$$W^{\star} = \frac{(500)^2 (2.10 \times 10^{-2})}{2 (13600) (9.8)} \approx 0.0197 \, \text{J} = 19.7 \, \text{mJ}$$</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GPT-5 Model Card -->
+                <div class="model-card">
+                    <div class="model-header">
+                        <div class="model-name">GPT-5</div>
+                        <div class="model-score low">
+                            <svg class="score-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span data-i18n="casestudy.gpt5.score" data-i18n-zh="0.3 分" data-i18n-en="0.3 pts">0.3 分</span>
+                        </div>
+                    </div>
+
+                    <!-- Answer Section -->
+                    <div class="answer-section">
+                        <div class="answer-title" data-i18n="casestudy.answer.title" data-i18n-zh="答案" data-i18n-en="Answer">答案</div>
+                        <div class="answer-content">
+                            <div class="answer-item">(1) $F_{\mathrm{s}}^{\star} = A S_c/4$</div>
+                            <div class="answer-item">(2) $X^{\star} = A/(4\rho g)$</div>
+                            <div class="answer-item">(3) $W^{\star} = A^2 S_c/(4\rho g)$</div>
+                            <div class="answer-item">(4) $W^{\star} \approx 9.9$ mJ</div>
+                        </div>
+                    </div>
+
+                    <!-- Evaluation Section -->
+                    <div class="evaluation-section">
+                        <div class="evaluation-title" data-i18n="casestudy.evaluation.title" data-i18n-zh="评分详情" data-i18n-en="Evaluation">评分详情</div>
+                        <div class="evaluation-criteria">
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gpt5.eval1" data-i18n-zh="给出摩擦功表达式 $W = 4 F_s X$ (0.2分)" data-i18n-en="Friction work expression $W = 4 F_s X$ (0.2 pt)">给出摩擦功表达式 $W = 4 F_s X$ (0.2分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon incorrect" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gpt5.eval2" data-i18n-zh="未给出正确约束条件 (0分)" data-i18n-en="Incorrect constraint condition (0 pt)">未给出正确约束条件 (0分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon correct" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gpt5.eval3" data-i18n-zh="推导最优位移 $X^{\star} = \frac{A}{4\rho g}$ (0.1分)" data-i18n-en="Optimal displacement $X^{\star} = \frac{A}{4\rho g}$ (0.1 pt)">推导最优位移 $X^{\star} = \frac{A}{4\rho g}$ (0.1分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon incorrect" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gpt5.eval4" data-i18n-zh="摩擦力结果错误，应为 $\frac{A S_c}{2}$ 而非 $\frac{A S_c}{4}$ (0分)" data-i18n-en="Incorrect friction force, should be $\frac{A S_c}{2}$ not $\frac{A S_c}{4}$ (0 pt)">摩擦力结果错误，应为 $\frac{A S_c}{2}$ 而非 $\frac{A S_c}{4}$ (0分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon incorrect" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gpt5.eval5" data-i18n-zh="功的表达式错误，应为 $\frac{A^2 S_c}{2\rho g}$ (0分)" data-i18n-en="Incorrect work expression, should be $\frac{A^2 S_c}{2\rho g}$ (0 pt)">功的表达式错误，应为 $\frac{A^2 S_c}{2\rho g}$ (0分)</span>
+                            </div>
+                            <div class="criterion-item">
+                                <svg class="criterion-icon incorrect" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                                <span data-i18n="casestudy.gpt5.eval6" data-i18n-zh="数值结果不在正确范围 [19, 21] mJ (0分)" data-i18n-en="Numerical value outside correct range [19, 21] mJ (0 pt)">数值结果不在正确范围 [19, 21] mJ (0分)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Solution Toggle -->
+                    <div class="solution-section">
+                        <button class="solution-toggle" onclick="toggleSolution('gpt5-solution')">
+                            <span data-i18n="casestudy.solution.toggle" data-i18n-zh="查看完整解答" data-i18n-en="View Full Solution">查看完整解答</span>
+                            <svg class="solution-toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="solution-content" id="gpt5-solution">
+                            <div class="solution-inner">
+                                <p>I will not provide my internal chain-of-thought. Below is a concise, step-by-step solution.</p>
+                                <p>Over one period $\tau_1$ the mass travels from $-X$ to $+X$ and back, so the total sliding distance is $4X$. With Coulomb friction of magnitude $F_s$, the energy dissipated each period is:</p>
+                                <p>$$W = 4 F_s X$$</p>
+                                <p>The device works (mass shuttles between the two stops) if the atmospheric-pressure drive $A$ can overcome both the friction threshold and the hydrostatic restoring contribution when the mass is at a stop. Using the parameters defined in the statement:</p>
+                                <p>$$\xi \simeq \frac{2}{S_c}\frac{F_s}{A}, \quad \lambda \simeq \frac{2\rho g X}{A}$$</p>
+                                <p>The border of the working domain is $\xi + \lambda = 1$. To maximize $W = 4 F_s X$ for fixed $A$ under this linear constraint, the optimum occurs for $\xi = \lambda = 1/2$.</p>
+                                <p>Hence:</p>
+                                <p>$F_s^*$ from $\xi^* = 1/2$: $\frac{2}{S_c}\frac{F_s^*}{A} = \frac{1}{2} \Rightarrow F_s^* = \frac{A S_c}{4}$</p>
+                                <p>$X^*$ from $\lambda^* = 1/2$: $\frac{2\rho g X^*}{A} = \frac{1}{2} \Rightarrow X^* = \frac{A}{4\rho g}$</p>
+                                <p>Maximum dissipated energy per period:</p>
+                                <p>$$W^* = 4 F_s^* X^* = 4 \times \frac{A S_c}{4} \times \frac{A}{4\rho g} = \frac{A^2 S_c}{4\rho g}$$</p>
+                                <p>Numerical value with $A = 5.0 \times 10^2$ Pa, $S_c = 210$ cm² = $2.10 \times 10^{-2}$ m², $\rho \approx 13.6 \times 10^3$ kg·m⁻³, $g = 9.8$ m·s⁻²:</p>
+                                <p>$$W^* \approx \frac{(5.0 \times 10^2)^2 \times 2.10 \times 10^{-2}}{4 \times 13.6 \times 10^3 \times 9.8} \approx 9.9 \times 10^{-3} \, \text{J} = 9.9 \, \text{mJ}$$</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Citation Section -->
+        <div class="citation-section">
+            <h3 class="citation-title" 
+                data-i18n="citation.title"
+                data-i18n-zh="引用"
+                data-i18n-en="Citation">引用</h3>
+            
+            <div class="citation-bibtex-wrapper">
+                <button class="citation-copy-btn" onclick="copyBibtex()" 
+                        data-i18n="citation.copy"
+                        data-i18n-zh="复制"
+                        data-i18n-en="Copy">复制</button>
+                <div class="citation-bibtex-content" id="bibtexContent">@misc{p12025,
+    title={P1: Mastering Physics Olympiads with Reinforcement Learning},
+    author={P1 Team},
+    year={2025},
+    url={https://prime-rl.github.io/P1/}
+}</div>
+            </div>
         </div>
     </main>
 
@@ -1159,6 +2014,13 @@
                 if (backTop) backTop.setAttribute('aria-label', lang === 'zh' ? '回到顶部' : 'Back to top');
                 const lbClose = document.querySelector('.lightbox-close');
                 if (lbClose) lbClose.setAttribute('aria-label', lang === 'zh' ? '关闭' : 'Close');
+                
+                // Trigger MathJax rendering after translations are applied
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    MathJax.typesetPromise().catch(function (err) {
+                        console.log('MathJax typeset error: ' + err.message);
+                    });
+                }
             }
 
             function setActiveButton(lang) {
@@ -1214,11 +2076,75 @@
                 if (zhBtn) zhBtn.addEventListener('click', () => switchLanguage('zh'));
                 if (enBtn) enBtn.addEventListener('click', () => switchLanguage('en'));
                 setTimeout(() => { if (window.buildTOC) { try { window.buildTOC(); } catch {} } }, 0);
+                
+                // Ensure MathJax renders after initial load
+                setTimeout(() => {
+                    if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                        MathJax.typesetPromise().catch(function (err) {
+                            console.log('MathJax initial typeset error: ' + err.message);
+                        });
+                    }
+                }, 100);
             });
 
             // expose for debugging
             window.switchLanguage = switchLanguage;
         })();
+        
+        // Ensure MathJax renders after window load (when MathJax script is fully loaded)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    MathJax.typesetPromise().catch(function (err) {
+                        console.log('MathJax window load typeset error: ' + err.message);
+                    });
+                }
+            }, 200);
+        });
+        
+        // Toggle solution visibility
+        function toggleSolution(solutionId) {
+            const content = document.getElementById(solutionId);
+            const button = content.previousElementSibling;
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                button.classList.remove('active');
+            } else {
+                content.classList.add('active');
+                button.classList.add('active');
+                
+                // Retrigger MathJax rendering for this solution
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    MathJax.typesetPromise([content]).catch(function (err) {
+                        console.log('MathJax typeset error: ' + err.message);
+                    });
+                }
+            }
+        }
+        
+        // Copy BibTeX citation
+        function copyBibtex() {
+            const bibtexContent = document.getElementById('bibtexContent').textContent;
+            const button = event.target;
+            
+            navigator.clipboard.writeText(bibtexContent).then(function() {
+                const originalText = button.textContent;
+                const currentLang = localStorage.getItem('site_lang') || 'en';
+                button.textContent = currentLang === 'zh' ? '已复制' : 'Copied';
+                button.classList.add('copied');
+                
+                setTimeout(function() {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                const currentLang = localStorage.getItem('site_lang') || 'en';
+                alert(currentLang === 'zh' ? '复制失败，请手动复制' : 'Copy failed, please copy manually');
+            });
+        }
+        
         function openLightbox(element) {
             const img = element.querySelector('.article-image');
             const lightbox = document.getElementById('lightbox');
