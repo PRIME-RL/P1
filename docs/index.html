@@ -979,6 +979,9 @@
             font-size: 16px;
             line-height: 1.8;
             color: var(--text-secondary);
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
         
         .case-study-problem-content h4 {
@@ -1010,6 +1013,9 @@
             border-radius: 4px;
             font-weight: 500;
             color: var(--text-primary);
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
         
         /* Context Toggle Button */
@@ -1060,6 +1066,9 @@
             padding-bottom: var(--space-lg);
             border-bottom: 2px solid var(--border-subtle);
             margin-bottom: var(--space-lg);
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
         
         .models-grid {
@@ -1075,6 +1084,9 @@
             border-radius: 12px;
             padding: var(--space-xl);
             transition: border-color var(--duration-normal) var(--easing-default);
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
         
         .model-card:hover {
@@ -1139,6 +1151,10 @@
             font-size: 16px;
             line-height: 1.6;
             color: var(--text-secondary);
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
         }
         
         .answer-item {
@@ -1242,6 +1258,9 @@
             color: var(--text-secondary);
             max-height: 500px;
             overflow-y: auto;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
         
         .solution-inner::-webkit-scrollbar {
@@ -1264,12 +1283,40 @@
         }
         
         @media (max-width: 767px) {
+            .models-grid {
+                grid-template-columns: minmax(0, 1fr);
+                gap: var(--space-lg);
+            }
+            
             .case-study-problem {
                 padding: var(--space-md);
             }
             
             .model-card {
                 padding: var(--space-md);
+                min-width: 0;
+            }
+            
+            .answer-content {
+                padding: var(--space-sm);
+                font-size: 14px;
+            }
+            
+            .solution-inner {
+                padding: var(--space-md);
+                font-size: 14px;
+            }
+            
+            .context-inner {
+                font-size: 14px;
+            }
+            
+            .case-study-problem-content {
+                font-size: 14px;
+            }
+            
+            .case-study-problem-content table {
+                font-size: 12px;
             }
         }
         
@@ -1312,7 +1359,23 @@
         
         @media (max-width: 768px) {
             .org-logos-section {
-                display: none;
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .org-logo-item img {
+                height: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .org-logos-section {
+                gap: 10px;
+            }
+            
+            .org-logo-item img {
+                height: 20px;
             }
         }
         
