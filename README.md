@@ -17,7 +17,7 @@
 
 Physics reasoning is central to understanding and shaping the real world. Top contests like the **International Physics Olympiad (IPhO)** set a high bar for complex reasoning and deep physical understanding — a benchmark for evaluating AI's grasp of reality.
 
-**P1** is the first open-source model series designed to tackle Olympiad-level physics reasoning through **multi-stage reinforcement learning (RL)** and a **co-evolutionary multi-agent system (PhysicsMinions)**. We release two model versions:
+**P1** is the first open-source model series designed to tackle Olympiad-level physics reasoning through **multi-stage reinforcement learning (RL)** and a **co-evolutionary multi-agent system (PhysicsMinions)**. It achieved gold medal-level performance on IPhO 2025. We release two model versions:
 
 - **[P1-30B-A3B](https://huggingface.co/PRIME-RL/P1-30B-A3B)**: A 30B parameter model that surpasses larger closed-source models, demonstrating exceptional efficiency
 - **[P1-235B-A22B](https://huggingface.co/PRIME-RL/P1-235B-A22B)**: A 235B parameter model achieving gold medal performance on IPhO 2025, rivaling top closed-source models 
