@@ -120,9 +120,7 @@
         option.tooltip[0].backgroundColor = currentColors.bgTooltip;
         option.tooltip[0].textStyle.color = currentColors.textPrimary;
         option.series[0].label.color = currentColors.purpleMain;
-        option.series[0].label.textShadowColor = currentColors.textShadow;
         option.series[1].label.color = currentColors.textPrimary;
-        option.series[1].label.textShadowColor = currentColors.textShadow;
         option.series[1].itemStyle.color = currentColors.grayMid;
         
         chart.setOption(option, true);
@@ -206,10 +204,7 @@
             barCategoryGap: '30%',
             itemStyle: {
               color: colors.purpleMain,
-              borderRadius: [4, 4, 0, 0],
-              shadowColor: 'rgba(186, 143, 255, 0.5)',
-              shadowBlur: 10,
-              shadowOffsetY: 2
+              borderRadius: [4, 4, 0, 0]
             },
             label: {
               show: true,
@@ -217,19 +212,12 @@
               color: colors.purpleMain,
               fontSize: 14,
               fontWeight: 'bolder',
-              textShadowColor: colors.textShadow,
-              textShadowBlur: 3,
               formatter: function(params) {
                 return params.value.toFixed(1);
               }
             },
             emphasis: {
-              focus: 'series',
-              itemStyle: {
-                shadowBlur: 15,
-                shadowOffsetY: 4,
-                shadowColor: 'rgba(186, 143, 255, 0.7)'
-              }
+              focus: 'series'
             }
           },
           {
@@ -239,10 +227,7 @@
             barWidth: '35%',
             itemStyle: {
               color: colors.grayMid,
-              borderRadius: [4, 4, 0, 0],
-              shadowColor: isLightTheme() ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.5)',
-              shadowBlur: 8,
-              shadowOffsetY: 2
+              borderRadius: [4, 4, 0, 0]
             },
             label: {
               show: true,
@@ -250,18 +235,12 @@
               color: colors.textPrimary,
               fontSize: 14,
               fontWeight: 'bold',
-              textShadowColor: colors.textShadow,
-              textShadowBlur: 3,
               formatter: function(params) {
                 return params.value.toFixed(1);
               }
             },
             emphasis: {
-              focus: 'series',
-              itemStyle: {
-                shadowBlur: 15,
-                shadowOffsetY: 4
-              }
+              focus: 'series'
             }
           }
         ]

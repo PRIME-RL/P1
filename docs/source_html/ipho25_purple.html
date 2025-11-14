@@ -214,10 +214,7 @@
             decal: null,
             decal: applyStripe ? getStripeDecal() : null,
             borderRadius: [3, 3, 0, 0],
-            opacity: 1,
-            shadowColor: isLightTheme() ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.5)',
-            shadowBlur: 8,
-            shadowOffsetY: 2
+            opacity: 1
           },
           label: {
             show: true,
@@ -225,10 +222,6 @@
             color: labelColor,
             fontSize: 15,
             fontWeight: 'bold',
-            textShadowColor: currentColors.textShadow,
-            textShadowBlur: 3,
-            textShadowOffsetX: 0,
-            textShadowOffsetY: 1,
             formatter: ({ value }) => value.toFixed(1)
           }
         };
@@ -327,7 +320,6 @@
         
         item.itemStyle.color = categoryColor(label);
         item.itemStyle.decal = applyStripe ? getStripeDecal() : null;
-        item.itemStyle.shadowColor = isLightTheme() ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.5)';
         
         let labelColor = colors.textPrimary;
         // Medal colors - keep them visible in both themes
@@ -342,7 +334,6 @@
         }
         
         item.label.color = labelColor;
-        item.label.textShadowColor = colors.textShadow;
       });
       
       chart.setOption(option, true);
@@ -428,9 +419,7 @@
           emphasis: {
             focus: 'series',
             itemStyle: {
-              opacity: 1,
-              shadowBlur: 15,
-              shadowOffsetY: 4
+              opacity: 1
             }
           },
           markLine: {
