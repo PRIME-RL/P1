@@ -41,6 +41,13 @@
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
+            background: var(--bg-page);
+        }
+        
+        body {
+            background: var(--bg-page);
+            color: var(--text-primary);
+            transition: background-color var(--duration-normal) var(--easing-default), color var(--duration-normal) var(--easing-default);
         }
         
         /* Custom scrollbar */
@@ -138,6 +145,33 @@
             --easing-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
             --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
+        
+        /* Light Theme */
+        :root[data-theme="light"] {
+            /* Light Backgrounds */
+            --bg-page: #FFFFFF;
+            --bg-surface: #F5F5F5;
+            --bg-elevated: #FAFAFA;
+            --bg-card: #FFFFFF;
+            
+            /* Light Text Colors */
+            --text-primary: #1A1A1A;
+            --text-secondary: #525252;
+            --text-tertiary: #737373;
+            --text-muted: #A3A3A3;
+            
+            /* Light Border Colors */
+            --border-subtle: #E5E5E5;
+            --border-medium: #D4D4D4;
+            --border-strong: #A3A3A3;
+            
+            /* Light Shadows */
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --shadow-card-hover: 0 12px 48px rgba(168, 85, 247, 0.15);
+            --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+            --shadow-glow: 0 0 40px rgba(168, 85, 247, 0.2);
+        }
 
         /* Language Switcher */
 		.lang-switcher {
@@ -157,7 +191,7 @@
 			appearance: none;
 			border: none;
 			background: transparent;
-			color: #A1A1AA;
+			color: var(--text-secondary);
 			font-family: var(--font-sans);
 			font-weight: 600;
 			font-size: 13px;
@@ -169,7 +203,7 @@
 
 		.lang-switcher button.active {
 			background: transparent;
-			color: #FFFFFF;
+			color: var(--text-primary);
 		}
 
 		/* TOC (hover to open) */
@@ -184,7 +218,7 @@
 			appearance: none;
 			border: none;
 			background: transparent;
-			color: #A1A1AA;
+			color: var(--text-secondary);
 			font-family: var(--font-sans);
 			font-weight: 600;
 			font-size: 13px;
@@ -195,7 +229,7 @@
 		}
 
 		.toc-trigger:hover {
-			color: #FFFFFF;
+			color: var(--text-primary);
 		}
 
 		.toc-panel {
@@ -206,8 +240,8 @@
 			max-height: 60vh;
 			overflow: auto;
 			padding: 12px;
-			background: rgba(20, 20, 20, 0.95);
-			border: none;
+			background: var(--bg-elevated);
+			border: 1px solid var(--border-subtle);
 			border-radius: var(--radius-lg);
 			opacity: 0;
 			pointer-events: none;
@@ -225,7 +259,7 @@
 		.toc-title {
 			font-weight: 700;
 			margin: 4px 4px 8px 4px;
-			color: #FFFFFF;
+			color: var(--text-primary);
 		}
 
 		#tocList {
@@ -239,7 +273,7 @@
 		}
 
 		#tocList a {
-			color: #D4D4D4;
+			color: var(--text-secondary);
 			text-decoration: none;
 			font-size: 14px;
 		}
@@ -256,7 +290,7 @@
             font-size: 19px;
             line-height: 1.7;
             color: var(--text-primary);
-            background-color: #000000;
+            background-color: var(--bg-page);
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             font-weight: 500;
@@ -287,6 +321,39 @@
             display: flex;
             align-items: center;
             gap: var(--space-lg);
+        }
+        
+        /* Theme Toggle Button */
+        .theme-toggle {
+            appearance: none;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--easing-default);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .theme-toggle:hover {
+            color: var(--text-primary);
+            background: var(--bg-elevated);
+        }
+        
+        .theme-toggle-icon {
+            width: 18px;
+            height: 18px;
+            transition: transform var(--duration-normal) var(--easing-default);
+        }
+        
+        .theme-toggle:active .theme-toggle-icon {
+            transform: rotate(180deg);
         }
         
         
@@ -335,14 +402,14 @@
         .highlight-content {
             font-size: 20px;
             line-height: 1.7;
-            color: #E5E5E5;
+            color: var(--text-secondary);
             position: relative;
             z-index: 1;
             font-weight: 500;
         }
         
         .highlight-content strong {
-            color: #FFFFFF;
+            color: var(--text-primary);
             font-weight: 700;
         }
         
@@ -361,7 +428,7 @@
         .image-caption {
             padding: var(--space-md) 0;
             font-size: 14px;
-            color: #D4D4D4;
+            color: var(--text-secondary);
             text-align: center;
         }
         
@@ -380,14 +447,14 @@
         /* Interactive Chart Container */
         .interactive-chart-container {
             position: relative;
-            background: #000000;
+            background: var(--bg-page);
         }
         
         .chart-iframe-wrapper {
             width: 100%;
             position: relative;
             overflow: hidden;
-            background: #000000;
+            background: var(--bg-page);
             /* Aspect ratio 1000:650 = 1.538 */
             padding-bottom: 65%;
         }
@@ -406,7 +473,7 @@
         .chart-caption {
             padding: var(--space-sm) 0;
             font-size: 13px;
-            color: #D4D4D4;
+            color: var(--text-secondary);
             text-align: center;
         }
         
@@ -451,11 +518,11 @@
             align-items: center;
             justify-content: center;
             transition: color var(--duration-normal) var(--easing-default);
-            color: #A1A1AA;
+            color: var(--text-secondary);
         }
         
         .lightbox-close:hover {
-            color: #FFFFFF;
+            color: var(--text-primary);
         }
         
         /* Typography */
@@ -463,7 +530,7 @@
             font-family: var(--font-serif);
             font-size: 42px;
             font-weight: 700;
-            color: #FFFFFF;
+            color: var(--text-primary);
             margin-top: var(--space-2xl);
             margin-bottom: var(--space-md);
             line-height: 1.25;
@@ -476,7 +543,7 @@
             font-family: var(--font-serif);
             font-size: 30px;
             font-weight: 700;
-            color: #FFFFFF;
+            color: var(--text-primary);
             margin-top: var(--space-xl);
             margin-bottom: var(--space-sm);
             line-height: 1.35;
@@ -485,13 +552,13 @@
         p {
             margin-bottom: var(--space-md);
             line-height: 1.7;
-            color: #E5E5E5;
+            color: var(--text-secondary);
             font-weight: 500;
         }
         
         strong {
             font-weight: 700;
-            color: #FFFFFF;
+            color: var(--text-primary);
         }
         
         /* Links */
@@ -612,7 +679,7 @@
         li {
             margin-bottom: var(--space-sm);
             line-height: 1.7;
-            color: #E5E5E5;
+            color: var(--text-secondary);
             font-weight: 500;
         }
         
@@ -622,7 +689,7 @@
         
         li p {
             display: inline;
-            color: #E5E5E5;
+            color: var(--text-secondary);
         }
         
         /* Separator */
@@ -641,7 +708,7 @@
         /* ECharts Container */
         .chart-container {
             margin: var(--space-xl) 0;
-            background: #000000;
+            background: var(--bg-page);
             border: none;
             border-radius: 0;
             padding: var(--space-lg) 0;
@@ -653,7 +720,7 @@
             font-family: var(--font-serif);
             font-size: 28px;
             font-weight: 700;
-            color: #FFFFFF;
+            color: var(--text-primary);
             text-align: center;
             margin-bottom: var(--space-lg);
             position: relative;
@@ -675,7 +742,7 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: #E5E5E5;
+            color: var(--text-secondary);
             font-size: 14px;
             font-weight: 500;
         }
@@ -1545,6 +1612,12 @@
             </div>
             
             <div class="nav-right">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+            <svg class="theme-toggle-icon" id="themeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+            <span id="themeLabel" data-i18n="theme.dark" data-i18n-zh="深色" data-i18n-en="Dark">Dark</span>
+        </button>
         <div class="lang-switcher" role="group" aria-label="Language Switcher">
             <button id="btn-zh" data-lang="zh" aria-pressed="false">中文</button>
             <button id="btn-en" data-lang="en" class="active" aria-pressed="true">English</button>
@@ -2522,6 +2595,150 @@
 
             // expose for debugging
             window.switchLanguage = switchLanguage;
+        })();
+        
+        // Theme Toggle Functionality
+        (function() {
+            const THEME_STORAGE_KEY = 'site_theme';
+            const THEME_ATTR = 'data-theme';
+            
+            function getStoredTheme() {
+                return localStorage.getItem(THEME_STORAGE_KEY) || 'dark';
+            }
+            
+            function setStoredTheme(theme) {
+                localStorage.setItem(THEME_STORAGE_KEY, theme);
+            }
+            
+            function applyTheme(theme) {
+                document.documentElement.setAttribute(THEME_ATTR, theme);
+                setStoredTheme(theme);
+                updateThemeIcon(theme);
+                updateThemeLabel(theme);
+                
+                // Notify iframes about theme change
+                notifyIframesOfTheme(theme);
+            }
+            
+            function notifyIframesOfTheme(theme) {
+                document.querySelectorAll('iframe').forEach(iframe => {
+                    try {
+                        iframe.contentWindow.postMessage({
+                            type: 'themeChange',
+                            theme: theme
+                        }, '*');
+                    } catch (e) {
+                        console.error('Error sending theme to iframe:', e);
+                    }
+                });
+            }
+            
+            // Initialize theme immediately (before DOMContentLoaded) to prevent flash
+            (function() {
+                const savedTheme = getStoredTheme();
+                document.documentElement.setAttribute(THEME_ATTR, savedTheme);
+            })();
+            
+            function updateThemeIcon(theme) {
+                const icon = document.getElementById('themeIcon');
+                if (!icon) return;
+                
+                const currentLang = localStorage.getItem('site_lang') || 'en';
+                const isLight = theme === 'light';
+                
+                if (isLight) {
+                    // Sun icon for light mode
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>';
+                } else {
+                    // Moon icon for dark mode
+                    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+                }
+            }
+            
+            function updateThemeLabel(theme) {
+                const label = document.getElementById('themeLabel');
+                if (!label) return;
+                
+                const currentLang = localStorage.getItem('site_lang') || 'en';
+                const isLight = theme === 'light';
+                
+                if (isLight) {
+                    label.textContent = currentLang === 'zh' ? '浅色' : 'Light';
+                    label.setAttribute('data-i18n', 'theme.light');
+                } else {
+                    label.textContent = currentLang === 'zh' ? '深色' : 'Dark';
+                    label.setAttribute('data-i18n', 'theme.dark');
+                }
+            }
+            
+            function toggleTheme() {
+                const current = getStoredTheme();
+                const newTheme = current === 'dark' ? 'light' : 'dark';
+                applyTheme(newTheme);
+                
+                // Notify all iframes about theme change
+                document.querySelectorAll('iframe').forEach(iframe => {
+                    try {
+                        iframe.contentWindow.postMessage({ type: 'themeChange', theme: newTheme }, '*');
+                    } catch (e) {
+                        // Cross-origin or other error, ignore
+                    }
+                });
+                
+                // Trigger MathJax re-render if available
+                if (typeof MathJax !== 'undefined' && MathJax.typesetPromise) {
+                    setTimeout(() => {
+                        MathJax.typesetPromise().catch(function (err) {
+                            console.log('MathJax theme change typeset error: ' + err.message);
+                        });
+                    }, 100);
+                }
+            }
+            
+            // Initialize theme on page load
+            document.addEventListener('DOMContentLoaded', () => {
+                const savedTheme = getStoredTheme();
+                applyTheme(savedTheme);
+                
+                const themeToggle = document.getElementById('themeToggle');
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', toggleTheme);
+                }
+                
+                // Update label when language changes
+                document.addEventListener('languageChanged', (e) => {
+                    const currentTheme = getStoredTheme();
+                    updateThemeLabel(currentTheme);
+                });
+                
+                // Also update label after a short delay to ensure language is set
+                setTimeout(() => {
+                    const currentTheme = getStoredTheme();
+                    updateThemeLabel(currentTheme);
+                }, 100);
+                
+                // Send initial theme to iframes when they load
+                document.querySelectorAll('iframe').forEach(iframe => {
+                    iframe.addEventListener('load', () => {
+                        setTimeout(() => {
+                            const currentTheme = getStoredTheme();
+                            console.log('Sending initial theme to iframe:', currentTheme);
+                            try {
+                                iframe.contentWindow.postMessage({
+                                    type: 'themeChange',
+                                    theme: currentTheme
+                                }, '*');
+                            } catch (e) {
+                                console.error('Error sending initial theme to iframe:', e);
+                            }
+                        }, 100);
+                    });
+                });
+            });
+            
+            // Expose for debugging
+            window.toggleTheme = toggleTheme;
+            window.getCurrentTheme = () => getStoredTheme();
         })();
         
         // Ensure MathJax renders after window load (when MathJax script is fully loaded)

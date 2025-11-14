@@ -8,8 +8,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      background: #000;
-      color: #fff;
+      background: transparent;
       font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
       width: 100%;
       height: 100%;
@@ -62,9 +61,37 @@
   </div>
 
   <script>
-    // Colors
-    const purpleMain = '#BA8FFF';
-    const grayMid = '#4a5057';
+    // Theme detection - store theme received from parent
+    let currentTheme = 'dark'; // Default to dark
+    
+    function getTheme() {
+      return currentTheme;
+    }
+    
+    function setTheme(theme) {
+      currentTheme = theme;
+      console.log('General 30B Chart - Theme set to:', theme);
+    }
+    
+    function isLightTheme() {
+      return currentTheme === 'light';
+    }
+    
+    // Theme-aware colors
+    function getThemeColors() {
+      const isLight = isLightTheme();
+      return {
+        purpleMain: '#BA8FFF',
+        grayMid: isLight ? '#6B7280' : '#4a5057',
+        textPrimary: isLight ? '#1A1A1A' : '#FFFFFF',
+        textSecondary: isLight ? '#525252' : '#FFFFFF',
+        bgPage: isLight ? '#FFFFFF' : '#000000',
+        bgTooltip: isLight ? 'rgba(255,255,255,0.95)' : 'rgba(0,0,0,0.8)',
+        tooltipBorder: '#7C4DFF',
+        splitLine: isLight ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)',
+        textShadow: isLight ? 'rgba(0,0,0,0.15)' : 'rgba(0,0,0,0.6)'
+      };
+    }
 
     // Data for 30B models
     const data30B = {
@@ -76,6 +103,30 @@
     function createChart(elementId, data, modelSize) {
       const chartElement = document.getElementById(elementId);
       const chart = echarts.init(chartElement);
+      let colors = getThemeColors();
+      
+      function updateChartColors() {
+        const currentColors = getThemeColors();
+        const option = chart.getOption();
+        
+        // Update colors
+        option.legend[0].textStyle.color = currentColors.textPrimary;
+        option.xAxis[0].axisLabel.color = currentColors.textPrimary;
+        option.xAxis[0].axisLine.lineStyle.color = currentColors.textPrimary;
+        option.xAxis[0].axisTick.lineStyle.color = currentColors.textPrimary;
+        option.yAxis[0].axisLabel.color = currentColors.textPrimary;
+        option.yAxis[0].axisLine.lineStyle.color = currentColors.textPrimary;
+        option.yAxis[0].splitLine.lineStyle.color = currentColors.splitLine;
+        option.tooltip[0].backgroundColor = currentColors.bgTooltip;
+        option.tooltip[0].textStyle.color = currentColors.textPrimary;
+        option.series[0].label.color = currentColors.purpleMain;
+        option.series[0].label.textShadowColor = currentColors.textShadow;
+        option.series[1].label.color = currentColors.textPrimary;
+        option.series[1].label.textShadowColor = currentColors.textShadow;
+        option.series[1].itemStyle.color = currentColors.grayMid;
+        
+        chart.setOption(option, true);
+      }
       
       const option = {
         backgroundColor: 'transparent',
@@ -92,7 +143,7 @@
           top: 50,
           left: 'center',
           textStyle: {
-            color: '#fff',
+            color: colors.textPrimary,
             fontSize: 16
           },
           itemWidth: 20,
@@ -103,14 +154,14 @@
           type: 'category',
           data: data.benchmarks,
           axisLabel: {
-            color: '#fff',
+            color: colors.textPrimary,
             fontSize: 12,
             rotate: 15,
             interval: 0,
             fontWeight: 500
           },
-          axisLine: { lineStyle: { color: '#fff' } },
-          axisTick: { lineStyle: { color: '#fff' } }
+          axisLine: { lineStyle: { color: colors.textPrimary } },
+          axisTick: { lineStyle: { color: colors.textPrimary } }
         },
         yAxis: {
           type: 'value',
@@ -118,15 +169,15 @@
           max: 100,
           interval: 20,
           axisLabel: { 
-            color: '#fff', 
+            color: colors.textPrimary, 
             fontSize: 16,
             formatter: '{value}%'
           },
-          axisLine: { lineStyle: { color: '#fff' } },
+          axisLine: { lineStyle: { color: colors.textPrimary } },
           splitLine: { 
             show: true,
             lineStyle: {
-              color: 'rgba(255,255,255,0.1)',
+              color: colors.splitLine,
               type: 'dashed'
             }
           }
@@ -134,9 +185,9 @@
         tooltip: {
           trigger: 'axis',
           axisPointer: { type: 'shadow' },
-          backgroundColor: 'rgba(0,0,0,0.8)',
-          borderColor: '#7C4DFF',
-          textStyle: { color: '#fff', fontSize: 14 },
+          backgroundColor: colors.bgTooltip,
+          borderColor: colors.tooltipBorder,
+          textStyle: { color: colors.textPrimary, fontSize: 14 },
           formatter: function(params) {
             let result = params[0].axisValueLabel + '<br/>';
             params.forEach(item => {
@@ -154,7 +205,7 @@
             barGap: '10%',
             barCategoryGap: '30%',
             itemStyle: {
-              color: purpleMain,
+              color: colors.purpleMain,
               borderRadius: [4, 4, 0, 0],
               shadowColor: 'rgba(186, 143, 255, 0.5)',
               shadowBlur: 10,
@@ -163,10 +214,10 @@
             label: {
               show: true,
               position: 'top',
-              color: purpleMain,
+              color: colors.purpleMain,
               fontSize: 14,
               fontWeight: 'bolder',
-              textShadowColor: 'rgba(0, 0, 0, 0.6)',
+              textShadowColor: colors.textShadow,
               textShadowBlur: 3,
               formatter: function(params) {
                 return params.value.toFixed(1);
@@ -187,19 +238,19 @@
             data: data.qwen3,
             barWidth: '35%',
             itemStyle: {
-              color: grayMid,
+              color: colors.grayMid,
               borderRadius: [4, 4, 0, 0],
-              shadowColor: 'rgba(0, 0, 0, 0.5)',
+              shadowColor: isLightTheme() ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.5)',
               shadowBlur: 8,
               shadowOffsetY: 2
             },
             label: {
               show: true,
               position: 'top',
-              color: '#fff',
+              color: colors.textPrimary,
               fontSize: 14,
               fontWeight: 'bold',
-              textShadowColor: 'rgba(0, 0, 0, 0.6)',
+              textShadowColor: colors.textShadow,
               textShadowBlur: 3,
               formatter: function(params) {
                 return params.value.toFixed(1);
@@ -217,6 +268,16 @@
       };
 
       chart.setOption(option);
+      
+      // Listen for theme changes from parent via postMessage
+      window.addEventListener('message', function(event) {
+        if (event.data && event.data.type === 'themeChange') {
+          console.log('General 30B Chart - Received theme change:', event.data.theme);
+          setTheme(event.data.theme);
+          updateChartColors();
+        }
+      });
+      
       return chart;
     }
 
