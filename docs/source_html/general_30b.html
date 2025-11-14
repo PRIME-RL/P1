@@ -45,7 +45,8 @@
     }
     .chart {
       width: 100%;
-      aspect-ratio: 2 / 1;
+      height: 500px;
+      min-height: 500px;
       background: transparent;
       border-radius: 8px;
     }
@@ -67,9 +68,9 @@
 
     // Data for 30B models
     const data30B = {
-      benchmarks: ['AIME24', 'AIME25', 'HMMT', 'GPQA', 'HLE', 'LiveCodeBench', 'LiveBench'],
-      qwen3: [90.4, 85.0, 71.3, 73.0, 11.6, 66.7, 76.6],
-      p1: [91.0, 91.0, 76.9, 74.4, 14.3, 68.1, 77.0]
+      benchmarks: ['AIME24', 'AIME25', 'HMMT', 'IMO-AnswerBench', 'AMOBench', 'BeyondAIME', 'GPQA', 'HLE', 'LiveCodeBench', 'LiveBench'],
+      qwen3: [90.4, 85.0, 71.3, 58.7, 34.5, 63.8, 73.0, 11.6, 66.7, 76.6],
+      p1: [91.0, 91.0, 76.9, 66.2, 44.3, 69.8, 74.4, 14.3, 68.1, 77.0]
     };
 
     function createChart(elementId, data, modelSize) {
@@ -103,8 +104,8 @@
           data: data.benchmarks,
           axisLabel: {
             color: '#fff',
-            fontSize: 14,
-            rotate: 0,
+            fontSize: 12,
+            rotate: 15,
             interval: 0,
             fontWeight: 500
           },

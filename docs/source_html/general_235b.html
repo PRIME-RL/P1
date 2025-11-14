@@ -45,7 +45,8 @@
     }
     .chart {
       width: 100%;
-      aspect-ratio: 2 / 1;
+      height: 500px;
+      min-height: 500px;
       background: transparent;
       border-radius: 8px;
     }
@@ -67,9 +68,9 @@
 
     // Data for 235B models
     const data235B = {
-      benchmarks: ['AIME24', 'AIME25', 'HMMT', 'GPQA', 'HLE', 'LiveCodeBench', 'LiveBench'],
-      qwen3: [94.6, 94.2, 81.7, 79.4, 17.5, 76.2, 80.3],
-      p1: [95.0, 95.0, 80.8, 81.4, 19.1, 75.8, 79.8]
+      benchmarks: ['AIME24', 'AIME25', 'HMMT', 'IMO-AnswerBench', 'AMOBench', 'BeyondAIME', 'GPQA', 'HLE', 'LiveCodeBench', 'LiveBench'],
+      qwen3: [94.6, 94.2, 81.7, 66.0, 50.0, 73.8, 79.4, 17.5, 76.2, 80.3],
+      p1: [95.0, 95.0, 80.8, 70.8, 53.5, 73.5, 81.4, 19.1, 75.8, 79.8]
     };
 
     function createChart(elementId, data, modelSize) {
@@ -103,8 +104,8 @@
           data: data.benchmarks,
           axisLabel: {
             color: '#fff',
-            fontSize: 14,
-            rotate: 0,
+            fontSize: 12,
+            rotate: 15,
             interval: 0,
             fontWeight: 500
           },
