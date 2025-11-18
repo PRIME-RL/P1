@@ -1,7 +1,7 @@
 # P1: Mastering Physics Olympiads with Reinforcement Learning
 
 
-
+[![Paper](https://img.shields.io/badge/Paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2511.13612)
 [![Blog](https://img.shields.io/badge/Blog-P1-0D1117?style=for-the-badge&logo=githubpages&logoColor=white)](https://prime-rl.github.io/P1/)
 [![P1-30B](https://img.shields.io/badge/Hugging%20Face-P1--30B--A3B-FCD022?style=for-the-badge&logo=huggingface)](https://huggingface.co/PRIME-RL/P1-30B-A3B)
 [![P1-235B](https://img.shields.io/badge/Hugging%20Face-P1--235B--A22B-FCD022?style=for-the-badge&logo=huggingface)](https://huggingface.co/PRIME-RL/P1-235B-A22B)
