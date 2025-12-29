@@ -1601,7 +1601,7 @@
             <!-- Organization Logos -->
             <div class="org-logos-section">
                 <div class="org-logo-item">
-                    <img src="imgs/ailab-logo.png" alt="AI Lab" />
+                    <img id="ailabLogo" src="imgs/ailab-logo.png" alt="AI Lab" />
                 </div>
                 <div class="org-logo-item">
                     <img src="imgs/thu-logo1.png" alt="Tsinghua University" />
@@ -2615,6 +2615,7 @@
                 setStoredTheme(theme);
                 updateThemeIcon(theme);
                 updateThemeLabel(theme);
+                updateAilabLogo(theme);
                 
                 // Notify iframes about theme change
                 notifyIframesOfTheme(theme);
@@ -2668,6 +2669,19 @@
                 } else {
                     label.textContent = currentLang === 'zh' ? '深色' : 'Dark';
                     label.setAttribute('data-i18n', 'theme.dark');
+                }
+            }
+            
+            function updateAilabLogo(theme) {
+                const logo = document.getElementById('ailabLogo');
+                if (!logo) return;
+                
+                const isLight = theme === 'light';
+                
+                if (isLight) {
+                    logo.src = 'imgs/ailab-logo-blue.png';
+                } else {
+                    logo.src = 'imgs/ailab-logo.png';
                 }
             }
             
